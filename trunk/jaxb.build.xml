@@ -1,0 +1,20 @@
+<project name="jaxb" default="jaxb">
+  <description>
+  Supports JAXB binding process (creation of Java classes from the XmlSchema documents.)
+  </description>
+
+  <import file="build.xml"/>
+  <property environment="env"/>
+    
+  <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+    <classpath>
+      <fileset dir="${env.JAXB_HOME}/lib" includes="*.jar" />
+    </classpath>
+  </taskdef>   
+
+  <target name="jaxb" description="Runs the XJC compiler.">
+    <xjc schema="${basedir}/xml/schema/organizations.xsd" extension="true" destdir="src" package="edu.hawaii.myisern.organizations.jaxb"/>
+    <xjc schema="${basedir}/xml/schema/researchers.xsd" extension="true" destdir="src" package="edu.hawaii.myisern.researchers.jaxb"/>
+    <xjc schema="${basedir}/xml/schema/collaborations.xsd" extension="true" destdir="src" package="edu.hawaii.myisern.collaborations.jaxb"/>
+  </target>
+</project>
