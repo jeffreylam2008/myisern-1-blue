@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    
+  <!-- Primitive elements and attributes -->
+  <xs:element name="Name" type="xs:string"/>
+  <xs:element name="Type" type="xs:string"/>
+  <xs:element name="Contact" type="xs:string"/>
+  <xs:element name="Affiliated-Researcher" type="xs:string"/>
+  <xs:element name="Country" type="xs:string"/>
+  <xs:element name="Research-Keyword" type="xs:string"/>
+  <xs:element name="Research-Description" type="xs:string"/>
+  <xs:element name="Home-Page" type="xs:string"/>
+
+  <xs:element name="Affiliated-Researchers">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Affiliated-Researcher" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="Research-Keywords">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Research-Keyword" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  
+  <xs:element name="Organization">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Name"/>
+        <xs:element ref="Type"/>
+        <xs:element ref="Contact"/>
+        <xs:element ref="Affiliated-Researchers"/>
+        <xs:element ref="Country"/>
+        <xs:element ref="Research-Keywords"/>
+        <xs:element ref="Research-Description"/>
+        <xs:element ref="Home-Page"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+
+  <xs:element name="Organizations">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Organization" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+  </xs:complexType>
+  </xs:element>
+
+</xs:schema>
+
+
+
+
+
+
+
+
+
+
+

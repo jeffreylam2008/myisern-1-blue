@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<Organizations>
+
+  <Organization>
+    <Name>University of Hawaii</Name>
+    <Type>Academic</Type>
+    <Contact>Philip Johnson</Contact>
+    <Affiliated-Researchers></Affiliated-Researchers>
+    <Country>USA</Country>
+    <Research-Keywords>
+      <Research-Keyword>Software Engineering</Research-Keyword>
+      <Research-Keyword>Measurement</Research-Keyword>
+    </Research-Keywords>
+    <Research-Description>
+       The Collaborative Software Development Laboratory does research on software measurement.
+    </Research-Description>
+    <Home-Page>http://csdl.ics.hawaii.edu</Home-Page>
+  </Organization>
+
+ <Organization>
+    <Name>University of Maryland</Name>
+    <Type>Academic</Type>
+    <Contact>Victor Basili</Contact>
+    <Affiliated-Researchers>
+      <Affiliated-Researcher>Marvin Zelkowitz</Affiliated-Researcher>
+    </Affiliated-Researchers>
+    <Country>USA</Country>
+    <Research-Keywords>
+      <Research-Keyword>Software Engineering</Research-Keyword>
+      <Research-Keyword>Measurement</Research-Keyword>
+    </Research-Keywords>
+    <Research-Description>
+       The University of Maryland software engineering group does great stuff.
+    </Research-Description>
+    <Home-Page>http://cs.umd.edu/</Home-Page>
+  </Organization>
+
+</Organizations>

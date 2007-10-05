@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    
+  <!-- Primitive elements and attributes -->
+  <xs:element name="Name" type="xs:string"/>
+  <xs:element name="Organization" type="xs:string"/>
+  <xs:element name="Email" type="xs:string"/>
+  <xs:element name="Picture-Link" type="xs:string"/>
+  <xs:element name="Bio-Statement" type="xs:string"/>
+  
+  <xs:element name="Researcher">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Name"/>
+        <xs:element ref="Organization"/>
+        <xs:element ref="Email"/>
+        <xs:element ref="Picture-Link"/>
+        <xs:element ref="Bio-Statement"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+
+  <xs:element name="Researchers">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Researcher" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+  </xs:complexType>
+  </xs:element>
+
+</xs:schema>
+
+
+
+
+
+
+
+
+
+
+
