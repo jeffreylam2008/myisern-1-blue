@@ -28,10 +28,9 @@ import edu.hawaii.myisern.researchers.jaxb.Researchers;
 import edu.hawaii.myisern.researchers.jaxb.Researcher;
 
 /**
- * Provides sample code for loading XML and marshalling it into their JAXB
- * related classes.
+ * Provides sample code for loading XML and marshalling it into their JAXB related classes.
  * 
- * @author Philip Johnson
+ * @author Philip Johnson, Marcius Bagawan, Sonwright Gomez, and John Hauge
  */
 public class MyIsernXmlLoader {
 
@@ -49,8 +48,7 @@ public class MyIsernXmlLoader {
   /**
    * Initializes this instance by reading in the three example XML files.
    * 
-   * @throws Exception
-   *           If problems occur.
+   * @throws Exception If problems occur.
    */
   public MyIsernXmlLoader() throws Exception {
     // Load in the Collaborations XML example file.
@@ -78,49 +76,71 @@ public class MyIsernXmlLoader {
   }
 
   /**
-   * Runs the print methods.
+   * Checks for user input and then runs the print methods accordingly.
+   * If the user does not enter any arguments, nothing will be printed out.
    * 
-   * @param args
-   *          containing command line arguments.
-   * @throws Exception
-   *           if there is an exception
+   * 
+   * @param args containing command line arguments.
+   * @throws Exception if there is an exception
    */
   public static void main(String[] args) throws Exception {
-    /*
-     * boolean collaborationsFlag = false; boolean organizationsFlag = false;
-     * boolean researchersFlag = false;
-     * 
-     * for ( String commandLine : args) { if
-     * (commandLine.equals("-printcollaborations")) { collaborationsFlag = true; }
-     * if (commandLine.equals("-printOrganizations")) { organizationsFlag =
-     * true; } if (commandLine.equals("-printResearchers")) { researchersFlag =
-     * true; } }
-     */
 
+    boolean collaborationsFlag = false;
+    boolean organizationsFlag = false;
+    boolean researchersFlag = false;
+    int booleanCounter = 0;
+    int argsCounter = 0;
+
+    //Checks for user input
+    for (String commandLine : args) {
+      if ("-printCollaborations".equals(commandLine)) {
+        collaborationsFlag = true;
+        booleanCounter++;
+      }
+      else if ("-printOrganizations".equals(commandLine)) {
+        organizationsFlag = true;
+        booleanCounter++;
+      }
+      else if ("-printResearchers".equals(commandLine)) {
+        researchersFlag = true;
+        booleanCounter++;
+      }
+      argsCounter++;
+    }
+
+    //Prints according to what boolean is true
     MyIsernXmlLoader mixl = new MyIsernXmlLoader();
-    printCollaborations(mixl.collaborations);
-    printOrganizations(mixl.organizations);
-    printResearchers(mixl.researchers);
+    if (argsCounter == 0) {
+      System.out.println("No arguments were given.");
+    }
+    else {
+      if (collaborationsFlag) {
+        printCollaborations(mixl.collaborations);
+      }
+      if (organizationsFlag) {
+        printOrganizations(mixl.organizations);
+      }
+      if (researchersFlag) {
+        printResearchers(mixl.researchers);
+      }
+    }
 
-    /*
-     * if(collaborationsFlag) { } else if (organizationsFlag) { } else if()
-     */
   }
 
   /**
    * Prints collaborations.
    * 
-   * @param collaborations
-   *          containing collaborations to be printed
+   * @param collaborations containing collaborations to be printed
    */
   public static void printCollaborations(Collaborations collaborations) {
     List<Collaboration> collaborationList;
     collaborationList = collaborations.getCollaboration();
-    StringBuffer sb = new StringBuffer(1000);
+    StringBuffer sb = new StringBuffer(3000);
     String newLineNewTab = "\n\t";
 
     sb.append("\n\n + + + + + + + + + + + + COLLABORATIONS + + + + + + + + + + + + +");
 
+    // Prints contents from loaded Xml files
     for (Collaboration current : collaborationList) {
       List<String> stringList;
       List<BigInteger> bigIntList;
@@ -128,37 +148,44 @@ public class MyIsernXmlLoader {
       sb.append("\nName: ");
       sb.append(current.getName());
 
+      //Prints Organizations part of Collaboration
       sb.append("\nCollaborating Organizations:");
       CollaboratingOrganizations collaboratingOrganizations;
       collaboratingOrganizations = current.getCollaboratingOrganizations();
       stringList = collaboratingOrganizations.getCollaboratingOrganization();
+      
       for (String currentOrg : stringList) {
         sb.append(newLineNewTab);
         sb.append(currentOrg);
       }
 
+      //Prints type of collaboration
       sb.append("\nCollaboration Types:");
       CollaborationTypes collaborationTypes;
       collaborationTypes = current.getCollaborationTypes();
       stringList = collaborationTypes.getCollaborationType();
+      
       for (String currentCollabType : stringList) {
         sb.append(newLineNewTab);
         sb.append(currentCollabType);
       }
 
+      //Prints all Years that Organizations were in Collaboration
       sb.append("\nYears:");
       Years years;
       years = current.getYears();
       bigIntList = years.getYear();
+      
       for (BigInteger currentYears : bigIntList) {
         sb.append(newLineNewTab);
         sb.append(currentYears.toString());
       }
-
+      //Prints all Outcome types
       sb.append("\nOutcome Types:");
       OutcomeTypes outcomeTypes;
       outcomeTypes = current.getOutcomeTypes();
       stringList = outcomeTypes.getOutcomeType();
+      
       for (String currentOutcomeType : stringList) {
         sb.append(newLineNewTab);
         sb.append(currentOutcomeType);
@@ -167,42 +194,43 @@ public class MyIsernXmlLoader {
       sb.append("\nDescription: ");
       sb.append(current.getDescription());
       sb.append("\n+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +");
-      //sb.append(current.getCollaboratingOrganizations());
+      // sb.append(current.getCollaboratingOrganizations());
 
-      
     }
     System.out.println(sb.toString());
   }
 
   /**
    * 
-   * @param organizations
-   *          Contains organiztions to be printed.
+   * @param organizations Contains organizations to be printed.
    */
   public static void printOrganizations(Organizations organizations) {
     List<Organization> organizationList;
     organizationList = organizations.getOrganization();
-    StringBuffer sb = new StringBuffer(1000);
+    StringBuffer sb = new StringBuffer(3000);
     String newLineNewTab = "\n\t";
-    // String name, type, contact, affilResearchers, Country;
-    // String researchDescription, homePage;
 
     sb.append("\n\n========================= ORGANIZATIONS ==========================");
-
+    
+    // Prints contents from loaded Xml files
     for (Organization current : organizationList) {
       List<String> stringList;
 
       sb.append("\nName:");
       sb.append(current.getName());
+      
       sb.append("\nType: ");
       sb.append(current.getType());
+      
       sb.append("\nContact: ");
       sb.append(current.getContact());
 
+      //Prints all affiliated researchers with organization
       sb.append("\nAffiliated Researchers:");
       AffiliatedResearchers affiliatedResearchers;
       affiliatedResearchers = current.getAffiliatedResearchers();
       stringList = affiliatedResearchers.getAffiliatedResearcher();
+      
       for (String currentString : stringList) {
         sb.append(newLineNewTab);
         sb.append(currentString);
@@ -211,10 +239,12 @@ public class MyIsernXmlLoader {
       sb.append("\nCounter");
       sb.append(current.getCountry());
 
+      //Prints Research Keywords for organization
       sb.append("\nResearch Keywords:");
       ResearchKeywords researchKeywords;
       researchKeywords = current.getResearchKeywords();
       stringList = researchKeywords.getResearchKeyword();
+      
       for (String currentString : stringList) {
         sb.append(newLineNewTab);
         sb.append(currentString);
@@ -222,10 +252,12 @@ public class MyIsernXmlLoader {
 
       sb.append("\nResearch Description: ");
       sb.append(current.getResearchDescription());
+      
       sb.append("\nHome Page: ");
       sb.append(current.getHomePage());
-      sb.append("\n==================================================================\n");
       
+      sb.append("\n==================================================================\n");
+
     }
     System.out.print(sb.toString());
   }
@@ -233,30 +265,33 @@ public class MyIsernXmlLoader {
   /**
    * Prints Researchers.
    * 
-   * @param researchers
-   *          containing researchers to be printed.
+   * @param researchers containing researchers to be printed.
    */
   public static void printResearchers(Researchers researchers) {
     List<Researcher> researcherList;
     researcherList = researchers.getResearcher();
-    //String newLineNewTab = "\n\t";
-    StringBuffer sb = new StringBuffer(1000);
+    // String newLineNewTab = "\n\t";
+    StringBuffer sb = new StringBuffer(3000);
     sb.append("\n......................... RESEARCHERS ............................ \n");
     for (Researcher currentResearcher : researcherList) {
-      
+
       sb.append("\nName: ");
       sb.append(currentResearcher.getName());
+      
       sb.append("\nOrganization: ");
       sb.append(currentResearcher.getOrganization());
+      
       sb.append("\nBio Statement: ");
       sb.append(currentResearcher.getBioStatement());
-      //sb.append(currentResearcher.getClass());
+      
       sb.append("\nPicture Link: ");
       sb.append(currentResearcher.getPictureLink());
+      
       sb.append("\nEmail: ");
       sb.append(currentResearcher.getEmail());
-      sb.append("\n.................................................................. \n");
       
+      sb.append("\n.................................................................. \n");
+
     }
     System.out.print(sb.toString());
   }
@@ -289,12 +324,10 @@ public class MyIsernXmlLoader {
   }
 
   /**
-   * Returns the current Collaborations instance as a String encoding of its XML
-   * representation.
+   * Returns the current Collaborations instance as a String encoding of its XML representation.
    * 
    * @return Its XML String representation.
-   * @throws Exception
-   *           If problems occur during translation.
+   * @throws Exception If problems occur during translation.
    */
   public String getCollaborationsXml() throws Exception {
     Marshaller marshaller = this.collaborationsJaxbContext.createMarshaller();
