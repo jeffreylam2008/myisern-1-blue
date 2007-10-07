@@ -2,6 +2,7 @@ package edu.hawaii.myisern.example;
 
 import java.io.File;
 import java.io.StringWriter;
+import java.math.BigInteger;
 import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -13,11 +14,18 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
-import edu.hawaii.myisern.collaborations.jaxb.Collaboration;
-import edu.hawaii.myisern.collaborations.jaxb.Collaborations;
 import edu.hawaii.myisern.organizations.jaxb.Organizations;
-import edu.hawaii.myisern.researchers.jaxb.Researcher;
+import edu.hawaii.myisern.organizations.jaxb.Organization;
+import edu.hawaii.myisern.collaborations.jaxb.CollaboratingOrganizations;
+import edu.hawaii.myisern.collaborations.jaxb.Collaboration;
+import edu.hawaii.myisern.collaborations.jaxb.CollaborationTypes;
+import edu.hawaii.myisern.collaborations.jaxb.Collaborations;
+import edu.hawaii.myisern.collaborations.jaxb.OutcomeTypes;
+import edu.hawaii.myisern.collaborations.jaxb.Years;
+import edu.hawaii.myisern.organizations.jaxb.AffiliatedResearchers;
+import edu.hawaii.myisern.organizations.jaxb.ResearchKeywords;
 import edu.hawaii.myisern.researchers.jaxb.Researchers;
+import edu.hawaii.myisern.researchers.jaxb.Researcher;
 
 /**
  * Provides sample code for loading XML and marshalling it into their JAXB related classes.
@@ -85,9 +93,9 @@ public class MyIsernXmlLoader {
      */
 
     MyIsernXmlLoader mixl = new MyIsernXmlLoader();
-    // printCollaborations(mixl.collaborations);
-    // printOrganizations();
-    printResearchers(mixl.researchers);
+    //printCollaborations(mixl.collaborations);
+    printOrganizations(mixl.organizations);
+    //printResearchers(mixl.researchers);
     /*
      * if(collaborationsFlag) {
      *  } else if (organizationsFlag) {
@@ -101,23 +109,87 @@ public class MyIsernXmlLoader {
    * @param collaborations containing collaborations to be printed
    */
   public static void printCollaborations(Collaborations collaborations) {
-    List<Collaboration> tempList;
-    tempList = collaborations.getCollaboration();
+    List<Collaboration> collaborationList;
+    collaborationList = collaborations.getCollaboration();
 
-    for (Collaboration current : tempList) {
-      StringBuffer sb = new StringBuffer();
+    for (Collaboration current : collaborationList) {
+      StringBuffer sb = new StringBuffer(100);
+      List<String> stringList;
+      List<BigInteger> bigIntList;
+      
       sb.append(current.getName());
+      
+      CollaboratingOrganizations collaboratingOrganizations;
+      collaboratingOrganizations = current.getCollaboratingOrganizations();
+      stringList = collaboratingOrganizations.getCollaboratingOrganization();
+      for (String currentOrg : stringList) {
+        sb.append(currentOrg);
+      }
+      
+      CollaborationTypes collaborationTypes;
+      collaborationTypes = current.getCollaborationTypes();
+      stringList = collaborationTypes.getCollaborationType();
+      for (String currentCollabType : stringList) {
+        sb.append(currentCollabType);
+      }
+      
+      Years years;
+      years = current.getYears();
+      bigIntList = years.getYear();
+      for (BigInteger currentYears : bigIntList) {
+        sb.append(currentYears.toString());
+      }
+      
+      OutcomeTypes outcomeTypes;
+      outcomeTypes = current.getOutcomeTypes();
+      stringList = outcomeTypes.getOutcomeType();
+      for (String currentOutcomeType : stringList) {
+        sb.append(currentOutcomeType);
+      }
+      
+      sb.append(current.getDescription());
       System.out.println(sb.toString());
     }
 
   }
-/*
+  
   /**
-   * Prints organizations
-   
-  public static void printOrganizations() {
-    System.out.println("Prints orgn")
-  }*/
+   * 
+   * @param organizations Contains organiztions to be printed.
+   */
+  public static void printOrganizations(Organizations organizations) {
+    List<Organization> organizationList;
+    organizationList = organizations.getOrganization();
+    
+    for (Organization current : organizationList) {
+      StringBuffer sb = new StringBuffer(100);
+      List<String> stringList;
+      
+      sb.append(current.getName());
+      sb.append(current.getType());
+      sb.append(current.getContact());
+      
+      AffiliatedResearchers affiliatedResearchers;
+      affiliatedResearchers = current.getAffiliatedResearchers();
+      stringList = affiliatedResearchers.getAffiliatedResearcher();
+      for (String currentString : stringList) {
+        sb.append(currentString);
+      }
+      
+      sb.append(current.getCountry());
+      
+      ResearchKeywords researchKeywords;
+      researchKeywords = current.getResearchKeywords();
+      stringList = researchKeywords.getResearchKeyword();
+      for (String currentString : stringList) {
+        sb.append(currentString);
+      }
+      
+      sb.append(current.getResearchDescription());
+      sb.append(current.getHomePage());
+      System.out.println(sb.toString());
+    }
+  }
 
   /**
    * Prints Researchers.
@@ -125,18 +197,18 @@ public class MyIsernXmlLoader {
    * @param researchers containing researchers to be printed.
    */
   public static void printResearchers(Researchers researchers) {
-    List<Researcher> tempList;
-    tempList = researchers.getResearcher();
+    List<Researcher> researcherList;
+    researcherList = researchers.getResearcher();
 
-    for (Researcher current : tempList) {
+    for (Researcher currentResearcher : researcherList) {
       StringBuffer sb = new StringBuffer(100);
       sb.append("========== RESEARCHERS ==========");
-      sb.append(current.getName());
-      sb.append(current.getOrganization());
-      sb.append(current.getBioStatement());
-      sb.append(current.getClass());
-      sb.append(current.getPictureLink());
-      sb.append(current.getEmail());
+      sb.append(currentResearcher.getName());
+      sb.append(currentResearcher.getOrganization());
+      sb.append(currentResearcher.getBioStatement());
+      sb.append(currentResearcher.getClass());
+      sb.append(currentResearcher.getPictureLink());
+      sb.append(currentResearcher.getEmail());
       System.out.println(sb.toString());
     }
   }
