@@ -28,7 +28,8 @@ import edu.hawaii.myisern.researchers.jaxb.Researchers;
 import edu.hawaii.myisern.researchers.jaxb.Researcher;
 
 /**
- * Provides sample code for loading XML and marshalling it into their JAXB related classes.
+ * Provides sample code for loading XML and marshalling it into their JAXB
+ * related classes.
  * 
  * @author Philip Johnson
  */
@@ -48,7 +49,8 @@ public class MyIsernXmlLoader {
   /**
    * Initializes this instance by reading in the three example XML files.
    * 
-   * @throws Exception If problems occur.
+   * @throws Exception
+   *           If problems occur.
    */
   public MyIsernXmlLoader() throws Exception {
     // Load in the Collaborations XML example file.
@@ -78,152 +80,185 @@ public class MyIsernXmlLoader {
   /**
    * Runs the print methods.
    * 
-   * @param args containing command line arguments.
-   * @throws Exception if there is an exception
+   * @param args
+   *          containing command line arguments.
+   * @throws Exception
+   *           if there is an exception
    */
   public static void main(String[] args) throws Exception {
     /*
-     * boolean collaborationsFlag = false; boolean organizationsFlag = false; boolean
-     * researchersFlag = false;
+     * boolean collaborationsFlag = false; boolean organizationsFlag = false;
+     * boolean researchersFlag = false;
      * 
-     * for ( String commandLine : args) { if (commandLine.equals("-printcollaborations")) {
-     * collaborationsFlag = true; } if (commandLine.equals("-printOrganizations")) {
-     * organizationsFlag = true; } if (commandLine.equals("-printResearchers")) { researchersFlag =
+     * for ( String commandLine : args) { if
+     * (commandLine.equals("-printcollaborations")) { collaborationsFlag = true; }
+     * if (commandLine.equals("-printOrganizations")) { organizationsFlag =
+     * true; } if (commandLine.equals("-printResearchers")) { researchersFlag =
      * true; } }
      */
 
     MyIsernXmlLoader mixl = new MyIsernXmlLoader();
     printCollaborations(mixl.collaborations);
     printOrganizations(mixl.organizations);
-    //printResearchers(mixl.researchers);
+    printResearchers(mixl.researchers);
+
     /*
-     * if(collaborationsFlag) {
-     *  } else if (organizationsFlag) {
-     *  } else if()
+     * if(collaborationsFlag) { } else if (organizationsFlag) { } else if()
      */
   }
 
   /**
    * Prints collaborations.
    * 
-   * @param collaborations containing collaborations to be printed
+   * @param collaborations
+   *          containing collaborations to be printed
    */
   public static void printCollaborations(Collaborations collaborations) {
     List<Collaboration> collaborationList;
     collaborationList = collaborations.getCollaboration();
-    StringBuffer sb = new StringBuffer(100);
-    
-    sb.append("\n=========================COLLABORATIONS=========================");
+    StringBuffer sb = new StringBuffer(1000);
+    String newLineNewTab = "\n\t";
+
+    sb.append("\n\n + + + + + + + + + + + + COLLABORATIONS + + + + + + + + + + + + +");
 
     for (Collaboration current : collaborationList) {
       List<String> stringList;
       List<BigInteger> bigIntList;
-      
-      sb.append("\nName: " + current.getName());
-      
+
+      sb.append("\nName: ");
+      sb.append(current.getName());
+
       sb.append("\nCollaborating Organizations:");
       CollaboratingOrganizations collaboratingOrganizations;
       collaboratingOrganizations = current.getCollaboratingOrganizations();
       stringList = collaboratingOrganizations.getCollaboratingOrganization();
       for (String currentOrg : stringList) {
-        sb.append("\n\t" + currentOrg);
+        sb.append(newLineNewTab);
+        sb.append(currentOrg);
       }
-      
+
       sb.append("\nCollaboration Types:");
       CollaborationTypes collaborationTypes;
       collaborationTypes = current.getCollaborationTypes();
       stringList = collaborationTypes.getCollaborationType();
       for (String currentCollabType : stringList) {
-        sb.append("\n\t" + currentCollabType);
+        sb.append(newLineNewTab);
+        sb.append(currentCollabType);
       }
-      
+
       sb.append("\nYears:");
       Years years;
       years = current.getYears();
       bigIntList = years.getYear();
       for (BigInteger currentYears : bigIntList) {
-        sb.append("\n\t" + currentYears.toString());
+        sb.append(newLineNewTab);
+        sb.append(currentYears.toString());
       }
-      
+
       sb.append("\nOutcome Types:");
       OutcomeTypes outcomeTypes;
       outcomeTypes = current.getOutcomeTypes();
       stringList = outcomeTypes.getOutcomeType();
       for (String currentOutcomeType : stringList) {
-        sb.append("\n\t" + currentOutcomeType);
+        sb.append(newLineNewTab);
+        sb.append(currentOutcomeType);
       }
-      
-      //sb.append("\nDescription:");
-      sb.append("\nDescription:" + current.getDescription());
-      sb.append("\n================================================================");
-      System.out.println(sb.toString());
-    }
 
+      sb.append("\nDescription: ");
+      sb.append(current.getDescription());
+      sb.append("\n+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +");
+      //sb.append(current.getCollaboratingOrganizations());
+
+      
+    }
+    System.out.println(sb.toString());
   }
-  
+
   /**
    * 
-   * @param organizations Contains organiztions to be printed.
+   * @param organizations
+   *          Contains organiztions to be printed.
    */
   public static void printOrganizations(Organizations organizations) {
     List<Organization> organizationList;
     organizationList = organizations.getOrganization();
-    StringBuffer sb = new StringBuffer(100);
+    StringBuffer sb = new StringBuffer(1000);
+    String newLineNewTab = "\n\t";
+    // String name, type, contact, affilResearchers, Country;
+    // String researchDescription, homePage;
 
-    sb.append("\n=========================ORGANIZATIONS==========================");
-    
+    sb.append("\n\n========================= ORGANIZATIONS ==========================");
+
     for (Organization current : organizationList) {
       List<String> stringList;
-      
-      sb.append("\nName: " + current.getName());
-      sb.append("\nType: " + current.getType());
-      sb.append("\nContact: " + current.getContact());
-      
+
+      sb.append("\nName:");
+      sb.append(current.getName());
+      sb.append("\nType: ");
+      sb.append(current.getType());
+      sb.append("\nContact: ");
+      sb.append(current.getContact());
+
       sb.append("\nAffiliated Researchers:");
       AffiliatedResearchers affiliatedResearchers;
       affiliatedResearchers = current.getAffiliatedResearchers();
       stringList = affiliatedResearchers.getAffiliatedResearcher();
       for (String currentString : stringList) {
-        sb.append("\n\t" + currentString);
+        sb.append(newLineNewTab);
+        sb.append(currentString);
       }
-      
-      sb.append("\nCountry: " + current.getCountry());
-      
+
+      sb.append("\nCounter");
+      sb.append(current.getCountry());
+
       sb.append("\nResearch Keywords:");
       ResearchKeywords researchKeywords;
       researchKeywords = current.getResearchKeywords();
       stringList = researchKeywords.getResearchKeyword();
       for (String currentString : stringList) {
-        sb.append("\n\t" + currentString);
+        sb.append(newLineNewTab);
+        sb.append(currentString);
       }
+
+      sb.append("\nResearch Description: ");
+      sb.append(current.getResearchDescription());
+      sb.append("\nHome Page: ");
+      sb.append(current.getHomePage());
+      sb.append("\n==================================================================\n");
       
-      sb.append("\nResearch Description:" + current.getResearchDescription());
-      sb.append("\nHome Page: " + current.getHomePage());
-      sb.append("\n================================================================");
-      System.out.println(sb.toString());
     }
+    System.out.print(sb.toString());
   }
 
   /**
    * Prints Researchers.
    * 
-   * @param researchers containing researchers to be printed.
+   * @param researchers
+   *          containing researchers to be printed.
    */
   public static void printResearchers(Researchers researchers) {
     List<Researcher> researcherList;
     researcherList = researchers.getResearcher();
-
+    //String newLineNewTab = "\n\t";
+    StringBuffer sb = new StringBuffer(1000);
+    sb.append("\n......................... RESEARCHERS ............................ \n");
     for (Researcher currentResearcher : researcherList) {
-      StringBuffer sb = new StringBuffer(100);
-      sb.append("========== RESEARCHERS ==========");
+      
+      sb.append("\nName: ");
       sb.append(currentResearcher.getName());
+      sb.append("\nOrganization: ");
       sb.append(currentResearcher.getOrganization());
+      sb.append("\nBio Statement: ");
       sb.append(currentResearcher.getBioStatement());
-      sb.append(currentResearcher.getClass());
+      //sb.append(currentResearcher.getClass());
+      sb.append("\nPicture Link: ");
       sb.append(currentResearcher.getPictureLink());
+      sb.append("\nEmail: ");
       sb.append(currentResearcher.getEmail());
-      System.out.println(sb.toString());
+      sb.append("\n.................................................................. \n");
+      
     }
+    System.out.print(sb.toString());
   }
 
   /**
@@ -254,10 +289,12 @@ public class MyIsernXmlLoader {
   }
 
   /**
-   * Returns the current Collaborations instance as a String encoding of its XML representation.
+   * Returns the current Collaborations instance as a String encoding of its XML
+   * representation.
    * 
    * @return Its XML String representation.
-   * @throws Exception If problems occur during translation.
+   * @throws Exception
+   *           If problems occur during translation.
    */
   public String getCollaborationsXml() throws Exception {
     Marshaller marshaller = this.collaborationsJaxbContext.createMarshaller();
