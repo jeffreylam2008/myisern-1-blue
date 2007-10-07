@@ -93,7 +93,7 @@ public class MyIsernXmlLoader {
      */
 
     MyIsernXmlLoader mixl = new MyIsernXmlLoader();
-    //printCollaborations(mixl.collaborations);
+    printCollaborations(mixl.collaborations);
     printOrganizations(mixl.organizations);
     //printResearchers(mixl.researchers);
     /*
@@ -111,43 +111,51 @@ public class MyIsernXmlLoader {
   public static void printCollaborations(Collaborations collaborations) {
     List<Collaboration> collaborationList;
     collaborationList = collaborations.getCollaboration();
+    StringBuffer sb = new StringBuffer(100);
+    
+    sb.append("\n=========================COLLABORATIONS=========================");
 
     for (Collaboration current : collaborationList) {
-      StringBuffer sb = new StringBuffer(100);
       List<String> stringList;
       List<BigInteger> bigIntList;
       
-      sb.append(current.getName());
+      sb.append("\nName: " + current.getName());
       
+      sb.append("\nCollaborating Organizations:");
       CollaboratingOrganizations collaboratingOrganizations;
       collaboratingOrganizations = current.getCollaboratingOrganizations();
       stringList = collaboratingOrganizations.getCollaboratingOrganization();
       for (String currentOrg : stringList) {
-        sb.append(currentOrg);
+        sb.append("\n\t" + currentOrg);
       }
       
+      sb.append("\nCollaboration Types:");
       CollaborationTypes collaborationTypes;
       collaborationTypes = current.getCollaborationTypes();
       stringList = collaborationTypes.getCollaborationType();
       for (String currentCollabType : stringList) {
-        sb.append(currentCollabType);
+        sb.append("\n\t" + currentCollabType);
       }
       
+      sb.append("\nYears:");
       Years years;
       years = current.getYears();
       bigIntList = years.getYear();
       for (BigInteger currentYears : bigIntList) {
-        sb.append(currentYears.toString());
+        sb.append("\n\t" + currentYears.toString());
       }
       
+      sb.append("\nOutcome Types:");
       OutcomeTypes outcomeTypes;
       outcomeTypes = current.getOutcomeTypes();
       stringList = outcomeTypes.getOutcomeType();
       for (String currentOutcomeType : stringList) {
-        sb.append(currentOutcomeType);
+        sb.append("\n\t" + currentOutcomeType);
       }
       
-      sb.append(current.getDescription());
+      //sb.append("\nDescription:");
+      sb.append("\nDescription:" + current.getDescription());
+      sb.append("\n================================================================");
       System.out.println(sb.toString());
     }
 
@@ -160,33 +168,38 @@ public class MyIsernXmlLoader {
   public static void printOrganizations(Organizations organizations) {
     List<Organization> organizationList;
     organizationList = organizations.getOrganization();
+    StringBuffer sb = new StringBuffer(100);
+
+    sb.append("\n=========================ORGANIZATIONS==========================");
     
     for (Organization current : organizationList) {
-      StringBuffer sb = new StringBuffer(100);
       List<String> stringList;
       
-      sb.append(current.getName());
-      sb.append(current.getType());
-      sb.append(current.getContact());
+      sb.append("\nName: " + current.getName());
+      sb.append("\nType: " + current.getType());
+      sb.append("\nContact: " + current.getContact());
       
+      sb.append("\nAffiliated Researchers:");
       AffiliatedResearchers affiliatedResearchers;
       affiliatedResearchers = current.getAffiliatedResearchers();
       stringList = affiliatedResearchers.getAffiliatedResearcher();
       for (String currentString : stringList) {
-        sb.append(currentString);
+        sb.append("\n\t" + currentString);
       }
       
-      sb.append(current.getCountry());
+      sb.append("\nCountry: " + current.getCountry());
       
+      sb.append("\nResearch Keywords:");
       ResearchKeywords researchKeywords;
       researchKeywords = current.getResearchKeywords();
       stringList = researchKeywords.getResearchKeyword();
       for (String currentString : stringList) {
-        sb.append(currentString);
+        sb.append("\n\t" + currentString);
       }
       
-      sb.append(current.getResearchDescription());
-      sb.append(current.getHomePage());
+      sb.append("\nResearch Description:" + current.getResearchDescription());
+      sb.append("\nHome Page: " + current.getHomePage());
+      sb.append("\n================================================================");
       System.out.println(sb.toString());
     }
   }
