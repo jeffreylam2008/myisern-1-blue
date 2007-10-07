@@ -1,0 +1,14 @@
+A few important links for this project
+
+= Details =
+
+Below are a few important links for this project
+
+Discussion Group:
+http://groups.google.com/group/myisern-1-blue-discuss
+
+SVN Group:
+http://groups.google.com/group/myisern-1-blue-svn
+
+Assignment Guidelines:
+http://groups.google.com/group/ics-software-engineering-fall-2007/web/5-myisern-1-0
