@@ -1,9 +1,3 @@
-Setting up meeting schedule
-
-= Introduction =
-We plan on meeting daily at 12:00 noon
-
-
-= Details =
-We will try to meet daily at 12:00, with at least two members present. It will be a short meeting that will discuss issues regarding tasks that needs to be finished and problems that may arise during individual work time.
-
+=Working As A Group=
+==Meetings==
+The current plan is to meet in person daily at 12:00pm with at least two members.  They will be short meetings that will discuss issues regarding tasks that needs to be finished and discuss problems that may arise during individual work time.  Since we live far apart and have conflicting schedules, we will use MSN instant messaging to facilitate our meetings when we can't meet in person.  When at least two members can meet for a longer time, they will do more extensive work on the project.
