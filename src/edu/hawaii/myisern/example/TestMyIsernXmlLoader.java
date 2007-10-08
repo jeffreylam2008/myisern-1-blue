@@ -37,6 +37,10 @@ public class TestMyIsernXmlLoader extends TestCase {
     args[1] = "--printResearchers";
     args[2] = "--printOrganizations";
     MyIsernXmlLoader.main(args);
+    args[0] = "-c";
+    args[1] = "-r";
+    args[2] = "-o";
+    MyIsernXmlLoader.main(args);
     assertNotNull("Main method should pass.", args);
   }
   
