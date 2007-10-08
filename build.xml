@@ -62,13 +62,38 @@
     </javac>
   </target>
 
+  <target name="jar" depends="compile" 
+       description="Create myisern.jar">
+       <!-- Define the directories and distribution name -->
+       <mkdir dir="${tmp.dir}" />
+       <copy todir="${tmp.dir}">
+         <fileset dir="${basedir}/build/classes"/>
+       </copy>
+     
+       <!-- Expand libraries into jar location --> 
+       <unjar src="${env.HTTPUNIT_HOME}/jars/js.jar" dest="${tmp.dir}"/>
+       <unjar src="${env.HTTPUNIT_HOME}/jars/nekohtml.jar" dest="${tmp.dir}"/>
+       <unjar src="${env.HTTPUNIT_HOME}/jars/xercesImpl.jar" dest="${tmp.dir}"/>
+       <unjar src="${env.HTTPUNIT_HOME}/jars/xmlParserAPIs.jar" dest="${tmp.dir}"/>
+       <unjar src="${env.HTTPUNIT_HOME}/lib/httpunit.jar" dest="${tmp.dir}"/>
+    
+       <jar destfile="${basedir}/myisern-1-blue.jar" basedir="${tmp.dir}">
+         <manifest>
+           <attribute name="Main-Class" value="edu.hawaii.myisern.example.MyIsernXmlLoader"/>
+           <attribute name="Implementation-Title" value="MyIsern"/>
+           <attribute name="Implementation-Version" value="${version}"/>
+           <attribute name="Implementation-Vendor" value="Collaborative Software Development Laboratory, University of Hawaii"/>
+         </manifest>
+       </jar>
+       <delete dir="${tmp.dir}" />
+     </target>
   <target name="clean" description="Delete build/ directory and top-level sensorbase jar files.">
     <delete>
       <fileset dir="${basedir}" includes="sensorbase*.jar"/> 
     </delete>
     <delete dir="${build.dir}"/> 
   </target>
-
+ 
   <target name="convertLineEndings" description="Makes line endings compatible with host platform.">
     <fixcrlf srcdir="${basedir}" includes="*.build.xml"/>
   </target>
