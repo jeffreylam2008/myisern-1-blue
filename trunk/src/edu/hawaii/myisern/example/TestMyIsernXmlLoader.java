@@ -33,9 +33,9 @@ public class TestMyIsernXmlLoader extends TestCase {
   @Test
   public void testMain() throws Exception {
     String[] args = new String[3];
-    args[0] = "-printCollaborations";
-    args[1] = "-printResearchers";
-    args[2] = "-printOrganizations";
+    args[0] = "--printCollaborations";
+    args[1] = "--printResearchers";
+    args[2] = "--printOrganizations";
     MyIsernXmlLoader.main(args);
     assertNotNull("Main method should pass.", args);
   }
@@ -48,6 +48,19 @@ public class TestMyIsernXmlLoader extends TestCase {
   @Test
   public void testNoArguments() throws Exception {
     String[] args = new String[0];
+    MyIsernXmlLoader.main(args);
+    assertNotNull("Main method should pass.", args);
+  }
+  
+  /**
+   * Tests main method with '--help' argument.
+   * 
+   * @throws Exception if problem occurs.
+   */
+  @Test
+  public void testHelpArguments() throws Exception {
+    String[] args = new String[1];
+    args[0] = "--help";
     MyIsernXmlLoader.main(args);
     assertNotNull("Main method should pass.", args);
   }

@@ -93,25 +93,36 @@ public class MyIsernXmlLoader {
 
     //Checks for user input
     for (String commandLine : args) {
-      if ("-printCollaborations".equals(commandLine)) {
+      if ("--help".equals(commandLine)) {
+    	  argsCounter = 0;
+    	  break;
+      }
+      if ("--printCollaborations".equals(commandLine)) {
         collaborationsFlag = true;
         booleanCounter++;
       }
-      else if ("-printOrganizations".equals(commandLine)) {
+      else if ("--printOrganizations".equals(commandLine)) {
         organizationsFlag = true;
         booleanCounter++;
       }
-      else if ("-printResearchers".equals(commandLine)) {
+      else if ("--printResearchers".equals(commandLine)) {
         researchersFlag = true;
         booleanCounter++;
       }
       argsCounter++;
     }
-
+    
     //Prints according to what boolean is true
     MyIsernXmlLoader mixl = new MyIsernXmlLoader();
     if (argsCounter == 0) {
-      System.out.println("No arguments were given.");
+      //Provides a 'help' mechanism similar to the Unix style.
+      System.out.println("Provides sample code for " + 
+		  "loading XML and marshalling it into their JAXB related classes.");
+      System.out.println("\nUsage: MyIsernXmlLoader [OPTION]");
+      System.out.println("\t-c, --printCollaborations\tprints collaborations.");
+      System.out.println("\t-o, --printOrganizations\tprints organizations.");
+      System.out.println("\t-r, --printResearchers\t\tprints researchers.");
+      System.out.println("\t    --help\t\t\tdisplay this help and exits.");
     }
     else {
       if (collaborationsFlag) {
