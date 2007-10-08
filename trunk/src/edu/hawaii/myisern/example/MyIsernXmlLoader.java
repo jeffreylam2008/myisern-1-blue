@@ -97,15 +97,18 @@ public class MyIsernXmlLoader {
     	  argsCounter = 0;
     	  break;
       }
-      if ("--printCollaborations".equals(commandLine)) {
+      if ("--printCollaborations".equals(commandLine) 
+    		  || "-c".equals(commandLine)) {
         collaborationsFlag = true;
         booleanCounter++;
       }
-      else if ("--printOrganizations".equals(commandLine)) {
+      else if ("--printOrganizations".equals(commandLine) 
+    		  || "-o".equals(commandLine)) {
         organizationsFlag = true;
         booleanCounter++;
       }
-      else if ("--printResearchers".equals(commandLine)) {
+      else if ("--printResearchers".equals(commandLine) 
+    		  || "-r".equals(commandLine)) {
         researchersFlag = true;
         booleanCounter++;
       }
