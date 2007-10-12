@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry excluding="edu/hawaii/myisern/example/TestMyIsernXmlLoader.java" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="src" path="/myisern-1-gold"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

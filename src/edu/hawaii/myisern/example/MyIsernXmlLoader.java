@@ -33,7 +33,10 @@ import edu.hawaii.myisern.researchers.jaxb.Researcher;
 /**
  * Provides sample code for loading XML and marshalling it into their JAXB related classes.
  * 
- * @author Philip Johnson, Marcius Bagawan, Sonwright Gomez, and John Hauge
+ * @author Philip Johnson
+ * @author Marcius Bagwan
+ * @author Sonwright Gomez
+ * @author John Hauge
  */
 public class MyIsernXmlLoader {
 
@@ -140,79 +143,11 @@ public class MyIsernXmlLoader {
   */
 
   /**
-   * Checks for user input and then runs the print methods accordingly.
-   * If the user does not enter any arguments, nothing will be printed out.
-   * 
-   * 
-   * @param args containing command line arguments.
-   * @throws Exception if there is an exception
-   */
-  public static void main(String[] args) throws Exception {
-
-    boolean collaborationsFlag = false;
-    boolean organizationsFlag = false;
-    boolean researchersFlag = false;
-    int booleanCounter = 0;
-    int argsCounter = 0;
-
-    //Checks for user input
-    for (String commandLine : args) {
-      if ("--help".equals(commandLine)) {
-    	  argsCounter = 0;
-    	  break;
-      }
-      if ("--printCollaborations".equals(commandLine) 
-    		  || "-c".equals(commandLine)) {
-        collaborationsFlag = true;
-        booleanCounter++;
-      }
-      else if ("--printOrganizations".equals(commandLine) 
-    		  || "-o".equals(commandLine)) {
-        organizationsFlag = true;
-        booleanCounter++;
-      }
-      else if ("--printResearchers".equals(commandLine) 
-    		  || "-r".equals(commandLine)) {
-        researchersFlag = true;
-        booleanCounter++;
-      }
-      argsCounter++;
-    }
-    
-    //Prints according to what boolean is true
-    MyIsernXmlLoader mixl = new MyIsernXmlLoader();
-    if (argsCounter == 0) {
-      //Provides a 'help' mechanism similar to the Unix style.
-      System.out.println("Provides sample code for " + 
-		  "loading XML and marshalling it into their JAXB related classes.");
-      System.out.println("\nUsage: MyIsernXmlLoader [OPTION]");
-      System.out.println("\t-c, --printCollaborations\tprints collaborations.");
-      System.out.println("\t-o, --printOrganizations\tprints organizations.");
-      System.out.println("\t-r, --printResearchers\t\tprints researchers.");
-      System.out.println("\t    --help\t\t\tdisplay this help and exits.");
-    }
-    else {
-      if (collaborationsFlag) {
-        printCollaborations(mixl.collaborations);
-      }
-      if (organizationsFlag) {
-        printOrganizations(mixl.organizations);
-      }
-      if (researchersFlag) {
-        printResearchers(mixl.researchers);
-      }
-    }
-
-  }
-
-  /**
    * Prints collaborations.
-   * 
-   * @param collaborations containing collaborations to be printed
    */
-  public static void printCollaborations(Collaborations collaborations) {
+  public void printCollaborations() {
     List<Collaboration> collaborationList;
-    collaborationList = collaborations.getCollaboration();
+    collaborationList = this.collaborations.getCollaboration();
     StringBuffer sb = new StringBuffer(3000);
     String newLineNewTab = "\n\t";
 
@@ -279,12 +214,11 @@ public class MyIsernXmlLoader {
   }
 
   /**
-   * 
-   * @param organizations Contains organizations to be printed.
+   * Prints organizations.
    */
-  public static void printOrganizations(Organizations organizations) {
+  public void printOrganizations() {
     List<Organization> organizationList;
-    organizationList = organizations.getOrganization();
+    organizationList = this.organizations.getOrganization();
     StringBuffer sb = new StringBuffer(3000);
     String newLineNewTab = "\n\t";
 
@@ -341,13 +275,11 @@ public class MyIsernXmlLoader {
   }
 
   /**
-   * Prints Researchers.
-   * 
-   * @param researchers containing researchers to be printed.
+   * Prints researchers.
    */
-  public static void printResearchers(Researchers researchers) {
+  public void printResearchers() {
     List<Researcher> researcherList;
-    researcherList = researchers.getResearcher();
+    researcherList = this.researchers.getResearcher();
     // String newLineNewTab = "\n\t";
     StringBuffer sb = new StringBuffer(3000);
     sb.append("\n......................... RESEARCHERS ............................ \n");
