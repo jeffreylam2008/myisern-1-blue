@@ -1,6 +1,5 @@
 package edu.hawaii.myisern.example;
 
-import static org.junit.Assert.assertTrue;
 import junit.framework.TestCase;
 import org.junit.Test;
 
@@ -36,11 +35,11 @@ public class TestMyIsernXmlLoader extends TestCase {
     args[0] = "--printCollaborations";
     args[1] = "--printResearchers";
     args[2] = "--printOrganizations";
-    MyIsernXmlLoader.main(args);
+    MyIsern.main(args);
     args[0] = "-c";
     args[1] = "-r";
     args[2] = "-o";
-    MyIsernXmlLoader.main(args);
+    MyIsern.main(args);
     assertNotNull("Main method should pass.", args);
   }
   
@@ -52,7 +51,7 @@ public class TestMyIsernXmlLoader extends TestCase {
   @Test
   public void testNoArguments() throws Exception {
     String[] args = new String[0];
-    MyIsernXmlLoader.main(args);
+    MyIsern.main(args);
     assertNotNull("Main method should pass.", args);
   }
   
@@ -65,7 +64,7 @@ public class TestMyIsernXmlLoader extends TestCase {
   public void testHelpArguments() throws Exception {
     String[] args = new String[1];
     args[0] = "--help";
-    MyIsernXmlLoader.main(args);
+    MyIsern.main(args);
     assertNotNull("Main method should pass.", args);
   }
 

@@ -35,7 +35,7 @@
   <!-- Basic properties for this system. --> 
   <property name="system.name" value="myisern-xml" />
   <property name="majorVersionNumber" value="1" />
-  <property name="minorVersionNumber" value="0" />
+  <property name="minorVersionNumber" value="1" />
   <tstamp>
     <format property="DAYSTAMP" pattern="Mdd" />
   </tstamp>
