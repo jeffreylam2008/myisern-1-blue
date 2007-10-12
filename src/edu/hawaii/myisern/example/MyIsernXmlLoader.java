@@ -3,7 +3,10 @@ package edu.hawaii.myisern.example;
 import java.io.File;
 import java.io.StringWriter;
 import java.math.BigInteger;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -44,6 +47,7 @@ public class MyIsernXmlLoader {
   private Collaborations collaborations;
   private Organizations organizations;
   private Researchers researchers;
+  private Set<String> uniqueIdList;
 
   /**
    * Initializes this instance by reading in the three example XML files.
@@ -51,29 +55,89 @@ public class MyIsernXmlLoader {
    * @throws Exception If problems occur.
    */
   public MyIsernXmlLoader() throws Exception {
-    // Load in the Collaborations XML example file.
+	  this.uniqueIdList = new HashSet<String>();
+	  
+	  // Load in the Collaborations XML example file.
     this.collaborationsJaxbContext = JAXBContext
         .newInstance("edu.hawaii.myisern.collaborations.jaxb");
-    File collaborationsFile = new File(System.getProperty("user.dir")
+    File collabFile = new File(System.getProperty("user.dir")
         + "/xml/examples/collaborations.example.xml");
     Unmarshaller unmarshaller = this.collaborationsJaxbContext.createUnmarshaller();
-    this.collaborations = (Collaborations) unmarshaller.unmarshal(collaborationsFile);
+    Collaborations unmarshalledCollab = (Collaborations) unmarshaller.unmarshal(collabFile);
+    //List<Collaboration> collabList = new ArrayList<Collaboration>();
+    this.collaborations = new Collaborations();
+    for (Collaboration collab : unmarshalledCollab.getCollaboration()) {
+    	// Unique IDs are the name with having spaces replaced by underscores.
+		String uniqueId = collab.getName().replace(' ', '_');
+	   // Add new Unique ID.
+	   if (this.uniqueIdList.add(uniqueId)) {
+	     //System.out.println("Unique ID: " + uniqueId);
+	     this.collaborations.getCollaboration().add(collab);
+	   }
+     }
+    
+    //this.collaborations = (Collaborations) unmarshaller.unmarshal(collaborationsFile);
 
     // Do the same for organizations.
     this.organizationsJaxbContext = JAXBContext
         .newInstance("edu.hawaii.myisern.organizations.jaxb");
-    File organizationsFile = new File(System.getProperty("user.dir")
+    File orgFile = new File(System.getProperty("user.dir")
         + "/xml/examples/organizations.example.xml");
     unmarshaller = this.organizationsJaxbContext.createUnmarshaller();
-    this.organizations = (Organizations) unmarshaller.unmarshal(organizationsFile);
+    Organizations unmarshalledOrg = (Organizations) unmarshaller.unmarshal(orgFile);
+    //List<Organization> orgList = new ArrayList<Organization>();
+    this.organizations = new Organizations();
+    for (Organization collab : unmarshalledOrg.getOrganization()) {
+    	// Unique IDs are the name with having spaces replaced by underscores.
+		String uniqueId = collab.getName().replace(' ', '_');
+	   // Add new Unique ID.
+	   if (this.uniqueIdList.add(uniqueId)) {
+	     //System.out.println("Unique ID: " + uniqueId);
+	     this.organizations.getOrganization().add(collab);
+	   }
+     }
+    //this.organizations = (Organizations) unmarshaller.unmarshal(organizationsFile);
 
     // Now do it once more for the researchers.
     this.researchersJaxbContext = JAXBContext.newInstance("edu.hawaii.myisern.researchers.jaxb");
-    File researchersFile = new File(System.getProperty("user.dir")
+    File resrchrsFile = new File(System.getProperty("user.dir")
         + "/xml/examples/researchers.example.xml");
     unmarshaller = this.researchersJaxbContext.createUnmarshaller();
-    this.researchers = (Researchers) unmarshaller.unmarshal(researchersFile);
+    Researchers unmarshalledResrchrs = (Researchers) unmarshaller.unmarshal(resrchrsFile);
+    //List<Researcher> resrchrsList = new ArrayList<Researcher>();
+    this.researchers = new Researchers();
+    for (Researcher resrchr : unmarshalledResrchrs.getResearcher()) {
+    	// Unique IDs are the name with having spaces replaced by underscores.
+		String uniqueId = resrchr.getName().replace(' ', '_');
+	   // Add new Unique ID.
+	   if (this.uniqueIdList.add(uniqueId)) {
+	     //System.out.println("Unique ID: " + uniqueId);
+	     this.researchers.getResearcher().add(resrchr);
+	   }
+     }
+    //this.researchers = (Researchers) unmarshaller.unmarshal(researchersFile);
+    
   }
+  /*
+  public List<String> generateUniqueIdList() {
+	  // Create list of unique IDs to return.
+	  List<String> idList = new ArrayList<String>();
+	  // Add all distinct Unique IDs from collaborations list.
+	  for (Collaboration collaborator : this.collaborations.getCollaboration()) {
+		  // Unique IDs are the name with having spaces replaced by underscores.
+		  String uniqueId = collaborator.getName().replace(' ', '_');
+		  // Check to see if Unique ID is already registered.
+		  if (this.uniqueIdList.contains(uniqueId) == false) {
+			 // Add new Unique ID.
+			 this.uniqueIdList.add(uniqueId); 
+		  }
+		  this.collaborations.getCollaboration().
+	  }
+	  
+	  
+	  return idList;	  
+  }
+  */
 
   /**
    * Checks for user input and then runs the print methods accordingly.
