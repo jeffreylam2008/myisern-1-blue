@@ -29,14 +29,15 @@ public class MyIsern {
    */
   public static void main(String[] args) throws Exception {
     MyIsern myIsern = new MyIsern(args);
-    /*boolean myIsernRunCheck = */myIsern.runMyIsern();
+    /*boolean myIsernRunCheck = */
+    myIsern.runMyIsern();
     
-    //if (myIsernRunCheck) {
-    //System.out.println("MyIsern Ran successfully.");
-    //}
-    //else {
-    //  System.out.println("MyIsern Did not run successfully.");
-    //}
+    /*if (myIsernRunCheck) {
+    System.out.println("MyIsern Ran successfully.");
+    }
+    else {
+      System.out.println("MyIsern Did not run successfully.");
+    } */
   }
   
   /**
@@ -49,7 +50,6 @@ public class MyIsern {
     Parser parser = new Parser(this.commandLineArgs);    
     //Prints according to what boolean is true
     MyIsernXmlLoader mixl = new MyIsernXmlLoader();
-
     
     if (parser.argsCounter == 0) {
       parser.printHelp();
@@ -64,7 +64,7 @@ public class MyIsern {
       if (parser.isResearchersOn) {
         mixl.printResearchers();
       }
-    }
+    } 
     //@return boolean Returns true if no errors were encountered.
     //return true;
   }
