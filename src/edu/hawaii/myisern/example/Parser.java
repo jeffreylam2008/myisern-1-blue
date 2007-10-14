@@ -11,10 +11,7 @@ public class Parser {
   boolean isCollaborationsOn = false;
   boolean isOrganizationsOn = false;
   boolean isResearchersOn = false;
-  boolean firstArgumentPass = false;
-  boolean secondArgumentPass = false;
-  boolean thirdArgumentPass = false;
-  
+  boolean argumentsPass = false;
   int booleanCounter;
   int argsCounter;
   
@@ -65,68 +62,112 @@ public class Parser {
       argsCounter++;
     } */
   }
-  
-  /**
-   * Checks second argument to see if it is valid.
-   * @param args containing command line arguments.
-   * @return secondArgumentPass if second argument entered is valid.
-   */
-  public boolean checkSecondArgument (String[] args) {
-    boolean secondArgumentPass = false;
     
-    try {
-      if ("-organization".equals(args[1])) {
-        secondArgumentPass = true;
-      }
-      else if ("-year".equals(args[1])) {
-        secondArgumentPass = true;
-      }
-      else if ("-researcher".equals(args[1])) {
-        secondArgumentPass = true;
-      }
-      else if ("-collaboration".equals(args[1])) {
-        secondArgumentPass = true;
-      }
-      else if ("-all".equals(args[1])) {
-        secondArgumentPass = true;
-      }
-      else if ("-collaborationLevelEquals".equals(args[1])
-          || ("-collaborationLevelGreaterThan".equals(args[1]))) {
-        secondArgumentPass = true;
-      }
-    }
-    catch (Exception e) {
-      secondArgumentPass = false;
-    }
-    
-    return secondArgumentPass;
-  }
-  
   /**
    * Checks first argument if it is valid.
    * @param args containing command Line arguments.
    * @return firstArgumentPass if first argument given is valid.
    */
-  public boolean checkFirstArgument (String[] args) {
-    boolean firstArgumentPass = false;
+  public boolean checkArguments (String[] args) {
+    boolean argumentsPass = this.argumentsPass;
     try {
-      if ("-describe".equals(args[0])) {
-        //Display
-        firstArgumentPass = true;
+      //Checking if first argument entered is '-listCollaborations'
+      if ("-listCollaborations".equals(args[0])) {
+        try {
+          //Checks if second arguments are valid for given first argument
+          if ("-organization".equals(args[1])) {
+            //Need to check for unique ID
+            System.out.println("Check for unique ID");
+          }
+          else if ("-year".equals(args[1])) {
+            int year = 0;
+            try {
+              year = Integer.parseInt(args[2]);
+              if (year >= 1990 && year <= 2010) {
+                argumentsPass = true;
+              }
+            }
+            catch (Exception e) {
+              System.out.println("Year provided invalid.");
+              argumentsPass = false;
+            }
+          }
+          else if ("-researcher".equals(args[1])) {
+            //Need to check for unique ID
+            System.out.println("Check for unique ID");
+          }
+          else {
+            argumentsPass = false;
+          }
+        }
+        catch (Exception e) {
+          System.out.println("Second Argument Error");
+        }
+      }
+      
+      //Checking if first argument entered is '-describe'
+      else if ("-describe".equals(args[0])) {
+        try {
+          if ("-researcher".equals(args[1]) || "-organization".equals(args[1])
+              || "-collaboration".equals(args[1])) {
+            //Need to check for Unique ID
+            System.out.println("Check for unique ID");
+          }
+          else if ("-all".equals(args[1])) {
+            try {
+              if ("Researchers".equals(args[2])) {
+                isResearchersOn = true;
+              }
+              else if ("Organizations".equals(args[2])) {
+               isOrganizationsOn = true; 
+              }
+              else if ("Collaborations".equals(args[2])) {
+                isCollaborationsOn = true;
+              }
+              else {
+                System.out.println("Last argument for '-all' invalid.");
+                argumentsPass = false;
+              }
+            }
+            catch (Exception e) {
+              argumentsPass = false;
+            }
+          }
+          else {
+            argumentsPass = false;
+          }
+        }
+        catch (Exception e) {
+          System.out.println("Second Argument Error");
+          argumentsPass = false;
+        }
       } 
-      else if ("-listCollaborations".equals(args[0])) {
-        //list only collaborations
-        firstArgumentPass = true;
-      }
+      
+      //Checking if first argument entered is '-collaborationLevelEquals'
+      //or '-collaborationLevelGreaterThan'
       else if ("-listOrganizations".equals((args[0]))) {
-        //list only organizations
-        firstArgumentPass = true;
+        if ("-collaborationLevelEquals".equals(args[1])
+            || ("-collaborationLevelGreaterThan".equals(args[1]))) {
+          int numberOfCollabs = 0;
+          
+          try {
+            numberOfCollabs = Integer.parseInt(args[2]);
+          }
+          catch (Exception e) {
+            System.out.println("Invalid third argument");
+            argumentsPass = false;
+          }
+        }
+        else {
+          System.out.println("Second Argument error.");
+          argumentsPass = false;
+        }
       }
     }
-    catch (ArrayIndexOutOfBoundsException e) {
-      firstArgumentPass = false;
+    catch (ArrayIndexOutOfBoundsException aibe) {
+      argumentsPass = false;
     }
-    return firstArgumentPass;
+    return argumentsPass;
   }
   
   /**
