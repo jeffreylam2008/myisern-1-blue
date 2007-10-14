@@ -58,67 +58,65 @@ public class MyIsernXmlLoader {
    * @throws Exception If problems occur.
    */
   public MyIsernXmlLoader() throws Exception {
-	  this.uniqueIdList = new HashSet<String>();
-	  
-	  // Load in the Collaborations XML example file.
-    this.collaborationsJaxbContext = JAXBContext
-        .newInstance("edu.hawaii.myisern.collaborations.jaxb");
-    File collabFile = new File(System.getProperty("user.dir")
-        + "/xml/examples/collaborations.example.xml");
+    this.uniqueIdList = new HashSet<String>();
+    // Load in the Collaborations XML example file.
+	String jaxbContentString = "edu.hawaii.myisern.collaborations.jaxb";
+    this.collaborationsJaxbContext = JAXBContext.newInstance(jaxbContentString);
+	String currentWorkingDirectory = System.getProperty("user.dir");
+	String collabFilePath =  currentWorkingDirectory + 
+	                         "/xml/examples/collaborations.example.xml";
+    File collabFile = new File(collabFilePath);
     Unmarshaller unmarshaller = this.collaborationsJaxbContext.createUnmarshaller();
     Collaborations unmarshalledCollab = (Collaborations) unmarshaller.unmarshal(collabFile);
-    //List<Collaboration> collabList = new ArrayList<Collaboration>();
     this.collaborations = new Collaborations();
     for (Collaboration collab : unmarshalledCollab.getCollaboration()) {
     	// Unique IDs are the name with having spaces replaced by underscores.
 		String uniqueId = collab.getName().replace(' ', '_');
 	   // Add new Unique ID.
 	   if (this.uniqueIdList.add(uniqueId)) {
-	     //System.out.println("Unique ID: " + uniqueId);
-	     this.collaborations.getCollaboration().add(collab);
+         // If the unique ID was successfully added to the unique list
+         // then we can add it to the collaboration list too.
+         this.collaborations.getCollaboration().add(collab);
 	   }
      }
     
-    //this.collaborations = (Collaborations) unmarshaller.unmarshal(collaborationsFile);
-
     // Do the same for organizations.
-    this.organizationsJaxbContext = JAXBContext
-        .newInstance("edu.hawaii.myisern.organizations.jaxb");
-    File orgFile = new File(System.getProperty("user.dir")
-        + "/xml/examples/organizations.example.xml");
+    jaxbContentString = "edu.hawaii.myisern.organizations.jaxb";
+    this.organizationsJaxbContext = JAXBContext.newInstance(jaxbContentString);
+    String orgFilePath = currentWorkingDirectory + "/xml/examples/organizations.example.xml";
+    File orgFile = new File(orgFilePath);
     unmarshaller = this.organizationsJaxbContext.createUnmarshaller();
     Organizations unmarshalledOrg = (Organizations) unmarshaller.unmarshal(orgFile);
-    //List<Organization> orgList = new ArrayList<Organization>();
     this.organizations = new Organizations();
     for (Organization collab : unmarshalledOrg.getOrganization()) {
     	// Unique IDs are the name with having spaces replaced by underscores.
 		String uniqueId = collab.getName().replace(' ', '_');
 	   // Add new Unique ID.
 	   if (this.uniqueIdList.add(uniqueId)) {
-	     //System.out.println("Unique ID: " + uniqueId);
-	     this.organizations.getOrganization().add(collab);
+         // If the unique ID was successfully added to the unique list
+         // then we can add it to the organization list too.
+         this.organizations.getOrganization().add(collab);
 	   }
      }
-    //this.organizations = (Organizations) unmarshaller.unmarshal(organizationsFile);
-
+    
     // Now do it once more for the researchers.
-    this.researchersJaxbContext = JAXBContext.newInstance("edu.hawaii.myisern.researchers.jaxb");
-    File resrchrsFile = new File(System.getProperty("user.dir")
-        + "/xml/examples/researchers.example.xml");
+    jaxbContentString = "edu.hawaii.myisern.researchers.jaxb";
+    this.researchersJaxbContext = JAXBContext.newInstance(jaxbContentString);
+    String researcherFilePath = currentWorkingDirectory + "/xml/examples/researchers.example.xml";
+    File researchersFile = new File(researcherFilePath);
     unmarshaller = this.researchersJaxbContext.createUnmarshaller();
-    Researchers unmarshalledResrchrs = (Researchers) unmarshaller.unmarshal(resrchrsFile);
-    //List<Researcher> resrchrsList = new ArrayList<Researcher>();
+    Researchers unmarshalledResearchers = (Researchers) unmarshaller.unmarshal(researchersFile);
     this.researchers = new Researchers();
-    for (Researcher resrchr : unmarshalledResrchrs.getResearcher()) {
-    	// Unique IDs are the name with having spaces replaced by underscores.
-		String uniqueId = resrchr.getName().replace(' ', '_');
-	   // Add new Unique ID.
-	   if (this.uniqueIdList.add(uniqueId)) {
-	     //System.out.println("Unique ID: " + uniqueId);
-	     this.researchers.getResearcher().add(resrchr);
-	   }
-     }
-    //this.researchers = (Researchers) unmarshaller.unmarshal(researchersFile);
+    for (Researcher _researcher : unmarshalledResearchers.getResearcher()) {
+      // Unique IDs are the name with having spaces replaced by underscores.
+	  String uniqueId = _researcher.getName().replace(' ', '_');
+	  // Add new Unique ID.
+	  if (this.uniqueIdList.add(uniqueId)) {
+	    // If the unique ID was successfully added to the unique list
+	    // then we can add it to the researcher list too.
+	    this.researchers.getResearcher().add(_researcher);
+	  }
+    }
     
   }
   /*

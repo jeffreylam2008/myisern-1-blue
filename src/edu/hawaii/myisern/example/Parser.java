@@ -175,27 +175,25 @@ public class Parser {
    */
   void printHelp() {
     //Provides a 'help' mechanism similar to the Unix style.
-    System.out.println("Provides sample code for " + 
-      "loading XML and marshalling it into their JAXB related classes.");
-    System.out.println("\nUsage: MyIsernXmlLoader [OPTION]");
-    
-    System.out.println("\t-listCollaborations -organization <uniqueID>" +
-    		"\n\t\tLists Collaborations known for specified organization\n");
-    System.out.println("\t-listCollaborations -year <year>" +
-    		"\n\t\tLists Collaborations known for specified year\n");
-    System.out.println("\t-listCollaborations -researcher <uniqueID>" +
-    		"\n\t\tLists Collaborations known for specified researcher\n");
-    
-    System.out.println("\t-describe -researcher <uniqueID>");
-    System.out.println("\t-describe -organization <uniqueID>");
-    System.out.println("\t-describe -collaboration <uniqueID>");
-    System.out.println("\t-describe -all Researchers");
-    System.out.println("\t-describe -all Organizations");
-    System.out.println("\t-describe -all Collaborations");
-    
-    System.out.println("\t-listOrganizations -collaborationLevelEquals <integer>");
-    System.out.println("\t-listOrganizations -collaborationLevelGreaterThan <integer>");
-   
+    String helpString = "";
+    helpString += "\nProvides sample code for loading XML ";
+    helpString +=   "and marshalling it into their JAXB related classes.";
+    helpString += "\nUsage: MyIsernXmlLoader [OPTION]";
+    helpString += "\n  -listCollaborations -organization <uniqueID>";
+	//helpString +=   "\tLists Collaborations known for specified organization";
+    helpString += "\n  -listCollaborations -year <year>";
+    //helpString +=   "\t\tLists Collaborations known for specified year";
+    helpString += "\n  -listCollaborations -researcher <uniqueID>";
+	//helpString +=   "\tLists Collaborations known for specified researcher";
+    helpString += "\n  -describe -researcher <uniqueID>";
+    helpString += "\n  -describe -organization <uniqueID>";
+    helpString += "\n  -describe -collaboration <uniqueID>";
+    helpString += "\n  -describe -all Researchers";
+    helpString += "\n  -describe -all Organizations";
+    helpString += "\n  -describe -all Collaborations";
+    helpString += "\n  -listOrganizations -collaborationLevelEquals <integer>";
+    helpString += "\n  -listOrganizations -collaborationLevelGreaterThan <integer>";
+    System.out.println(helpString);
     /*System.out.println("\t-c, --printCollaborations\tprints collaborations.");
     System.out.println("\t-o, --printOrganizations\tprints organizations.");
     System.out.println("\t-r, --printResearchers\t\tprints researchers.");
