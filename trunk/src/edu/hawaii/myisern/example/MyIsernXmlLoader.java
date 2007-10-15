@@ -3,10 +3,10 @@ package edu.hawaii.myisern.example;
 import java.io.File;
 import java.io.StringWriter;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -60,26 +60,27 @@ public class MyIsernXmlLoader {
   public MyIsernXmlLoader() throws Exception {
     this.uniqueIdList = new HashSet<String>();
     // Load in the Collaborations XML example file.
-	String jaxbContentString = "edu.hawaii.myisern.collaborations.jaxb";
+    String jaxbContentString = "edu.hawaii.myisern.collaborations.jaxb";
     this.collaborationsJaxbContext = JAXBContext.newInstance(jaxbContentString);
-	String currentWorkingDirectory = System.getProperty("user.dir");
-	String collabFilePath =  currentWorkingDirectory + 
-	                         "/xml/examples/collaborations.example.xml";
+    String currentWorkingDirectory = System.getProperty("user.dir");
+    String collabFilePath = currentWorkingDirectory + "/xml/examples/collaborations.example.xml";
     File collabFile = new File(collabFilePath);
     Unmarshaller unmarshaller = this.collaborationsJaxbContext.createUnmarshaller();
     Collaborations unmarshalledCollab = (Collaborations) unmarshaller.unmarshal(collabFile);
     this.collaborations = new Collaborations();
     for (Collaboration collab : unmarshalledCollab.getCollaboration()) {
-    	// Unique IDs are the name with having spaces replaced by underscores.
-		String uniqueId = collab.getName().replace(' ', '_');
-	   // Add new Unique ID.
-	   if (this.uniqueIdList.add(uniqueId)) {
-         // If the unique ID was successfully added to the unique list
-         // then we can add it to the collaboration list too.
-         this.collaborations.getCollaboration().add(collab);
-	   }
-     }
-    
+      // Unique IDs are the name with having spaces replaced by underscores.
+      String uniqueId = collab.getName().replace(' ', '_');
+      // Add new Unique ID.
+      if (this.uniqueIdList.add(uniqueId)) {
+        // If the unique ID was successfully added to the unique list
+        // then we can add it to the collaboration list too.
+        this.collaborations.getCollaboration().add(collab);
+      }
+    }
+
+    // this.collaborations = (Collaborations) unmarshaller.unmarshal(collaborationsFile);
+
     // Do the same for organizations.
     jaxbContentString = "edu.hawaii.myisern.organizations.jaxb";
     this.organizationsJaxbContext = JAXBContext.newInstance(jaxbContentString);
@@ -89,16 +90,16 @@ public class MyIsernXmlLoader {
     Organizations unmarshalledOrg = (Organizations) unmarshaller.unmarshal(orgFile);
     this.organizations = new Organizations();
     for (Organization collab : unmarshalledOrg.getOrganization()) {
-    	// Unique IDs are the name with having spaces replaced by underscores.
-		String uniqueId = collab.getName().replace(' ', '_');
-	   // Add new Unique ID.
-	   if (this.uniqueIdList.add(uniqueId)) {
-         // If the unique ID was successfully added to the unique list
-         // then we can add it to the organization list too.
-         this.organizations.getOrganization().add(collab);
-	   }
-     }
-    
+      // Unique IDs are the name with having spaces replaced by underscores.
+      String uniqueId = collab.getName().replace(' ', '_');
+      // Add new Unique ID.
+      if (this.uniqueIdList.add(uniqueId)) {
+        // If the unique ID was successfully added to the unique list
+        // then we can add it to the organization list too.
+        this.organizations.getOrganization().add(collab);
+      }
+    }
+
     // Now do it once more for the researchers.
     jaxbContentString = "edu.hawaii.myisern.researchers.jaxb";
     this.researchersJaxbContext = JAXBContext.newInstance(jaxbContentString);
@@ -109,36 +110,85 @@ public class MyIsernXmlLoader {
     this.researchers = new Researchers();
     for (Researcher _researcher : unmarshalledResearchers.getResearcher()) {
       // Unique IDs are the name with having spaces replaced by underscores.
-	  String uniqueId = _researcher.getName().replace(' ', '_');
-	  // Add new Unique ID.
-	  if (this.uniqueIdList.add(uniqueId)) {
-	    // If the unique ID was successfully added to the unique list
-	    // then we can add it to the researcher list too.
-	    this.researchers.getResearcher().add(_researcher);
-	  }
+      String uniqueId = _researcher.getName().replace(' ', '_');
+      // Add new Unique ID.
+      if (this.uniqueIdList.add(uniqueId)) {
+        // If the unique ID was successfully added to the unique list
+        // then we can add it to the researcher list too.
+        this.researchers.getResearcher().add(_researcher);
+      }
     }
-    
+
   }
-  /*
-  public List<String> generateUniqueIdList() {
-	  // Create list of unique IDs to return.
-	  List<String> idList = new ArrayList<String>();
-	  // Add all distinct Unique IDs from collaborations list.
-	  for (Collaboration collaborator : this.collaborations.getCollaboration()) {
-		  // Unique IDs are the name with having spaces replaced by underscores.
-		  String uniqueId = collaborator.getName().replace(' ', '_');
-		  // Check to see if Unique ID is already registered.
-		  if (this.uniqueIdList.contains(uniqueId) == false) {
-			 // Add new Unique ID.
-			 this.uniqueIdList.add(uniqueId); 
-		  }
-		  this.collaborations.getCollaboration().
-	  }
-	  
-	  
-	  return idList;	  
+
+  /**
+   * Gets a list of unique Ids from the Collaborations class.
+   * 
+   * @return A list of Collaboration names.
+   */
+  public List<String> getUniqueCollaborationsIdList() {
+    // Create list of unique IDs to return.
+    List<String> idList = new ArrayList<String>();
+    // Add all distinct Unique IDs from collaborations list.
+    for (Collaboration collaboration : this.collaborations.getCollaboration()) {
+      // Unique IDs are the name with having spaces replaced by underscores.
+      String uniqueId = collaboration.getName().replace(' ', '_');
+      // Check to see if Unique ID is already registered.
+      if (!this.uniqueIdList.contains(uniqueId)) {
+        // Add new Unique ID.
+        this.uniqueIdList.add(uniqueId);
+      }
+      // this.collaborations.getCollaboration();
+    }
+
+    return idList;
   }
-  */
+
+  /**
+   * Gets a list of unique Ids from the Organizations class.
+   * 
+   * @return A list of organization names.
+   */
+  public List<String> getUniqueOrganizationsIdList() {
+    // Create list of unique IDs to return.
+    List<String> idList = new ArrayList<String>();
+    // Add all distinct Unique IDs from organizations list.
+    for (Organization organization : this.organizations.getOrganization()) {
+      // Unique IDs are the name with having spaces replaced by underscores.
+      String uniqueId = organization.getName().replace(' ', '_');
+      // Check to see if Unique ID is already registered.
+      if (!this.uniqueIdList.contains(uniqueId)) {
+        // Add new Unique ID.
+        this.uniqueIdList.add(uniqueId);
+      }
+      // this.;
+    }
+
+    return idList;
+  }
+
+  /**
+   * Gets a list of unique Ids from the Researchers class.
+   * 
+   * @return A list of researcher names.
+   */
+  public List<String> getUniqueResearchersIdList() {
+    // Create list of unique IDs to return.
+    List<String> idList = new ArrayList<String>();
+    // Add all distinct Unique IDs from researchers list.
+    for (Researcher researcher : this.researchers.getResearcher()) {
+      // Unique IDs are the name with having spaces replaced by underscores.
+      String uniqueId = researcher.getName().replace(' ', '_');
+      // Check to see if Unique ID is already registered.
+      if (!this.uniqueIdList.contains(uniqueId)) {
+        // Add new Unique ID.
+        this.uniqueIdList.add(uniqueId);
+      }
+      // this.collaborations.getCollaboration();
+    }
+
+    return idList;
+  }
 
   /**
    * Prints collaborations.
@@ -159,44 +209,44 @@ public class MyIsernXmlLoader {
       sb.append("\nName: ");
       sb.append(current.getName());
 
-      //Prints Organizations part of Collaboration
+      // Prints Organizations part of Collaboration
       sb.append("\nCollaborating Organizations:");
       CollaboratingOrganizations collaboratingOrganizations;
       collaboratingOrganizations = current.getCollaboratingOrganizations();
       stringList = collaboratingOrganizations.getCollaboratingOrganization();
-      
+
       for (String currentOrg : stringList) {
         sb.append(newLineNewTab);
         sb.append(currentOrg);
       }
 
-      //Prints type of collaboration
+      // Prints type of collaboration
       sb.append("\nCollaboration Types:");
       CollaborationTypes collaborationTypes;
       collaborationTypes = current.getCollaborationTypes();
       stringList = collaborationTypes.getCollaborationType();
-      
+
       for (String currentCollabType : stringList) {
         sb.append(newLineNewTab);
         sb.append(currentCollabType);
       }
 
-      //Prints all Years that Organizations were in Collaboration
+      // Prints all Years that Organizations were in Collaboration
       sb.append("\nYears:");
       Years years;
       years = current.getYears();
       bigIntList = years.getYear();
-      
+
       for (BigInteger currentYears : bigIntList) {
         sb.append(newLineNewTab);
         sb.append(currentYears.toString());
       }
-      //Prints all Outcome types
+      // Prints all Outcome types
       sb.append("\nOutcome Types:");
       OutcomeTypes outcomeTypes;
       outcomeTypes = current.getOutcomeTypes();
       stringList = outcomeTypes.getOutcomeType();
-      
+
       for (String currentOutcomeType : stringList) {
         sb.append(newLineNewTab);
         sb.append(currentOutcomeType);
@@ -221,26 +271,26 @@ public class MyIsernXmlLoader {
     String newLineNewTab = "\n\t";
 
     sb.append("\n\n========================= ORGANIZATIONS ==========================");
-    
+
     // Prints contents from loaded Xml files
     for (Organization current : organizationList) {
       List<String> stringList;
 
       sb.append("\nName:");
       sb.append(current.getName());
-      
+
       sb.append("\nType: ");
       sb.append(current.getType());
-      
+
       sb.append("\nContact: ");
       sb.append(current.getContact());
 
-      //Prints all affiliated researchers with organization
+      // Prints all affiliated researchers with organization
       sb.append("\nAffiliated Researchers:");
       AffiliatedResearchers affiliatedResearchers;
       affiliatedResearchers = current.getAffiliatedResearchers();
       stringList = affiliatedResearchers.getAffiliatedResearcher();
-      
+
       for (String currentString : stringList) {
         sb.append(newLineNewTab);
         sb.append(currentString);
@@ -249,12 +299,12 @@ public class MyIsernXmlLoader {
       sb.append("\nCounter");
       sb.append(current.getCountry());
 
-      //Prints Research Keywords for organization
+      // Prints Research Keywords for organization
       sb.append("\nResearch Keywords:");
       ResearchKeywords researchKeywords;
       researchKeywords = current.getResearchKeywords();
       stringList = researchKeywords.getResearchKeyword();
-      
+
       for (String currentString : stringList) {
         sb.append(newLineNewTab);
         sb.append(currentString);
@@ -262,10 +312,10 @@ public class MyIsernXmlLoader {
 
       sb.append("\nResearch Description: ");
       sb.append(current.getResearchDescription());
-      
+
       sb.append("\nHome Page: ");
       sb.append(current.getHomePage());
-      
+
       sb.append("\n==================================================================\n");
 
     }
@@ -285,19 +335,19 @@ public class MyIsernXmlLoader {
 
       sb.append("\nName: ");
       sb.append(currentResearcher.getName());
-      
+
       sb.append("\nOrganization: ");
       sb.append(currentResearcher.getOrganization());
-      
+
       sb.append("\nBio Statement: ");
       sb.append(currentResearcher.getBioStatement());
-      
+
       sb.append("\nPicture Link: ");
       sb.append(currentResearcher.getPictureLink());
-      
+
       sb.append("\nEmail: ");
       sb.append(currentResearcher.getEmail());
-      
+
       sb.append("\n.................................................................. \n");
 
     }
