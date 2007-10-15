@@ -3,7 +3,6 @@ package edu.hawaii.myisern.example;
 import java.io.File;
 //import java.io.IOException;
 import java.io.StringWriter;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,14 +21,8 @@ import org.w3c.dom.Document;
 
 import edu.hawaii.myisern.organizations.jaxb.Organizations;
 import edu.hawaii.myisern.organizations.jaxb.Organization;
-import edu.hawaii.myisern.collaborations.jaxb.CollaboratingOrganizations;
 import edu.hawaii.myisern.collaborations.jaxb.Collaboration;
-import edu.hawaii.myisern.collaborations.jaxb.CollaborationTypes;
 import edu.hawaii.myisern.collaborations.jaxb.Collaborations;
-import edu.hawaii.myisern.collaborations.jaxb.OutcomeTypes;
-import edu.hawaii.myisern.collaborations.jaxb.Years;
-import edu.hawaii.myisern.organizations.jaxb.AffiliatedResearchers;
-import edu.hawaii.myisern.organizations.jaxb.ResearchKeywords;
 import edu.hawaii.myisern.researchers.jaxb.Researchers;
 import edu.hawaii.myisern.researchers.jaxb.Researcher;
 
@@ -148,6 +141,83 @@ public class MyIsernXmlLoader {
   }
 
   /**
+   * Returns the current Collaborations instance as a String encoding of its XML representation.
+   * 
+   * @return Its XML String representation.
+   * @throws Exception If problems occur during translation.
+   */
+  public String getCollaborationsXml() throws Exception {
+    Marshaller marshaller = this.collaborationsJaxbContext.createMarshaller();
+    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    dbf.setNamespaceAware(true);
+    DocumentBuilder documentBuilder = dbf.newDocumentBuilder();
+    Document doc = documentBuilder.newDocument();
+    marshaller.marshal(this.collaborations, doc);
+    DOMSource domSource = new DOMSource(doc);
+    StringWriter writer = new StringWriter();
+    StreamResult result = new StreamResult(writer);
+    TransformerFactory tf = TransformerFactory.newInstance();
+    Transformer transformer = tf.newTransformer();
+    transformer.transform(domSource, result);
+    String xmlString = writer.toString();
+    return xmlString;
+  }
+
+  /**
+   * Returns the number of Collaboration instances.
+   * 
+   * @return The number of collaborations.
+   */
+  public int getNumCollaborations() {
+    return this.collaborations.getCollaboration().size();
+  }
+
+  /**
+   * Returns the number of Organization instances.
+   * 
+   * @return The number of organizations.
+   */
+  public int getNumOrganizations() {
+    return this.organizations.getOrganization().size();
+  }
+
+  /**
+   * Returns the number of Researcher instances.
+   * 
+   * @return The number of researchers.
+   */
+  public int getNumResearchers() {
+    return this.researchers.getResearcher().size();
+  }
+  
+  /**
+   * Gets Collaborations.
+   * 
+   * @return collaborations.
+   */
+  public Collaborations getCollaborations() {
+    return this.collaborations;
+  }
+  
+  /**
+   * Gets organizations.
+   * 
+   * @return organizations
+   */
+  public Organizations getOrganizations() {
+    return this.organizations;
+  }
+  
+  /**
+   * Gets researchers.
+   * 
+   * @return researchers
+   */
+  public Researchers getResearchers() {
+    return this.researchers;
+  }
+  
+  /**
    * Gets a list of unique Ids from the Collaborations class.
    * 
    * @return A list of Collaboration names.
@@ -233,218 +303,4 @@ public class MyIsernXmlLoader {
     }
   }
   */
-  /**
-   * Prints collaborations.
-   */
-  public void printCollaborations() {
-    List<Collaboration> collaborationList;
-    collaborationList = this.collaborations.getCollaboration();
-    StringBuffer sb = new StringBuffer(3000);
-    String newLineNewTab = "\n\t";
-
-    sb.append("\n\n + + + + + + + + + + + + COLLABORATIONS + + + + + + + + + + + + +");
-
-    // Prints contents from loaded Xml files
-    for (Collaboration current : collaborationList) {
-      List<String> stringList;
-      List<BigInteger> bigIntList;
-
-      sb.append("\nName: ");
-      sb.append(current.getName());
-
-      // Prints Organizations part of Collaboration
-      sb.append("\nCollaborating Organizations:");
-      CollaboratingOrganizations collaboratingOrganizations;
-      collaboratingOrganizations = current.getCollaboratingOrganizations();
-      stringList = collaboratingOrganizations.getCollaboratingOrganization();
-
-      for (String currentOrg : stringList) {
-        sb.append(newLineNewTab);
-        sb.append(currentOrg);
-      }
-
-      // Prints type of collaboration
-      sb.append("\nCollaboration Types:");
-      CollaborationTypes collaborationTypes;
-      collaborationTypes = current.getCollaborationTypes();
-      stringList = collaborationTypes.getCollaborationType();
-
-      for (String currentCollabType : stringList) {
-        sb.append(newLineNewTab);
-        sb.append(currentCollabType);
-      }
-
-      // Prints all Years that Organizations were in Collaboration
-      sb.append("\nYears:");
-      Years years;
-      years = current.getYears();
-      bigIntList = years.getYear();
-
-      for (BigInteger currentYears : bigIntList) {
-        sb.append(newLineNewTab);
-        sb.append(currentYears.toString());
-      }
-      // Prints all Outcome types
-      sb.append("\nOutcome Types:");
-      OutcomeTypes outcomeTypes;
-      outcomeTypes = current.getOutcomeTypes();
-      stringList = outcomeTypes.getOutcomeType();
-
-      for (String currentOutcomeType : stringList) {
-        sb.append(newLineNewTab);
-        sb.append(currentOutcomeType);
-      }
-
-      sb.append("\nDescription: ");
-      sb.append(current.getDescription());
-      sb.append("\n+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +");
-      // sb.append(current.getCollaboratingOrganizations());
-
-    }
-    System.out.println(sb.toString());
-  }
-
-  /**
-   * Prints organizations.
-   */
-  public void printOrganizations() {
-    List<Organization> organizationList;
-    organizationList = this.organizations.getOrganization();
-    StringBuffer sb = new StringBuffer(3000);
-    String newLineNewTab = "\n\t";
-
-    sb.append("\n\n========================= ORGANIZATIONS ==========================");
-
-    // Prints contents from loaded Xml files
-    for (Organization current : organizationList) {
-      List<String> stringList;
-
-      sb.append("\nName:");
-      sb.append(current.getName());
-
-      sb.append("\nType: ");
-      sb.append(current.getType());
-
-      sb.append("\nContact: ");
-      sb.append(current.getContact());
-
-      // Prints all affiliated researchers with organization
-      sb.append("\nAffiliated Researchers:");
-      AffiliatedResearchers affiliatedResearchers;
-      affiliatedResearchers = current.getAffiliatedResearchers();
-      stringList = affiliatedResearchers.getAffiliatedResearcher();
-
-      for (String currentString : stringList) {
-        sb.append(newLineNewTab);
-        sb.append(currentString);
-      }
-
-      sb.append("\nCounter");
-      sb.append(current.getCountry());
-
-      // Prints Research Keywords for organization
-      sb.append("\nResearch Keywords:");
-      ResearchKeywords researchKeywords;
-      researchKeywords = current.getResearchKeywords();
-      stringList = researchKeywords.getResearchKeyword();
-
-      for (String currentString : stringList) {
-        sb.append(newLineNewTab);
-        sb.append(currentString);
-      }
-
-      sb.append("\nResearch Description: ");
-      sb.append(current.getResearchDescription());
-
-      sb.append("\nHome Page: ");
-      sb.append(current.getHomePage());
-
-      sb.append("\n==================================================================\n");
-
-    }
-    System.out.print(sb.toString());
-  }
-
-  /**
-   * Prints researchers.
-   */
-  public void printResearchers() {
-    List<Researcher> researcherList;
-    researcherList = this.researchers.getResearcher();
-    // String newLineNewTab = "\n\t";
-    StringBuffer sb = new StringBuffer(3000);
-    sb.append("\n......................... RESEARCHERS ............................ \n");
-    for (Researcher currentResearcher : researcherList) {
-
-      sb.append("\nName: ");
-      sb.append(currentResearcher.getName());
-
-      sb.append("\nOrganization: ");
-      sb.append(currentResearcher.getOrganization());
-
-      sb.append("\nBio Statement: ");
-      sb.append(currentResearcher.getBioStatement());
-
-      sb.append("\nPicture Link: ");
-      sb.append(currentResearcher.getPictureLink());
-
-      sb.append("\nEmail: ");
-      sb.append(currentResearcher.getEmail());
-
-      sb.append("\n.................................................................. \n");
-
-    }
-    System.out.print(sb.toString());
-  }
-
-  /**
-   * Returns the number of Collaboration instances.
-   * 
-   * @return The number of collaborations.
-   */
-  public int getNumCollaborations() {
-    return this.collaborations.getCollaboration().size();
-  }
-
-  /**
-   * Returns the number of Organization instances.
-   * 
-   * @return The number of organizations.
-   */
-  public int getNumOrganizations() {
-    return this.organizations.getOrganization().size();
-  }
-
-  /**
-   * Returns the number of Researcher instances.
-   * 
-   * @return The number of researchers.
-   */
-  public int getNumResearchers() {
-    return this.researchers.getResearcher().size();
-  }
-
-  /**
-   * Returns the current Collaborations instance as a String encoding of its XML representation.
-   * 
-   * @return Its XML String representation.
-   * @throws Exception If problems occur during translation.
-   */
-  public String getCollaborationsXml() throws Exception {
-    Marshaller marshaller = this.collaborationsJaxbContext.createMarshaller();
-    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-    dbf.setNamespaceAware(true);
-    DocumentBuilder documentBuilder = dbf.newDocumentBuilder();
-    Document doc = documentBuilder.newDocument();
-    marshaller.marshal(this.collaborations, doc);
-    DOMSource domSource = new DOMSource(doc);
-    StringWriter writer = new StringWriter();
-    StreamResult result = new StreamResult(writer);
-    TransformerFactory tf = TransformerFactory.newInstance();
-    Transformer transformer = tf.newTransformer();
-    transformer.transform(domSource, result);
-    String xmlString = writer.toString();
-    return xmlString;
-  }
-
 }
