@@ -2,6 +2,10 @@ package edu.hawaii.myisern.example;
 
 import junit.framework.TestCase;
 import org.junit.Test;
+//import com.meterware.httpunit.WebConversation;
+//import com.meterware.httpunit.WebLink;
+//import com.meterware.httpunit.WebResponse;
+
 
 //import edu.hawaii.myisern.example.MyIsernXmlLoader;
 
@@ -15,7 +19,6 @@ import org.junit.Test;
  */
 public class TestMyIsernXmlLoader extends TestCase {
   /**
-<<<<<<< .mine
    * Tests the Collaboration XML to Java conversion.
    * 
    * @throws Exception If problems occur.
@@ -30,8 +33,6 @@ public class TestMyIsernXmlLoader extends TestCase {
   }
 
   /**
-=======
->>>>>>> .r25
    * Tests main method.
    * 
    * @throws Exception if problem occurs.
@@ -75,12 +76,19 @@ public class TestMyIsernXmlLoader extends TestCase {
     assertNotNull("Main method should pass.", args);
   }
   
-  /*
+  /**
+   * Tests web link validation method.
+   * 
+   * @throws Exception if problem occurs.
+   */
+  @Test
   public void testisLinkValidMethod() throws Exception {
     MyIsernXmlLoader mixl = new MyIsernXmlLoader();
-    assertTrue(mixl.isLinkValid("http://www.hawaii.edu"));
-    assertFalse(mixl.isLinkValid("http://myfake.invalid.website"));
+    assertTrue("known website: http://www.hawaii.edu", 
+    		   mixl.isLinkValid("http://www.hawaii.edu"));
+    assertFalse("fake website: http://myfake.invalid.website", 
+    		    mixl.isLinkValid("http://myfake.invalid.website"));
   }
-  */
+  
 
 }

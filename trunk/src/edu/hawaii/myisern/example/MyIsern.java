@@ -20,6 +20,11 @@ import edu.hawaii.myisern.organizations.jaxb.ResearchKeywords;
 import edu.hawaii.myisern.researchers.jaxb.Researcher;
 import edu.hawaii.myisern.researchers.jaxb.Researchers;
 
+//import com.meterware.httpunit.WebConversation;
+//import com.meterware.httpunit.WebLink;
+//import com.meterware.httpunit.WebResponse;
+
+
 /**
  * Provides information on the organizations, collaborations, and researchers of the ISERN
  * community.
@@ -51,6 +56,7 @@ public class MyIsern {
    * @throws Exception if there is an exception
    */
   public static void main(String[] args) throws Exception {
+    
     MyIsern myIsern = new MyIsern(args);
     /* boolean myIsernRunCheck = */
     myIsern.runMyIsern();
@@ -282,6 +288,7 @@ public class MyIsern {
           sb.append("\n + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +");
           System.out.println(sb.toString());
         }
+        break;
       }
       return true;
     }
@@ -357,6 +364,7 @@ public class MyIsern {
           sb.append("\n==================================================================\n");
           System.out.print(sb.toString());
         }
+        break;
       }
       return true;
     }
@@ -404,6 +412,7 @@ public class MyIsern {
           sb.append(currentResearcher.getEmail());
           sb.append("\n.................................................................. \n");
           System.out.print(sb.toString());
+          break;
         }
       }
       return true;
