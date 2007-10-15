@@ -3,5 +3,10 @@
 	<classpathentry excluding="edu/hawaii/myisern/example/TestMyIsernXmlLoader.java" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="var" path="HTTPUNIT_HOME/jars/js.jar"/>
+	<classpathentry kind="var" path="HTTPUNIT_HOME/jars/nekohtml.jar"/>
+	<classpathentry kind="var" path="HTTPUNIT_HOME/jars/xercesImpl.jar"/>
+	<classpathentry kind="var" path="HTTPUNIT_HOME/jars/xmlParserAPIs.jar"/>
+	<classpathentry kind="var" path="HTTPUNIT_HOME/lib/httpunit.jar" sourcepath="/HTTPUNIT_HOME"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

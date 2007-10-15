@@ -70,6 +70,7 @@ public class Parser {
    */
   public boolean checkArguments (String[] args) {
     boolean argumentsPass = this.argumentsPass;
+    this.argsCounter = args.length;
     try {
       //Checking if first argument entered is '-listCollaborations'
       if ("-listCollaborations".equals(args[0])) {
@@ -148,10 +149,10 @@ public class Parser {
       else if ("-listOrganizations".equals((args[0]))) {
         if ("-collaborationLevelEquals".equals(args[1])
             || ("-collaborationLevelGreaterThan".equals(args[1]))) {
-          int numberOfCollabs = 0;
+          //int numberOfCollabs = 0;
           
           try {
-            numberOfCollabs = Integer.parseInt(args[2]);
+            int numberOfCollabs = Integer.parseInt(args[2]);
           }
           catch (Exception e) {
             System.out.println("Invalid third argument");

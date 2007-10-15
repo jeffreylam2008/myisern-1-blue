@@ -3,6 +3,8 @@ package edu.hawaii.myisern.example;
 import junit.framework.TestCase;
 import org.junit.Test;
 
+//import edu.hawaii.myisern.example.MyIsernXmlLoader;
+
 /**
  * Demonstrates that the sample code is working.
  * 
@@ -67,5 +69,13 @@ public class TestMyIsernXmlLoader extends TestCase {
     MyIsern.main(args);
     assertNotNull("Main method should pass.", args);
   }
+  
+  /*
+  public void testisLinkValidMethod() throws Exception {
+    MyIsernXmlLoader mixl = new MyIsernXmlLoader();
+    assertTrue(mixl.isLinkValid("http://www.hawaii.edu"));
+    assertFalse(mixl.isLinkValid("http://myfake.invalid.website"));
+  }
+  */
 
 }
