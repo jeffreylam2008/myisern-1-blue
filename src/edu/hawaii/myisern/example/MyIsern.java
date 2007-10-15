@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.math.BigInteger;
 import edu.hawaii.myisern.collaborations.jaxb.CollaboratingOrganizations;
 import edu.hawaii.myisern.collaborations.jaxb.Collaboration;
@@ -56,11 +57,10 @@ public class MyIsern {
   public static void main(String[] args) throws Exception {
     
     MyIsern myIsern = new MyIsern(args);
-    boolean myIsernRunCheck = 
-    myIsern.runMyIsern();
+    boolean myIsernRunCheck = myIsern.runMyIsern();
     
     if (myIsernRunCheck) {
-    System.out.println("MyIsern Ran successfully.");
+      System.out.println("MyIsern Ran successfully.");
     }
     else {
       System.out.println("MyIsern Did not run successfully.");
@@ -75,29 +75,13 @@ public class MyIsern {
    * @throws Exception If XML data did not load properly.
    */
   private boolean runMyIsern() throws Exception {
-    Parser parser = new Parser(this.commandLineArgs);
     // Prints according to what boolean is true
     this.mixl = new MyIsernXmlLoader();
-
-    //listCollaborations(mixl, "-year", "2007");
-    listOrganizationsEquals(2);
-    listOrganizationsGreaterThan(2);
-
-    if (parser.argsCounter == 0) {
-      parser.printHelp();
-    }
-    /*
-    else {
-      if (parser.isCollaborationsOn) {
-        this.printCollaborations(mixl.getCollaborations());
-      }
-      if (parser.isOrganizationsOn) {
-        this.printOrganizations(mixl.getOrganizations());
-      }
-      if (parser.isResearchersOn) {
-        this.printResearchers(mixl.getResearchers());
-      }
-    } */
+    
+    boolean pC = printCollaboration("UM-UH-HPCS", this.mixl.getUniqueIds());
+    boolean pO = printOrganization("University_of_Hawaii", this.mixl.getUniqueIds());
+    boolean pR = printResearcher("Philip_Johnson", this.mixl.getUniqueIds());
+    
     return true;
   }
 
@@ -105,8 +89,9 @@ public class MyIsern {
    * Lists organizations with collaboration levels greater than what the user specifies.
    * 
    * @param collaborationNumber Contains the number of collaborations user has specified.
+   * @return true If Organizations were found with values equal to specified number.
    */
-  public void listOrganizationsEquals(int collaborationNumber) {
+  public boolean listOrganizationsEquals(int collaborationNumber) {
     Map<String, Integer> collabOrganizations = new HashMap<String, Integer>();
     
     for (Collaboration currentCollaboration : this.mixl.getCollaborations().getCollaboration()) {
@@ -142,6 +127,10 @@ public class MyIsern {
     
     if (organizationCount == 0) {
       System.out.println("No organizations found.");
+      return false;
+    }
+    else {
+      return true;
     }
   }
   
@@ -149,8 +138,9 @@ public class MyIsern {
    * Lists organizations with collaboration levels equal to what the user specifies.
    * 
    * @param collaborationNumber Contains the number of collaborations user has specified.
+   * @return true If Organizations were found with values greater than specified number
    */
-  public void listOrganizationsGreaterThan(int collaborationNumber) {
+  public boolean listOrganizationsGreaterThan(int collaborationNumber) {
     Map<String, Integer> collabOrganizations = new HashMap<String, Integer>();
     
     for (Collaboration currentCollaboration : this.mixl.getCollaborations().getCollaboration()) {
@@ -187,6 +177,10 @@ public class MyIsern {
     
     if (organizationCount == 0) {
       System.out.println("No organizations found.");
+      return false;
+    }
+    else {
+      return true;
     }
   }
 
@@ -258,7 +252,7 @@ public class MyIsern {
    * @param idList List of Ids.
    * @return True if a matching Id was found and corresponding table printed.
    */
-  private boolean printCollaboration(String id, List<String> idList) {
+  private boolean printCollaboration(String id, Set<String> idList) {
     boolean isIdValid = false;
     for (String collaborationId : idList) {
       if (id.equals(collaborationId)) {
@@ -272,7 +266,7 @@ public class MyIsern {
       sb.append("\n\n + + + + + + + + + + + + + COLLABORATION + + + + + + + + + + + + +");
       
       for (Collaboration current : this.mixl.getCollaborations().getCollaboration()) {
-        if (id.equals(current.getName())) {
+        if (id.replace("_", " ").equals(current.getName())) {
           List<String> stringList;
           List<BigInteger> bigIntList;          
             
@@ -344,7 +338,7 @@ public class MyIsern {
    * @param idList List of Ids.
    * @return True if a matching Id was found and corresponding table printed.
    */
-  private boolean printOrganization(String id, List<String> idList) {
+  private boolean printOrganization(String id, Set<String> idList) {
     boolean isIdValid = false;
     for (String organizationId : idList) {
       if (id.equals(organizationId)) {
@@ -358,7 +352,7 @@ public class MyIsern {
       sb.append("\n\n========================= ORGANIZATION ===========================");
       
       for (Organization current : this.mixl.getOrganizations().getOrganization()) {
-        if (id.equals(current.getName())) {
+        if (id.replace("_", " ").equals(current.getName())) {
           List<String> stringList;
 
           sb.append(this.nameTableField);
@@ -420,7 +414,7 @@ public class MyIsern {
    * @param idList List of Ids.
    * @return True if a matching Id was found and corresponding table printed.
    */
-  private boolean printResearcher(String id, List<String> idList) {
+  private boolean printResearcher(String id, Set<String> idList) {
     boolean isIdValid = false;
     for (String collaborationId : idList) {
       if (id.equals(collaborationId)) {
@@ -434,7 +428,7 @@ public class MyIsern {
       sb.append("\n......................... RESEARCHERS ............................ \n");
       
       for (Researcher currentResearcher : this.mixl.getResearchers().getResearcher()) {
-        if (id.equals(currentResearcher.getName())) {
+        if (id.replace("_", " ").equals(currentResearcher.getName())) {
           sb.append(this.nameTableField);
           sb.append(currentResearcher.getName());
 
@@ -457,7 +451,7 @@ public class MyIsern {
       return true;
     }
     else {
-      System.out.println("\n" + id + "was not found in Researchers.");
+      System.out.println("\n" + id + " was not found in Researchers.");
       return false;
     }
   }

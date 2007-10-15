@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -237,72 +236,14 @@ public class MyIsernXmlLoader {
   }
   
   /**
-   * Gets a list of unique Ids from the Collaborations class.
+   * Gets a list of all unique Ids available.
    * 
-   * @return A list of Collaboration names.
+   * @return A list of all unique Ids.
    */
-  public List<String> getUniqueCollaborationsIdList() {
-    // Create list of unique IDs to return.
-    List<String> idList = new ArrayList<String>();
-    // Add all distinct Unique IDs from collaborations list.
-    for (Collaboration collaboration : this.collaborations.getCollaboration()) {
-      // Unique IDs are the name with having spaces replaced by underscores.
-      String uniqueId = collaboration.getName().replace(' ', '_');
-      // Check to see if Unique ID is already registered.
-      if (!this.uniqueIdList.contains(uniqueId)) {
-        // Add new Unique ID.
-        this.uniqueIdList.add(uniqueId);
-      }
-      // this.collaborations.getCollaboration();
-    }
-
-    return idList;
+  public Set<String> getUniqueIds() {
+    return this.uniqueIdList;
   }
-  /**
-   * Gets a list of unique Ids from the Organizations class.
-   * 
-   * @return A list of organization names.
-   */
-  public List<String> getUniqueOrganizationsIdList() {
-    // Create list of unique IDs to return.
-    List<String> idList = new ArrayList<String>();
-    // Add all distinct Unique IDs from organizations list.
-    for (Organization organization : this.organizations.getOrganization()) {
-      // Unique IDs are the name with having spaces replaced by underscores.
-      String uniqueId = organization.getName().replace(' ', '_');
-      // Check to see if Unique ID is already registered.
-      if (!this.uniqueIdList.contains(uniqueId)) {
-        // Add new Unique ID.
-        this.uniqueIdList.add(uniqueId);
-      }
-      // this.;
-    }
-
-    return idList;
-  }
-
-  /**
-   * Gets a list of unique Ids from the Researchers class.
-   * 
-   * @return A list of researcher names.
-   */
-  public List<String> getUniqueResearchersIdList() {
-    // Create list of unique IDs to return.
-    List<String> idList = new ArrayList<String>();
-    // Add all distinct Unique IDs from researchers list.
-    for (Researcher researcher : this.researchers.getResearcher()) {
-      // Unique IDs are the name with having spaces replaced by underscores.
-      String uniqueId = researcher.getName().replace(' ', '_');
-      // Check to see if Unique ID is already registered.
-      if (!this.uniqueIdList.contains(uniqueId)) {
-        // Add new Unique ID.
-        this.uniqueIdList.add(uniqueId);
-      }
-      // this.collaborations.getCollaboration();
-    }
-
-    return idList;
-  }
+  
   /**
    * Checks validation of web links..
    * @param url URL to test.
@@ -311,7 +252,6 @@ public class MyIsernXmlLoader {
    * @throws MalformedURLException Thrown exception.
    * @return if valid or not.
    */
-  
   public boolean isLinkValid(String url) throws MalformedURLException, IOException, SAXException {
     try {
       WebConversation wc = new WebConversation();
@@ -320,9 +260,6 @@ public class MyIsernXmlLoader {
     }
     catch (UnknownHostException e) {
     	return false;
-    }
-    
+    }    
   }
-  
-
 }
