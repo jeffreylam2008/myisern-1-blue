@@ -200,12 +200,29 @@ public class MyIsernXmlLoader {
   }
   
   /**
+   * Gets list of collaborations.
+   * @return list of collaborations.
+   */
+  public List<Collaboration> getListCollaborations() {
+    return this.collaborations.getCollaboration();
+  }
+  
+  /**
    * Gets organizations.
    * 
    * @return organizations
    */
   public Organizations getOrganizations() {
     return this.organizations;
+  }
+  
+  /**
+   * Gets list of organizations.
+   * 
+   * @return organizations
+   */
+  public List<Organization> getListOrganizations() {
+    return this.organizations.getOrganization();
   }
   
   /**
@@ -302,5 +319,7 @@ public class MyIsernXmlLoader {
       return false;
     }
   }
+
   */
+
 }
