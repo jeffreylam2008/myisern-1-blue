@@ -1,8 +1,10 @@
 package edu.hawaii.myisern.example;
 
 import java.io.File;
-//import java.io.IOException;
+import java.io.IOException;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +19,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
-//import org.xml.sax.SAXException;
+import org.xml.sax.SAXException;
 
 import edu.hawaii.myisern.organizations.jaxb.Organizations;
 import edu.hawaii.myisern.organizations.jaxb.Organization;
@@ -26,9 +28,9 @@ import edu.hawaii.myisern.collaborations.jaxb.Collaborations;
 import edu.hawaii.myisern.researchers.jaxb.Researchers;
 import edu.hawaii.myisern.researchers.jaxb.Researcher;
 
-//import com.meterware.httpunit.WebConversation;
+import com.meterware.httpunit.WebConversation;
 //import com.meterware.httpunit.WebLink;
-//import com.meterware.httpunit.WebResponse;
+import com.meterware.httpunit.WebResponse;
 
 /**
  * Provides sample code for loading XML and marshalling it into their JAXB related classes.
@@ -303,23 +305,24 @@ public class MyIsernXmlLoader {
   }
   /**
    * Checks validation of web links..
-   * @throws SAXException 
-   * @throws IOException 
-   * @throws MalformedURLException 
+   * @param url URL to test.
+   * @throws SAXException Thrown exception.
+   * @throws IOException Thrown exception.
+   * @throws MalformedURLException Thrown exception.
+   * @return if valid or not.
    */
-  /*
-  public boolean isLinkValid(String Url) throws MalformedURLException, IOException, SAXException{
-    WebConversation wc = new WebConversation();
-    WebResponse response = wc.getResponse(Url);
-    if (response != null) {
-      
+  
+  public boolean isLinkValid(String url) throws MalformedURLException, IOException, SAXException {
+    try {
+      WebConversation wc = new WebConversation();
+      WebResponse response = wc.getResponse(url);
       return true;
     }
-    else {
-      return false;
+    catch (UnknownHostException e) {
+    	return false;
     }
+    
   }
-
-  */
+  
 
 }
