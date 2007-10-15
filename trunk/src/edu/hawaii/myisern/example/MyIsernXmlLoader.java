@@ -260,6 +260,10 @@ public class MyIsernXmlLoader {
     }
     catch (UnknownHostException e) {
     	return false;
-    }    
+    }
+    catch (Exception e) {
+    	return false;
+    }
+    
   }
 }
