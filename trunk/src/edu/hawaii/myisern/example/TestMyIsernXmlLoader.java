@@ -15,6 +15,23 @@ import org.junit.Test;
  */
 public class TestMyIsernXmlLoader extends TestCase {
   /**
+<<<<<<< .mine
+   * Tests the Collaboration XML to Java conversion.
+   * 
+   * @throws Exception If problems occur.
+   */
+  @Test
+  public void testLoader() throws Exception {
+    MyIsernXmlLoader loader = new MyIsernXmlLoader();
+    assertEquals("Check collaborations size", 3, loader.getNumCollaborations());
+    assertEquals("Check organizations size", 2, loader.getNumOrganizations());
+    assertEquals("Check researchers size", 3, loader.getNumResearchers());
+    assertTrue("Check Collaborations", loader.getCollaborationsXml().contains("<Collaborations>"));
+  }
+
+  /**
+=======
+>>>>>>> .r25
    * Tests main method.
    * 
    * @throws Exception if problem occurs.
