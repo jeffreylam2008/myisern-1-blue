@@ -1,0 +1,50 @@
+#summary Developer guide for the MyISERN-XML Program.
+
+= Introduction =
+The MyISERN-XML program parses XML files and provides data based on a user's arguments.
+
+= Ant =
+Ant is a Java-based build tool.  The following are available commands used in ant.
+ * ant -f checkstyle.build.xml
+
+ * ant -f dist.build.xml
+
+ * ant -f emma.build.xml
+
+ * ant -f findbugs.build.xml
+
+ * ant -f javadoc.build.xml
+
+ * ant -f jaxb.build.xml
+
+ * ant -f junit.build.xml
+
+ * ant -f pmd.build.xml
+
+ * ant -f verify.build.xml 
+
+The xml files specified in the ant commands are provided in the download package.
+
+== Tools ==
+_Note: Environment variables should point to the directories where the tools were installed in_
+
+CHECKSTYLE: Used to find Java coding violations.
+ * Environment Variable: CHECKSTYLE_HOME
+
+EMMA: Code coverage tool used for white-box perspective testing.
+ * Environment Variable: EMMA_HOME
+
+FINDBUGS: Used to find bugs in code using static analysis.
+ * Environment Variable: FINDBUGS_HOME
+
+JAXB: Verfies that XML files follow a specified schema, and converts XML data into Java Classes and back.
+ * Environment Variable: JAXB_HOME
+
+JUNIT: Testing Framework for Java code.
+ * Environment Variable: JUNIT_HOME
+
+PMD: Looks for weaknesses in Java code such as overly complicated or dead code.
+ * Environment Variable: PMD_HOME
+
+= Enhancements =
+Proper parser class to separate command-line checking from the main class.
