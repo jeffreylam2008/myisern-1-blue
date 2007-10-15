@@ -98,10 +98,10 @@
        <unjar src="${env.HTTPUNIT_HOME}/jars/xercesImpl.jar" dest="${tmp.dir}"/>
        <unjar src="${env.HTTPUNIT_HOME}/jars/xmlParserAPIs.jar" dest="${tmp.dir}"/>
        <unjar src="${env.HTTPUNIT_HOME}/lib/httpunit.jar" dest="${tmp.dir}"/>
-    
+       <unjar src="${env.SWT_HOME}/swt.jar" dest="${tmp.dir}"/>
        <jar destfile="${basedir}/myisern-1-blue.jar" basedir="${tmp.dir}">
          <manifest>
-           <attribute name="Main-Class" value="edu.hawaii.myisern.example.MyIsernXmlLoader"/>
+           <attribute name="Main-Class" value="edu.hawaii.myisern.example.MyIsern"/>
            <attribute name="Implementation-Title" value="MyIsern"/>
            <attribute name="Implementation-Version" value="${version}"/>
            <attribute name="Implementation-Vendor" value="Collaborative Software Development Laboratory, University of Hawaii"/>
