@@ -1,6 +1,7 @@
 package edu.hawaii.myisern.example;
 
 import java.io.File;
+//import java.io.IOException;
 import java.io.StringWriter;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
+//import org.xml.sax.SAXException;
+
 import edu.hawaii.myisern.organizations.jaxb.Organizations;
 import edu.hawaii.myisern.organizations.jaxb.Organization;
 import edu.hawaii.myisern.collaborations.jaxb.CollaboratingOrganizations;
@@ -29,6 +32,10 @@ import edu.hawaii.myisern.organizations.jaxb.AffiliatedResearchers;
 import edu.hawaii.myisern.organizations.jaxb.ResearchKeywords;
 import edu.hawaii.myisern.researchers.jaxb.Researchers;
 import edu.hawaii.myisern.researchers.jaxb.Researcher;
+
+//import com.meterware.httpunit.WebConversation;
+//import com.meterware.httpunit.WebLink;
+//import com.meterware.httpunit.WebResponse;
 
 /**
  * Provides sample code for loading XML and marshalling it into their JAXB related classes.
@@ -68,19 +75,24 @@ public class MyIsernXmlLoader {
     Unmarshaller unmarshaller = this.collaborationsJaxbContext.createUnmarshaller();
     Collaborations unmarshalledCollab = (Collaborations) unmarshaller.unmarshal(collabFile);
     this.collaborations = new Collaborations();
-    for (Collaboration collab : unmarshalledCollab.getCollaboration()) {
+    for (Collaboration org : unmarshalledCollab.getCollaboration()) {
       // Unique IDs are the name with having spaces replaced by underscores.
-      String uniqueId = collab.getName().replace(' ', '_');
-      // Add new Unique ID.
-      if (this.uniqueIdList.add(uniqueId)) {
-        // If the unique ID was successfully added to the unique list
-        // then we can add it to the collaboration list too.
-        this.collaborations.getCollaboration().add(collab);
+      String uniqueId = org.getName().replace(' ', '_');
+        // Check that ID isn't empty then add new Unique ID to list.
+        if ((uniqueId == null) || ("".equals(uniqueId))) {
+          System.out.println("Invalid name found in collaboration xml file.");
+        }
+        else {
+          if (this.uniqueIdList.add(uniqueId)) {
+            // If the unique ID was successfully added to the unique list
+            // then we can add it to the collaboration list too.
+            this.collaborations.getCollaboration().add(org);
+            }
+            else {
+              System.out.println("Name: " + org.getName() + " already exists in the database.");
+            }
+        }
       }
-    }
-
-    // this.collaborations = (Collaborations) unmarshaller.unmarshal(collaborationsFile);
-
     // Do the same for organizations.
     jaxbContentString = "edu.hawaii.myisern.organizations.jaxb";
     this.organizationsJaxbContext = JAXBContext.newInstance(jaxbContentString);
@@ -92,14 +104,21 @@ public class MyIsernXmlLoader {
     for (Organization collab : unmarshalledOrg.getOrganization()) {
       // Unique IDs are the name with having spaces replaced by underscores.
       String uniqueId = collab.getName().replace(' ', '_');
-      // Add new Unique ID.
-      if (this.uniqueIdList.add(uniqueId)) {
-        // If the unique ID was successfully added to the unique list
-        // then we can add it to the organization list too.
-        this.organizations.getOrganization().add(collab);
+      // Check that ID isn't empty then add new Unique ID to list.
+      if ((uniqueId == null) || ("".equals(uniqueId))) {
+        System.out.println("Invalid name found in organization xml file.");
+      }
+      else {
+        if (this.uniqueIdList.add(uniqueId)) {
+          // If the unique ID was successfully added to the unique list
+          // then we can add it to the organization list too.
+          this.organizations.getOrganization().add(collab);
+        }
+        else {
+          System.out.println("Name: " + collab.getName() + " already exists in the database.");
+        }
       }
     }
-
     // Now do it once more for the researchers.
     jaxbContentString = "edu.hawaii.myisern.researchers.jaxb";
     this.researchersJaxbContext = JAXBContext.newInstance(jaxbContentString);
@@ -111,14 +130,21 @@ public class MyIsernXmlLoader {
     for (Researcher _researcher : unmarshalledResearchers.getResearcher()) {
       // Unique IDs are the name with having spaces replaced by underscores.
       String uniqueId = _researcher.getName().replace(' ', '_');
-      // Add new Unique ID.
-      if (this.uniqueIdList.add(uniqueId)) {
-        // If the unique ID was successfully added to the unique list
-        // then we can add it to the researcher list too.
-        this.researchers.getResearcher().add(_researcher);
+      // Check that ID isn't empty then add new Unique ID to list.
+      if ((uniqueId == null) && ("".equals(uniqueId))) {
+        System.out.println("Invalid name found in organization xml file.");
+      }
+      else {
+        if (this.uniqueIdList.add(uniqueId)) {
+          // If the unique ID was successfully added to the unique list
+          // then we can add it to the researcher list too.
+          this.researchers.getResearcher().add(_researcher);
+        }
+        else {
+          System.out.println("Name: " + _researcher.getName() + " already exists in the database.");
+        }
       }
     }
-
   }
 
   /**
@@ -143,7 +169,6 @@ public class MyIsernXmlLoader {
 
     return idList;
   }
-
   /**
    * Gets a list of unique Ids from the Organizations class.
    * 
@@ -189,7 +214,25 @@ public class MyIsernXmlLoader {
 
     return idList;
   }
-
+  /**
+   * Checks validation of web links..
+   * @throws SAXException 
+   * @throws IOException 
+   * @throws MalformedURLException 
+   */
+  /*
+  public boolean isLinkValid(String Url) throws MalformedURLException, IOException, SAXException{
+    WebConversation wc = new WebConversation();
+    WebResponse response = wc.getResponse(Url);
+    if (response != null) {
+      
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  */
   /**
    * Prints collaborations.
    */
