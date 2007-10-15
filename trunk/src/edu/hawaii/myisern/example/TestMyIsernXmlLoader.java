@@ -89,6 +89,4 @@ public class TestMyIsernXmlLoader extends TestCase {
     assertFalse("fake website: http://myfake.invalid.website", 
     		    mixl.isLinkValid("http://myfake.invalid.website"));
   }
-  
-
 }
