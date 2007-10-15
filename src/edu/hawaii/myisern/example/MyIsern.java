@@ -2,7 +2,7 @@ package edu.hawaii.myisern.example;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Collection;
+//import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -185,11 +185,11 @@ public class MyIsern {
     /* boolean myIsernRunCheck = */
     //textDisplay();
     myIsern.runMyIsern();
-    
+    /*
     createGui(myIsern.mixl.getCollaborations(),
     		  myIsern.mixl.getOrganizations(),
     		  myIsern.mixl.getResearchers());
-    
+    */
     /*
      * if (myIsernRunCheck) { System.out.println("MyIsern Ran successfully."); } else {
      * System.out.println("MyIsern Did not run successfully."); }

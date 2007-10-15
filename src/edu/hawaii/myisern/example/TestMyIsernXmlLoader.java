@@ -32,49 +32,10 @@ public class TestMyIsernXmlLoader extends TestCase {
     assertTrue("Check Collaborations", loader.getCollaborationsXml().contains("<Collaborations>"));
   }
 
-  /**
-   * Tests main method.
-   * 
-   * @throws Exception if problem occurs.
-   */
-  @Test
-  public void testMain() throws Exception {
-    String[] args = new String[3];
-    args[0] = "--printCollaborations";
-    args[1] = "--printResearchers";
-    args[2] = "--printOrganizations";
-    MyIsern.main(args);
-    args[0] = "-c";
-    args[1] = "-r";
-    args[2] = "-o";
-    MyIsern.main(args);
-    assertNotNull("Main method should pass.", args);
-  }
   
-  /**
-   * Tests main method with no command line arguments.
-   * 
-   * @throws Exception if problem occurs.
-   */
-  @Test
-  public void testNoArguments() throws Exception {
-    String[] args = new String[0];
-    MyIsern.main(args);
-    assertNotNull("Main method should pass.", args);
-  }
   
-  /**
-   * Tests main method with '--help' argument.
-   * 
-   * @throws Exception if problem occurs.
-   */
-  @Test
-  public void testHelpArguments() throws Exception {
-    String[] args = new String[1];
-    args[0] = "--help";
-    MyIsern.main(args);
-    assertNotNull("Main method should pass.", args);
-  }
+  
+  
   
   /**
    * Tests web link validation method.
@@ -89,4 +50,5 @@ public class TestMyIsernXmlLoader extends TestCase {
     assertFalse("fake website: http://myfake.invalid.website", 
     		    mixl.isLinkValid("http://myfake.invalid.website"));
   }
+  
 }
