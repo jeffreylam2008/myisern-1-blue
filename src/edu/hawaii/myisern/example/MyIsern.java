@@ -1,12 +1,10 @@
 package edu.hawaii.myisern.example;
 
-//import java.util.HashMap;
-//import java.util.Iterator;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-//import java.util.Map;
-//import java.util.Set;
+import java.util.Map;
 import java.math.BigInteger;
-//import java.util.List;
 import edu.hawaii.myisern.collaborations.jaxb.CollaboratingOrganizations;
 import edu.hawaii.myisern.collaborations.jaxb.Collaboration;
 import edu.hawaii.myisern.collaborations.jaxb.CollaborationTypes;
@@ -36,7 +34,7 @@ import edu.hawaii.myisern.researchers.jaxb.Researchers;
 public class MyIsern {
   /** Holds values passed from the command line */
   private String[] commandLineArgs;
-  MyIsernXmlLoader mixl;
+  private MyIsernXmlLoader mixl;
   private String newLineNewTab = "\n\t";
   private String nameTableField = "\nName: ";
 
@@ -58,28 +56,32 @@ public class MyIsern {
   public static void main(String[] args) throws Exception {
     
     MyIsern myIsern = new MyIsern(args);
-    /* boolean myIsernRunCheck = */
+    boolean myIsernRunCheck = 
     myIsern.runMyIsern();
-
-    /*
-     * if (myIsernRunCheck) { System.out.println("MyIsern Ran successfully."); } else {
-     * System.out.println("MyIsern Did not run successfully."); }
-     */
+    
+    if (myIsernRunCheck) {
+    System.out.println("MyIsern Ran successfully.");
+    }
+    else {
+      System.out.println("MyIsern Did not run successfully.");
+    } 
   }
 
   /**
    * Checks for user input and then runs the print methods accordingly. If the user does not enter
    * any arguments, nothing will be printed out.
    * 
+   * @return boolean Returns true if no errors were encountered.
    * @throws Exception If XML data did not load properly.
    */
-  private void runMyIsern() throws Exception {
+  private boolean runMyIsern() throws Exception {
     Parser parser = new Parser(this.commandLineArgs);
     // Prints according to what boolean is true
     this.mixl = new MyIsernXmlLoader();
 
-    listCollaborations(mixl, "-year", "2007");
-    listOrganizations(mixl, "-collaborationLevelEquals", 2);
+    //listCollaborations(mixl, "-year", "2007");
+    listOrganizationsEquals(2);
+    listOrganizationsGreaterThan(2);
 
     if (parser.argsCounter == 0) {
       parser.printHelp();
@@ -96,59 +98,96 @@ public class MyIsern {
         this.printResearchers(mixl.getResearchers());
       }
     } */
-    // @return boolean Returns true if no errors were encountered.
-    // return true;
+    return true;
   }
 
   /**
-   * Lists organizations with collaboration levels equal or greater than what user specifies.
+   * Lists organizations with collaboration levels greater than what the user specifies.
    * 
-   * @param mixl containing the loader.
-   * @param collaborationLevel containing the type of level the user wants listed.
-   * @param collaborationNumber containing the number of collaborations user has specified.
+   * @param collaborationNumber Contains the number of collaborations user has specified.
    */
-  public void listOrganizations(MyIsernXmlLoader mixl, String collaborationLevel,
-      int collaborationNumber) {
-    System.out.println("here to pass verify");
-    /*List<Collaboration> collaborationList;
-    List<String> stringList;
-    collaborationList = mixl.getCollaborations();
-    Map<String, Integer> collabOrganizations = new HashMap();
-    /*
-     * Iterator hashMapIterator = collabOrganizations.keySet().iterator(); Set hashMapSet =
-     * collabOrganizations.entrySet();
-     
-    int hashValue = 0;
-
-    for (Collaboration currentCollab : collaborationList) {
+  public void listOrganizationsEquals(int collaborationNumber) {
+    Map<String, Integer> collabOrganizations = new HashMap<String, Integer>();
+    
+    for (Collaboration currentCollaboration : this.mixl.getCollaborations().getCollaboration()) {
       CollaboratingOrganizations collaboratingOrganizations;
-      collaboratingOrganizations = currentCollab.getCollaboratingOrganizations();
-      stringList = collaboratingOrganizations.getCollaboratingOrganization();
-      for (String currentCollabOrg : stringList) {
-        if (collabOrganizations.containsKey(currentCollabOrg)) {
-          hashValue = (Integer) collabOrganizations.get(currentCollabOrg);
-          collabOrganizations.put(currentCollabOrg, hashValue++);
+      collaboratingOrganizations = currentCollaboration.getCollaboratingOrganizations();
+      List<String> stringList = collaboratingOrganizations.getCollaboratingOrganization();
+
+      for (String currentOrg : stringList) {
+        if (collabOrganizations.containsKey(currentOrg)) {
+          int valueFrequency;
+          valueFrequency = collabOrganizations.get(currentOrg);
+          collabOrganizations.put(currentOrg, ++valueFrequency);
         }
-        else {
-          collabOrganizations.put(currentCollabOrg, 1);
+        else if (!collabOrganizations.containsKey(currentOrg)) {
+          collabOrganizations.put(currentOrg, 1);
         }
       }
     }
+    
+    int organizationCount = 0;
+    System.out.println("\nOrganizations involved in " + collaborationNumber + " collaborations.");
+    
+    Iterator<Map.Entry<String, Integer>> organizationIterator;
+    organizationIterator = collabOrganizations.entrySet().iterator();
+    while (organizationIterator.hasNext()) {
+      Map.Entry<String, Integer> organizationEntry = organizationIterator.next();
 
-    Set<Map.Entry<String, Integer>> hashMapSet = collabOrganizations.entrySet();
-    for (Map.Entry<String, Integer> currentHash : hashMapSet) {
-      Integer currValue = currentHash.getValue();
-      if (currValue == (Integer) collaborationNumber) {
-        System.out.println(currValue);
+      if (organizationEntry.getValue() == collaborationNumber) {
+        System.out.println(organizationEntry.getKey());
+        organizationCount++;
       }
     }
-
-    if ("-collaborationLevelEquals".equals(collaborationLevel)) {
-
+    
+    if (organizationCount == 0) {
+      System.out.println("No organizations found.");
     }
-    else if ("-collaborationLevelGreaterThan".equals(collaborationLevel)) {
-      System.out.println("greaterThan");
-    } */
+  }
+  
+  /**
+   * Lists organizations with collaboration levels equal to what the user specifies.
+   * 
+   * @param collaborationNumber Contains the number of collaborations user has specified.
+   */
+  public void listOrganizationsGreaterThan(int collaborationNumber) {
+    Map<String, Integer> collabOrganizations = new HashMap<String, Integer>();
+    
+    for (Collaboration currentCollaboration : this.mixl.getCollaborations().getCollaboration()) {
+      CollaboratingOrganizations collaboratingOrganizations;
+      collaboratingOrganizations = currentCollaboration.getCollaboratingOrganizations();
+      List<String> stringList = collaboratingOrganizations.getCollaboratingOrganization();
+
+      for (String currentOrg : stringList) {
+        if (collabOrganizations.containsKey(currentOrg)) {
+          int valueFrequency;
+          valueFrequency = collabOrganizations.get(currentOrg);
+          collabOrganizations.put(currentOrg, ++valueFrequency);
+        }
+        else if (!collabOrganizations.containsKey(currentOrg)) {
+          collabOrganizations.put(currentOrg, 1);
+        }
+      }
+    }
+    
+    int organizationCount = 0;
+    System.out.println("\nOrganizations involved in greater than" + collaborationNumber + 
+        " collaborations.");
+    
+    Iterator<Map.Entry<String, Integer>> organizationIterator;
+    organizationIterator = collabOrganizations.entrySet().iterator();
+    while (organizationIterator.hasNext()) {
+      Map.Entry<String, Integer> organizationEntry = organizationIterator.next();
+
+      if (organizationEntry.getValue() > collaborationNumber) {
+        System.out.println(organizationEntry.getKey());
+        organizationCount++;
+      }
+    }
+    
+    if (organizationCount == 0) {
+      System.out.println("No organizations found.");
+    }
   }
 
   /**
