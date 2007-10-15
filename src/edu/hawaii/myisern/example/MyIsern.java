@@ -2,7 +2,9 @@ package edu.hawaii.myisern.example;
 
 //import java.util.HashMap;
 //import java.util.Iterator;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 //import java.util.Map;
 //import java.util.Set;
 import java.math.BigInteger;
@@ -19,6 +21,30 @@ import edu.hawaii.myisern.organizations.jaxb.Organizations;
 import edu.hawaii.myisern.organizations.jaxb.ResearchKeywords;
 import edu.hawaii.myisern.researchers.jaxb.Researcher;
 import edu.hawaii.myisern.researchers.jaxb.Researchers;
+
+//import com.meterware.httpunit.WebConversation;
+//import com.meterware.httpunit.WebLink;
+//import com.meterware.httpunit.WebResponse;
+
+import org.eclipse.swt.SWT;
+//import org.eclipse.swt.SWTException;
+//import org.eclipse.swt.custom.StyledText;
+//import org.eclipse.swt.events.PaintEvent;
+//import org.eclipse.swt.events.PaintListener;
+//import org.eclipse.swt.graphics.Color;
+////import org.eclipse.swt.graphics.Font;
+//import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.FontMetrics;
+import org.eclipse.swt.graphics.GC;
+//import org.eclipse.swt.graphics.Path;
+//import org.eclipse.swt.graphics.Point;
+//import org.eclipse.swt.layout.FillLayout;
+//import org.eclipse.swt.widgets.Canvas;
+//import org.eclipse.swt.widgets.Caret;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Control;
 
 /**
  * Provides information on the organizations, collaborations, and researchers of the ISERN
@@ -53,7 +79,103 @@ public class MyIsern {
       System.out.println("Error in the constructor");
     }
   }
-
+  /**
+   * Adds a text box to the Gui.
+   * @param text to fill in the text box.
+   * @param shell to put the text box in.
+   * @param x location in the shell.
+   * @param y location in the shell.
+   */
+  public static void addTextBoxToGui(String text, Shell shell, int x, int y) {
+    //Code from eclipse documentaion archive 
+    //http://dev.eclipse.org/viewcvs/index.cgi/~checkout~/org.
+    //	eclipse.swt.snippets/src/org/eclipse/swt/snippets/Snippet55.java
+    //with some modification.
+    Text textBox = new Text (shell, SWT.BORDER);
+    GC gc = new GC (textBox);
+    FontMetrics fm = gc.getFontMetrics ();
+    int width = text.length() * fm.getAverageCharWidth ();
+    int height = fm.getHeight ();
+    gc.dispose ();
+    textBox.setSize (textBox.computeSize (width, height));
+    textBox.setLocation(x, y);
+    textBox.insert(text);  
+  }
+  /**
+   * Creates a Gui representation of the organizations, researchers
+   * and their collaborations.
+   * @param collaborations list of.
+   * @param organizations list of.
+   * @param researchers list of.
+   */
+  public static void createGui(Collaborations collaborations,
+                               Organizations organizations,
+                               Researchers researchers) {
+    Display display = new Display ();
+    Shell shell = new Shell (display);
+    shell.setText("myIsern-1-blue baby, cool like the ocean breeze.");
+    shell.setSize(640, 480);
+    int startX = 0;
+    int startY = 50;
+    int curX = startX;
+    int curY = startY;
+    curX += 100;
+    // start with organizations
+    for (Organization org : organizations.getOrganization()) {
+      // create organization text box representation
+      addTextBoxToGui(org.getName(), shell, curX, curY);
+      curX += 250;
+    }
+    //process each control in the shell to find organization text boxes
+    for (Control ctrl : shell.getChildren()) {
+    //check to see if control is a Text 
+    if ("Text {}".equals(ctrl.toString())) {
+      Text textBox = (Text) ctrl;
+      //spawn child researcher text boxes under organization
+      curX = textBox.getLocation().x;
+      curY = textBox.getLocation().y;
+      curX += 20;
+       for (Researcher researcher : researchers.getResearcher()) {
+         if (textBox.getText().equals(researcher.getOrganization())) {
+           curY += textBox.getSize().y + 10;
+           addTextBoxToGui(researcher.getName(), shell, curX, curY);  
+           //draw tree links from organization text box to each 
+           //researcher text box 
+           
+           GC gc = new GC (shell);
+           gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
+           gc.fillRectangle(0, 0, 100, 100);
+           gc.setLineWidth(50);
+           gc.drawLine(0, 20, 50, 20);
+           gc.dispose();
+           
+          }  
+        }
+      }
+    }
+    // process each collaboration
+    //shell.pack ();
+    shell.open ();
+    while (!shell.isDisposed ()) {
+      if (!display.readAndDispatch ()) {
+        display.sleep ();
+      }
+    }
+    display.dispose ();
+  }
+/*
+  public static void textDisplay() {
+	  Display display = new Display ();
+		Shell shell = new Shell (display);
+		Caret caret = new Caret (shell, SWT.NONE);
+		caret.setBounds (10, 10, 2, 32);
+		shell.open ();
+		while (!shell.isDisposed ()) {
+			if (!display.readAndDispatch ()) display.sleep ();
+		}
+		display.dispose ();
+  }
+*/
   /**
    * Passes the command line options given to the program.
    * 
@@ -63,9 +185,13 @@ public class MyIsern {
   public static void main(String[] args) throws Exception {
     MyIsern myIsern = new MyIsern(args);
     /* boolean myIsernRunCheck = */
-
+    //textDisplay();
     myIsern.runMyIsern();
-
+    
+    createGui(myIsern.mixl.getCollaborations(),
+    		  myIsern.mixl.getOrganizations(),
+    		  myIsern.mixl.getResearchers());
+    
     /*
      * if (myIsernRunCheck) { System.out.println("MyIsern Ran successfully."); } else {
      * System.out.println("MyIsern Did not run successfully."); }
@@ -80,8 +206,8 @@ public class MyIsern {
    */
   private void runMyIsern() throws Exception {
     // Prints according to what boolean is true
-    List<String> idList;
-    idList = this.mixl.getUniqueResearchersIdList();
+    Set<String> idList;
+    idList = this.mixl.getUniqueIds();
     System.out.println("heyhey");
     for (String currentIdList : idList) {
       System.out.println("heyhey");
@@ -242,7 +368,7 @@ public class MyIsern {
    * @param idList List of Ids.
    * @return True if a matching Id was found and corresponding table printed.
    */
-  private boolean printCollaboration(String id, List<String> idList) {
+  private boolean printCollaboration(String id, Collection<String> idList) {
     boolean isIdValid = false;
     for (String collaborationId : idList) {
       if (id.equals(collaborationId)) {
@@ -327,7 +453,7 @@ public class MyIsern {
    * @param idList List of Ids.
    * @return True if a matching Id was found and corresponding table printed.
    */
-  private boolean printOrganization(String id, List<String> idList) {
+  private boolean printOrganization(String id, Collection<String> idList) {
     boolean isIdValid = false;
     for (String organizationId : idList) {
       if (id.equals(organizationId)) {
@@ -402,7 +528,7 @@ public class MyIsern {
    * @param idList List of Ids.
    * @return True if a matching Id was found and corresponding table printed.
    */
-  private boolean printResearcher(String id, List<String> idList) {
+  private boolean printResearcher(String id, Collection<String> idList) {
     boolean isIdValid = false;
     for (String collaborationId : idList) {
       if (id.equals(collaborationId)) {
@@ -683,24 +809,24 @@ public class MyIsern {
       
       else if ("-describe".equals(args[0])) {
         try {
-          List<String> idList;
+          Set<String> idList;
           boolean isIdValid = false;
           if ("-researcher".equals(args[1])) {
-            idList = this.mixl.getUniqueResearchersIdList();
+            idList = this.mixl.getUniqueIds();
             isIdValid = printResearcher(args[2], idList);
             if (!isIdValid) {
               System.out.println("ID entered invalid.");
             }
           }
           else if ( "-organization".equals(args[1])) {
-            idList = this.mixl.getUniqueOrganizationsIdList();
+            idList = this.mixl.getUniqueIds();
             isIdValid = printOrganization (args[2], idList);
             if (!isIdValid) {
               System.out.println("ID entered invalid.");
             }
           }
           else if ("-collaboration".equals(args[1])) {
-            idList = this.mixl.getUniqueCollaborationsIdList();
+            idList = this.mixl.getUniqueIds();
             isIdValid = printCollaboration(args[2], idList);
             if (!isIdValid) {
               System.out.println("ID entered invalid.");
