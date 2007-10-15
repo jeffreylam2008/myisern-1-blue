@@ -14,6 +14,7 @@ public class Parser {
   boolean isCollaborationsOn = false;
   boolean isOrganizationsOn = false;
   boolean isResearchersOn = false;
+  boolean isShowGuiOn = false;
   boolean argumentsPass = false;
   int booleanCounter;
   int argsCounter;
@@ -167,6 +168,16 @@ public class Parser {
           argumentsPass = false;
         }
       }
+      else if ("-showGui".equals(args[0])) {
+     	 isShowGuiOn = true; 
+       }
+      else if ("-help".equals(args[0])) {
+     	 printHelp();
+       }
+       else {
+    	  printHelp();
+      }
+    	  
     }
     catch (ArrayIndexOutOfBoundsException aibe) {
       argumentsPass = false;
@@ -197,6 +208,8 @@ public class Parser {
     helpString += "\n  -describe -all Collaborations";
     helpString += "\n  -listOrganizations -collaborationLevelEquals <integer>";
     helpString += "\n  -listOrganizations -collaborationLevelGreaterThan <integer>";
+    helpString += "\n  -showGui";
+    helpString += "\n  -help";
     System.out.println(helpString);
     /*System.out.println("\t-c, --printCollaborations\tprints collaborations.");
     System.out.println("\t-o, --printOrganizations\tprints organizations.");

@@ -1,6 +1,9 @@
 package edu.hawaii.myisern.example;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import junit.framework.TestCase;
 import org.junit.Test;
 //import com.meterware.httpunit.WebConversation;
@@ -19,6 +22,10 @@ import org.junit.Test;
  * @author John Hauge
  */
 public class TestMyIsern extends TestCase {
+  private String organization = "-organization";
+  private String researcher = "-researcher";
+  private String uOfH = "University_of_Hawaii";
+  private String pJohnson = "Philip_Johnson";
   
   /**
    * Tests ListCollaborations
@@ -28,8 +35,8 @@ public class TestMyIsern extends TestCase {
   public void testListCollaborations() throws Exception { 
     MyIsern myisern = new MyIsern(null); 
     String returnTrue = "Should return true";
-    assertTrue(returnTrue, myisern.listCollaborations("-researcher", "Philip_Johnson"));
-    assertTrue(returnTrue, myisern.listCollaborations("-organization", "University_of_Hawaii"));
+    assertTrue(returnTrue, myisern.listCollaborations(this.researcher, pJohnson));
+    assertTrue(returnTrue, myisern.listCollaborations(this.organization, uOfH));
     assertTrue(returnTrue, myisern.listCollaborations("-year", "2006"));
   }
   
@@ -40,8 +47,6 @@ public class TestMyIsern extends TestCase {
   @Test
   public void testCheckArguments() throws Exception {
     String year = "-year";
-    String organization = "-organization";
-    String researcher = "-researcher";
     String returnTrue = "Should return true";
     String returnFalse = "Should Fail";
     String listCollab = "-listCollaborations";
@@ -80,29 +85,29 @@ public class TestMyIsern extends TestCase {
     assertFalse(returnFalse, myisern.checkArguments(args));
     
     args[0] = listCollab;
-    args[1] = organization;
+    args[1] = this.organization;
     args[2] = "";
     assertTrue(returnTrue, myisern.checkArguments(args));
     args[0] = listCollab;
-    args[1] = organization;
+    args[1] = this.organization;
     args[2] = "University_of_Hawaii";
     assertTrue(returnTrue, myisern.checkArguments(args));
     
     args[0] = listCollab;
-    args[1] = researcher;
-    args[2] = "Philip_Johnson";
+    args[1] = this.researcher;
+    args[2] = pJohnson;
     assertTrue(returnTrue, myisern.checkArguments(args));
     args[0] = listCollab;
-    args[1] = researcher;
+    args[1] = this.researcher;
     args[2] = "";
     assertTrue(returnTrue, myisern.checkArguments(args));
     
     args[0] = describe;
-    args[1] = researcher;
-    args[2] = "Philip_Johnson";
+    args[1] = this.researcher;
+    args[2] = pJohnson;
     assertTrue(returnTrue, myisern.checkArguments(args));
     args[0] = describe;
-    args[1] = researcher;
+    args[1] = this.researcher;
     args[2] = "";
     assertTrue(returnTrue, myisern.checkArguments(args));
     args[0] = describe;
@@ -111,11 +116,11 @@ public class TestMyIsern extends TestCase {
     assertFalse(returnFalse, myisern.checkArguments(args));
     
     args[0] = describe;
-    args[1] = organization;
-    args[2] = "University_of_Hawaii";
+    args[1] = this.organization;
+    args[2] = this.uOfH;
     assertTrue(returnTrue, myisern.checkArguments(args));
     args[0] = describe;
-    args[1] = organization;
+    args[1] = this.organization;
     args[2] = "";
     assertTrue(returnTrue, myisern.checkArguments(args));
     
@@ -172,5 +177,133 @@ public class TestMyIsern extends TestCase {
 
 
   }
-  
+  /**
+   * Tests main method with different argument.
+   * 
+   * @throws Exception if problem occurs.
+   */
+  @Test
+  public void testArguments() throws Exception {
+	System.out.println("******************testArguments******************");
+	Set<String> testArgs = new HashSet<String>();
+	testArgs.add("0");
+	testArgs.add("1");
+	testArgs.add("2");
+	testArgs.add("99999999999999999999999999999999999999");
+	testArgs.add("abc");
+	testArgs.add("123");
+	testArgs.add("-123");
+	testArgs.add("*-/");
+	testArgs.add("*-/123");
+	testArgs.add("abc*-/");
+	testArgs.add("@|&");
+	
+	String[] args = new String[0];
+	MyIsern.main(args);
+	
+	args = new String[3];
+    args[0] = "-describe";
+    args[1] = "-researcher";
+    args[2] = "Philip Johnson";
+    MyIsern.main(args);
+    args[2] = pJohnson;
+    MyIsern.main(args);
+    args[2] = "Philip_Frankenstien";
+    MyIsern.main(args);
+    for (String testArg : testArgs) {
+    	args[2] = testArg;
+	    MyIsern.main(args);
+    }
+    
+    
+    args[1] = "-organization";
+    args[2] = "University of Hawaii";
+    MyIsern.main(args);
+    args[2] = this.uOfH;
+    MyIsern.main(args);
+    args[2] = "University_of_Peanutbutter_Island";
+    for (String testArg : testArgs) {
+    	args[2] = testArg;
+	    MyIsern.main(args);
+    }
+    
+    args[1] = "-collaboration";
+    args[2] = "UM-UH-HPCS";
+    MyIsern.main(args);
+    args[2] = "UM-UH-hpcs";
+    MyIsern.main(args);
+    args[2] = "Applejacks";
+    MyIsern.main(args);
+    for (String testArg : testArgs) {
+    	args[2] = testArg;
+	    MyIsern.main(args);
+    }
+    
+    args[1] = "-all";
+    args[2] = "Researchers";
+    MyIsern.main(args);
+    args[2] = "researchers";
+    MyIsern.main(args);
+    args[2] = "Organizations";
+    MyIsern.main(args);
+    args[2] = "organizations";
+    MyIsern.main(args);
+    args[2] = "Collaborations";
+    MyIsern.main(args);
+    args[2] = "collaborations";
+    MyIsern.main(args);
+    args[2] = "fuddy_duddies";
+    MyIsern.main(args);
+    for (String testArg : testArgs) {
+    	args[2] = testArg;
+	    MyIsern.main(args);
+    }
+    
+    
+    args[0] = "-listOrganizations";
+    args[1] = "-collaborationLevelEquals";
+    for (String testArg : testArgs) {
+    	args[2] = testArg;
+	    MyIsern.main(args);
+    }
+    
+    args[1] = "-collaborationLevelGreaterThan";
+    for (String testArg : testArgs) {
+    	args[2] = testArg;
+	    MyIsern.main(args);
+    }
+    
+    args[0] = "-listCollaborations ";
+    args[1] = "-organization";
+    args[2] = "University of Hawaii";
+    MyIsern.main(args);
+    args[2] = this.uOfH;
+    MyIsern.main(args);
+    args[2] = "University_of_Peanutbutter_Island";
+    for (String testArg : testArgs) {
+    	args[2] = testArg;
+	    MyIsern.main(args);
+    }
+    
+    args[1] = "-year";
+    for (String testArg : testArgs) {
+    	args[2] = testArg;
+	    MyIsern.main(args);
+    }
+    args[1] = "-researcher";
+    args[2] = "Philip Johnson";
+    MyIsern.main(args);
+    args[2] = pJohnson;
+    MyIsern.main(args);
+    args[2] = "Philip_Frankenstien";
+    MyIsern.main(args);
+    for (String testArg : testArgs) {
+    	args[2] = testArg;
+	    MyIsern.main(args);
+    }
+    
+    assertNotNull("Main method should pass.", args);
+    System.out.println("**********************************************");
+    
+  }
 }
