@@ -1,11 +1,12 @@
 package edu.hawaii.myisern.example;
 
-import java.util.HashMap;
-import java.util.Iterator;
+//import java.util.HashMap;
+//import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+//import java.util.Map;
+//import java.util.Set;
 import java.math.BigInteger;
+//import java.util.List;
 import edu.hawaii.myisern.collaborations.jaxb.CollaboratingOrganizations;
 import edu.hawaii.myisern.collaborations.jaxb.Collaboration;
 import edu.hawaii.myisern.collaborations.jaxb.CollaborationTypes;
@@ -19,11 +20,6 @@ import edu.hawaii.myisern.organizations.jaxb.ResearchKeywords;
 import edu.hawaii.myisern.researchers.jaxb.Researcher;
 import edu.hawaii.myisern.researchers.jaxb.Researchers;
 
-//import com.meterware.httpunit.WebConversation;
-//import com.meterware.httpunit.WebLink;
-//import com.meterware.httpunit.WebResponse;
-
-
 /**
  * Provides information on the organizations, collaborations, and researchers of the ISERN
  * community.
@@ -35,9 +31,13 @@ import edu.hawaii.myisern.researchers.jaxb.Researchers;
 public class MyIsern {
   /** Holds values passed from the command line */
   private String[] commandLineArgs;
-  private MyIsernXmlLoader mixl;
+  MyIsernXmlLoader mixl;
   private String newLineNewTab = "\n\t";
   private String nameTableField = "\nName: ";
+  boolean isCollaborationsOn = false;
+  boolean isOrganizationsOn = false;
+  boolean isResearchersOn = false;
+  boolean argumentsPass = false;
 
   /**
    * Initializes command line options.
@@ -46,6 +46,12 @@ public class MyIsern {
    */
   MyIsern(String[] args) {
     this.commandLineArgs = args;
+    try {
+      this.mixl = new MyIsernXmlLoader();
+    }
+    catch (Exception e) {
+      System.out.println("Error in the constructor");
+    }
   }
 
   /**
@@ -55,165 +61,139 @@ public class MyIsern {
    * @throws Exception if there is an exception
    */
   public static void main(String[] args) throws Exception {
-    
     MyIsern myIsern = new MyIsern(args);
-    boolean myIsernRunCheck = myIsern.runMyIsern();
-    
-    if (myIsernRunCheck) {
-      System.out.println("MyIsern Ran successfully.");
-    }
-    else {
-      System.out.println("MyIsern Did not run successfully.");
-    } 
+    /* boolean myIsernRunCheck = */
+
+    myIsern.runMyIsern();
+
+    /*
+     * if (myIsernRunCheck) { System.out.println("MyIsern Ran successfully."); } else {
+     * System.out.println("MyIsern Did not run successfully."); }
+     */
   }
 
   /**
    * Checks for user input and then runs the print methods accordingly. If the user does not enter
    * any arguments, nothing will be printed out.
    * 
-   * @return boolean Returns true if no errors were encountered.
    * @throws Exception If XML data did not load properly.
    */
-  private boolean runMyIsern() throws Exception {
+  private void runMyIsern() throws Exception {
     // Prints according to what boolean is true
-    this.mixl = new MyIsernXmlLoader();
-    
-    boolean pC = printCollaboration("UM-UH-HPCS", this.mixl.getUniqueIds());
-    boolean pO = printOrganization("University_of_Hawaii", this.mixl.getUniqueIds());
-    boolean pR = printResearcher("Philip_Johnson", this.mixl.getUniqueIds());
-    
-    return true;
+    List<String> idList;
+    idList = this.mixl.getUniqueResearchersIdList();
+    System.out.println("heyhey");
+    for (String currentIdList : idList) {
+      System.out.println("heyhey");
+      System.out.println(currentIdList);
+    }
+    checkArguments(this.commandLineArgs);
+
+    /*
+    else {
+      if (parser.isCollaborationsOn) {
+        this.printCollaborations(mixl.getCollaborations());
+      }
+      if (parser.isOrganizationsOn) {
+        this.printOrganizations(mixl.getOrganizations());
+      }
+      if (parser.isResearchersOn) {
+        this.printResearchers(mixl.getResearchers());
+      }
+    } */
+    // @return boolean Returns true if no errors were encountered.
+    // return true;
   }
 
   /**
-   * Lists organizations with collaboration levels greater than what the user specifies.
+   * Lists organizations with collaboration levels equal or greater than what user specifies.
    * 
-   * @param collaborationNumber Contains the number of collaborations user has specified.
-   * @return true If Organizations were found with values equal to specified number.
+   * @param mixl containing the loader.
+   * @param collaborationLevel containing the type of level the user wants listed.
+   * @param collaborationNumber containing the number of collaborations user has specified.
    */
-  public boolean listOrganizationsEquals(int collaborationNumber) {
-    Map<String, Integer> collabOrganizations = new HashMap<String, Integer>();
-    
-    for (Collaboration currentCollaboration : this.mixl.getCollaborations().getCollaboration()) {
+  public void listOrganizations(MyIsernXmlLoader mixl, String collaborationLevel,
+      int collaborationNumber) {
+    System.out.println("here to pass verify");
+    /*List<Collaboration> collaborationList;
+    List<String> stringList;
+    collaborationList = mixl.getCollaborations();
+    Map<String, Integer> collabOrganizations = new HashMap();
+    /*
+     * Iterator hashMapIterator = collabOrganizations.keySet().iterator(); Set hashMapSet =
+     * collabOrganizations.entrySet();
+     
+    int hashValue = 0;
+
+    for (Collaboration currentCollab : collaborationList) {
       CollaboratingOrganizations collaboratingOrganizations;
-      collaboratingOrganizations = currentCollaboration.getCollaboratingOrganizations();
-      List<String> stringList = collaboratingOrganizations.getCollaboratingOrganization();
-
-      for (String currentOrg : stringList) {
-        if (collabOrganizations.containsKey(currentOrg)) {
-          int valueFrequency;
-          valueFrequency = collabOrganizations.get(currentOrg);
-          collabOrganizations.put(currentOrg, ++valueFrequency);
+      collaboratingOrganizations = currentCollab.getCollaboratingOrganizations();
+      stringList = collaboratingOrganizations.getCollaboratingOrganization();
+      for (String currentCollabOrg : stringList) {
+        if (collabOrganizations.containsKey(currentCollabOrg)) {
+          hashValue = (Integer) collabOrganizations.get(currentCollabOrg);
+          collabOrganizations.put(currentCollabOrg, hashValue++);
         }
-        else if (!collabOrganizations.containsKey(currentOrg)) {
-          collabOrganizations.put(currentOrg, 1);
+        else {
+          collabOrganizations.put(currentCollabOrg, 1);
         }
       }
     }
-    
-    int organizationCount = 0;
-    System.out.println("\nOrganizations involved in " + collaborationNumber + " collaborations.");
-    
-    Iterator<Map.Entry<String, Integer>> organizationIterator;
-    organizationIterator = collabOrganizations.entrySet().iterator();
-    while (organizationIterator.hasNext()) {
-      Map.Entry<String, Integer> organizationEntry = organizationIterator.next();
 
-      if (organizationEntry.getValue() == collaborationNumber) {
-        System.out.println(organizationEntry.getKey());
-        organizationCount++;
+    Set<Map.Entry<String, Integer>> hashMapSet = collabOrganizations.entrySet();
+    for (Map.Entry<String, Integer> currentHash : hashMapSet) {
+      Integer currValue = currentHash.getValue();
+      if (currValue == (Integer) collaborationNumber) {
+        System.out.println(currValue);
       }
     }
-    
-    if (organizationCount == 0) {
-      System.out.println("No organizations found.");
-      return false;
-    }
-    else {
-      return true;
-    }
-  }
-  
-  /**
-   * Lists organizations with collaboration levels equal to what the user specifies.
-   * 
-   * @param collaborationNumber Contains the number of collaborations user has specified.
-   * @return true If Organizations were found with values greater than specified number
-   */
-  public boolean listOrganizationsGreaterThan(int collaborationNumber) {
-    Map<String, Integer> collabOrganizations = new HashMap<String, Integer>();
-    
-    for (Collaboration currentCollaboration : this.mixl.getCollaborations().getCollaboration()) {
-      CollaboratingOrganizations collaboratingOrganizations;
-      collaboratingOrganizations = currentCollaboration.getCollaboratingOrganizations();
-      List<String> stringList = collaboratingOrganizations.getCollaboratingOrganization();
 
-      for (String currentOrg : stringList) {
-        if (collabOrganizations.containsKey(currentOrg)) {
-          int valueFrequency;
-          valueFrequency = collabOrganizations.get(currentOrg);
-          collabOrganizations.put(currentOrg, ++valueFrequency);
-        }
-        else if (!collabOrganizations.containsKey(currentOrg)) {
-          collabOrganizations.put(currentOrg, 1);
-        }
-      }
-    }
-    
-    int organizationCount = 0;
-    System.out.println("\nOrganizations involved in greater than" + collaborationNumber + 
-        " collaborations.");
-    
-    Iterator<Map.Entry<String, Integer>> organizationIterator;
-    organizationIterator = collabOrganizations.entrySet().iterator();
-    while (organizationIterator.hasNext()) {
-      Map.Entry<String, Integer> organizationEntry = organizationIterator.next();
+    if ("-collaborationLevelEquals".equals(collaborationLevel)) {
 
-      if (organizationEntry.getValue() > collaborationNumber) {
-        System.out.println(organizationEntry.getKey());
-        organizationCount++;
-      }
     }
-    
-    if (organizationCount == 0) {
-      System.out.println("No organizations found.");
-      return false;
-    }
-    else {
-      return true;
-    }
+    else if ("-collaborationLevelGreaterThan".equals(collaborationLevel)) {
+      System.out.println("greaterThan");
+    } */
   }
 
   /**
    * Lists collaborations for given organzation, researcher, or year.
    * 
-   * @param mixl containing Xml Loader.
    * @param collaborationType containing what user wants to list.
    * @param yearOrId containing the uniqueId or the year the user wants to list.
+   * @return boolean set true if collaborations exist for given field.
    */
-  public void listCollaborations(MyIsernXmlLoader mixl, String collaborationType, String yearOrId) {
+  public boolean listCollaborations(String collaborationType, String yearOrId) {
 
     List<Collaboration> collaborationList;
     List<String> stringList;
-    String organizationsWithCollaborations = "";
-
-    collaborationList = mixl.getListCollaborations();
+    String description = "\nDescription";
+    boolean collaborationsExist = false;
+    collaborationList = this.mixl.getListCollaborations();
     if ("-organization".equals(collaborationType)) {
+      String orgWithCollab = "";
+      System.out.println("--- Collaborations for: " + yearOrId.replace('_', ' '));
+      
       for (Collaboration currentCollab : collaborationList) {
         CollaboratingOrganizations collaboratingOrganizations;
         collaboratingOrganizations = currentCollab.getCollaboratingOrganizations();
-        stringList = collaboratingOrganizations.getCollaboratingOrganization();
+        stringList = collaboratingOrganizations.getCollaboratingOrganization();  
         for (String currentOrg : stringList) {
           if (yearOrId.replace('_', ' ').equals(currentOrg)) {
-            System.out.println(currentCollab.getName());
+            orgWithCollab += "Collaboration: " + currentCollab.getName();
+            orgWithCollab += description + currentCollab.getDescription() + "\n";
+            collaborationsExist = true;
           }
         }
       }
-      System.out.println(organizationsWithCollaborations);
+      System.out.println(orgWithCollab);
     }
     else if ("-researcher".equals(collaborationType)) {
       List<Organization> organizationList;
-      organizationList = mixl.getListOrganizations();
+      organizationList = this.mixl.getListOrganizations();
+      
+      String researchWithCollab = "";
+      System.out.println("--- Collaborations for: " + yearOrId.replace('_', ' '));
       for (Collaboration currentCollab : collaborationList) {
         CollaboratingOrganizations collaboratingOrganizations;
         collaboratingOrganizations = currentCollab.getCollaboratingOrganizations();
@@ -222,26 +202,36 @@ public class MyIsern {
           for (Organization currentOrganization : organizationList) {
             if (currentOrganization.getName().equals(currentOrg)
                 && currentOrganization.getContact().equals(yearOrId.replace('_', ' '))) {
-              System.out.println(currentCollab.getName());
+              researchWithCollab += "Collaboration: " + currentCollab.getName();
+              researchWithCollab += description + currentCollab.getDescription() + "\n";
+              collaborationsExist = true;
             }
           }
         }
       }
     }
     else if ("-year".equals(collaborationType)) {
+      
       List<BigInteger> bigIntList;
+      
+      String yearWithCollab = "";
+      System.out.println("--- Collaborations for year: " + yearOrId.replace('_', ' '));
       for (Collaboration currentCollab : collaborationList) {
         Years years;
         years = currentCollab.getYears();
         bigIntList = years.getYear();
 
-        for (BigInteger currentYears : bigIntList) {
-          if (currentYears.toString().equals(yearOrId)) {
-            System.out.println(currentCollab.getName());
+        for (BigInteger currentYear : bigIntList) {
+          if (currentYear.toString().equals(yearOrId)) {
+            yearWithCollab += "Collaboration: " + currentCollab.getName();
+            yearWithCollab += description + currentCollab.getDescription() + "\n";
+            collaborationsExist = true;
           }
         }
       }
     }
+    
+    return collaborationsExist;
   }
 
   
@@ -252,7 +242,7 @@ public class MyIsern {
    * @param idList List of Ids.
    * @return True if a matching Id was found and corresponding table printed.
    */
-  private boolean printCollaboration(String id, Set<String> idList) {
+  private boolean printCollaboration(String id, List<String> idList) {
     boolean isIdValid = false;
     for (String collaborationId : idList) {
       if (id.equals(collaborationId)) {
@@ -266,7 +256,7 @@ public class MyIsern {
       sb.append("\n\n + + + + + + + + + + + + + COLLABORATION + + + + + + + + + + + + +");
       
       for (Collaboration current : this.mixl.getCollaborations().getCollaboration()) {
-        if (id.replace("_", " ").equals(current.getName())) {
+        if (id.equals(current.getName())) {
           List<String> stringList;
           List<BigInteger> bigIntList;          
             
@@ -321,7 +311,6 @@ public class MyIsern {
           sb.append("\n + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +");
           System.out.println(sb.toString());
         }
-        break;
       }
       return true;
     }
@@ -338,7 +327,7 @@ public class MyIsern {
    * @param idList List of Ids.
    * @return True if a matching Id was found and corresponding table printed.
    */
-  private boolean printOrganization(String id, Set<String> idList) {
+  private boolean printOrganization(String id, List<String> idList) {
     boolean isIdValid = false;
     for (String organizationId : idList) {
       if (id.equals(organizationId)) {
@@ -352,7 +341,7 @@ public class MyIsern {
       sb.append("\n\n========================= ORGANIZATION ===========================");
       
       for (Organization current : this.mixl.getOrganizations().getOrganization()) {
-        if (id.replace("_", " ").equals(current.getName())) {
+        if (id.equals(current.getName())) {
           List<String> stringList;
 
           sb.append(this.nameTableField);
@@ -397,7 +386,6 @@ public class MyIsern {
           sb.append("\n==================================================================\n");
           System.out.print(sb.toString());
         }
-        break;
       }
       return true;
     }
@@ -414,10 +402,11 @@ public class MyIsern {
    * @param idList List of Ids.
    * @return True if a matching Id was found and corresponding table printed.
    */
-  private boolean printResearcher(String id, Set<String> idList) {
+  private boolean printResearcher(String id, List<String> idList) {
     boolean isIdValid = false;
     for (String collaborationId : idList) {
       if (id.equals(collaborationId)) {
+        System.out.println("Found");
         isIdValid = true;
       }
     }
@@ -428,7 +417,7 @@ public class MyIsern {
       sb.append("\n......................... RESEARCHERS ............................ \n");
       
       for (Researcher currentResearcher : this.mixl.getResearchers().getResearcher()) {
-        if (id.replace("_", " ").equals(currentResearcher.getName())) {
+        if (id.equals(currentResearcher.getName())) {
           sb.append(this.nameTableField);
           sb.append(currentResearcher.getName());
 
@@ -445,7 +434,6 @@ public class MyIsern {
           sb.append(currentResearcher.getEmail());
           sb.append("\n.................................................................. \n");
           System.out.print(sb.toString());
-          break;
         }
       }
       return true;
@@ -617,5 +605,166 @@ public class MyIsern {
       sb.append("\n.................................................................. \n");
     }
     System.out.print(sb.toString());
-  } 
+  }
+  
+  
+  /**
+   * Checks for valid arguments and calls corresponding print methods.
+   * @param args containing command Line arguments.
+   * @return argumentsPass if first argument given is valid.
+   */
+  public boolean checkArguments (String[] args) {
+    boolean argumentsPass = this.argumentsPass;
+
+    try {
+      if ("-listCollaborations".equals(args[0])) {
+        boolean collaborationsExist = false;
+        try {
+          if ("-organization".equals(args[1])) {
+              collaborationsExist = listCollaborations(args[1], args[2]);
+              if (!collaborationsExist) {
+                System.out.println("There were no collaborations found for " + 
+                    args[2].replace('_', ' '));
+              }
+              argumentsPass = true;
+            
+          }
+          else if ("-year".equals(args[1])) {
+            int year = 0;
+            try {
+              if (args[2].isEmpty()) {
+                System.out.println("Year field empty.  Please specify a year");
+              }
+              else {
+                year = Integer.parseInt(args[2]);
+                if (year >= 1990 && year <= 2010) {
+                  if (args[2].isEmpty()) {
+                    System.out.println("Empty third argument for -organization");
+                  }
+                  else {
+                    collaborationsExist = listCollaborations(args[1], args[2]);
+                    if (!collaborationsExist) {
+                      System.out.println("There were no collaborations found for " + args[2] + 
+                          args[2].replace('_', ' '));
+                    }
+                    //argumentsPass = true;
+                  }
+                }
+                else {
+                  System.out.println("Year specified needs to fall between 1990 and 2010.");
+                }
+              }
+            }
+            catch (Exception e) {
+              System.out.println("Year provided invalid.");
+              argumentsPass = false;
+            }
+          }
+          else if ("-researcher".equals(args[1])) {
+            collaborationsExist = listCollaborations (args[1], args[2]);
+            if (!collaborationsExist) {
+              System.out.println("There were no collaborations found for " + args[2] + 
+                  args[2].replace('_', ' '));
+            }
+            //argumentsPass = true;
+          }
+          else {
+            System.out.println("Invalid Second Argument for -listCollaborations");
+            System.out.println("Valid Second Argument for -listCollaborations:");
+            System.out.println("\t-organization, -year, -researcher");
+            argumentsPass = false;
+          }
+        }
+        catch (Exception e) {
+          System.out.println("Invalid Second argument");
+          System.out.println(e.getMessage());
+        }
+      }
+      
+      else if ("-describe".equals(args[0])) {
+        try {
+          List<String> idList;
+          boolean isIdValid = false;
+          if ("-researcher".equals(args[1])) {
+            idList = this.mixl.getUniqueResearchersIdList();
+            isIdValid = printResearcher(args[2], idList);
+            if (!isIdValid) {
+              System.out.println("ID entered invalid.");
+            }
+          }
+          else if ( "-organization".equals(args[1])) {
+            idList = this.mixl.getUniqueOrganizationsIdList();
+            isIdValid = printOrganization (args[2], idList);
+            if (!isIdValid) {
+              System.out.println("ID entered invalid.");
+            }
+          }
+          else if ("-collaboration".equals(args[1])) {
+            idList = this.mixl.getUniqueCollaborationsIdList();
+            isIdValid = printCollaboration(args[2], idList);
+            if (!isIdValid) {
+              System.out.println("ID entered invalid.");
+            }
+          }
+          else if ("-all".equals(args[1])) {
+            try {
+              if ("Researchers".equals(args[2])) {
+                printResearchers(this.mixl.getResearchers());
+              }
+              else if ("Organizations".equals(args[2])) {
+               printOrganizations(this.mixl.getOrganizations()); 
+              }
+              else if ("Collaborations".equals(args[2])) {
+                printCollaborations(this.mixl.getCollaborations());
+              }
+              else {
+                System.out.println("Last argument for '-all' invalid.");
+                argumentsPass = false;
+              }
+            }
+            catch (Exception e) {
+              System.out.println(e.getMessage());
+              argumentsPass = false;
+            }
+          }
+          else {
+            argumentsPass = false;
+          }
+        }
+        catch (Exception e) {
+          System.out.println("Second Argument Error");
+          argumentsPass = false;
+        }
+      } 
+      
+      else if ("-listOrganizations".equals((args[0]))) {
+        if ("-collaborationLevelEquals".equals(args[1])
+            || ("-collaborationLevelGreaterThan".equals(args[1]))) {
+          //int numberOfCollabs = 0;
+          
+          try {
+            int numberOfCollabs = Integer.parseInt(args[2]);
+          }
+          catch (Exception e) {
+            System.out.println("Invalid third argument");
+            argumentsPass = false;
+          }
+        }
+        else {
+          System.out.println("Second Argument error.");
+          argumentsPass = false;
+        }
+      }
+      else {
+        System.out.println("Error:  Invalid First Argument");
+        //System.out.print("Valid First Arguments:");
+        //System.out.println("\t-listCollaborations, -describe, -listOrganizations");
+      }
+    }
+    catch (Exception e) {
+      System.out.println("Error on first argument passed");
+      argumentsPass = false;
+    }
+    return argumentsPass;
+  }
 }
