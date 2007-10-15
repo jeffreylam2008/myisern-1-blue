@@ -1,4 +1,4 @@
-#summary Guide for the myisern-xml program.
+#summary User guide for the MyISERN-XML program.
 
 = Introduction =
 This page contains information on using the myisern-xml program.
