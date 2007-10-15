@@ -1,0 +1,11 @@
+#summary ReleaseNotes for the MyISERN-XML Program.
+
+= Introduction =
+Contains documentation on milestones for the MyISERN-XML Program.
+
+= October 15, 2007 Milestone =
+ * Verify all data in XML files are valid.
+ * Separated code that did not belong to other classes.
+ * More command-line arguments to view data in XML files in different ways.
+ * Improved testing.
+ * Some GUI implementation started.
