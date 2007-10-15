@@ -15,7 +15,7 @@ import org.junit.Test;
  * @author Philip Johnson
  * @author Marcius Bagwan
  * @author Sonwright Gomez
- * @author Johne Hauge
+ * @author John Hauge
  */
 public class TestMyIsernXmlLoader extends TestCase {
   /**
