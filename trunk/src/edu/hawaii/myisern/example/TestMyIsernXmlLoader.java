@@ -1,11 +1,10 @@
 package edu.hawaii.myisern.example;
 
 import junit.framework.TestCase;
-import org.junit.Test;
-//import com.meterware.httpunit.WebConversation;
+import org.junit.Test; //import com.meterware.httpunit.WebConversation;
 //import com.meterware.httpunit.WebLink;
 //import com.meterware.httpunit.WebResponse;
-
+import edu.hawaii.myisern.example.MyIsernXmlLoader;
 
 //import edu.hawaii.myisern.example.MyIsernXmlLoader;
 
@@ -32,11 +31,6 @@ public class TestMyIsernXmlLoader extends TestCase {
     assertTrue("Check Collaborations", loader.getCollaborationsXml().contains("<Collaborations>"));
   }
 
-  
-  
-  
-  
-  
   /**
    * Tests web link validation method.
    * 
@@ -45,10 +39,10 @@ public class TestMyIsernXmlLoader extends TestCase {
   @Test
   public void testisLinkValidMethod() throws Exception {
     MyIsernXmlLoader mixl = new MyIsernXmlLoader();
-    assertTrue("known website: http://www.hawaii.edu", 
-    		   mixl.isLinkValid("http://www.hawaii.edu"));
-    assertFalse("fake website: http://myfake.invalid.website", 
-    		    mixl.isLinkValid("http://myfake.invalid.website"));
+    assertTrue("known website: http://www.hawaii.edu", mixl.isLinkValid("http://www.hawaii.edu"));
+    assertFalse("fake website: http://myfake.invalid.website", mixl
+        .isLinkValid("http://myfake.invalid.website"));
+    assertFalse("no website entered", mixl.isLinkValid(""));
   }
-  
+
 }
