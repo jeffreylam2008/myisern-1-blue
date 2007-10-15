@@ -1,0 +1,47 @@
+#summary Guide for the myisern-xml program.
+
+= Introduction =
+This page contains information on using the myisern-xml program.
+
+= Installation =
+Download the latest release from the Downloads page and extract the folder to any directory you wish.
+
+= Running The Program =
+In order to run the program, you will need to use the command-line and invoke it with the following command and only one sequence of arguments may be used per invokation:
+
+{{{java -jar myisern-blue.jar <argument>}}}
+
+*Valid Arguments:*
+
+_Note on {{{<uniqueID>}}}: In order to get successful results, use underscores instead of spaces for names you are searching for. e.g "Philip_Johnson" and not "Philip Johnson"_
+
+
+These arguments return tables listing of the collaborations known for the given organization, year, or researcher.  Note that the uniqueID specified must be a valid uniqueID and a uniqueID for the given type (organization or researcher).
+
+{{{-listCollaborations -organization <uniqueID>}}}
+
+{{{-listCollaborations -year <year>}}}
+
+{{{-listCollaboraitons -researcher <uniqueID>}}}
+
+
+These commands all produce tables that provide a summary description of the given researcher, organization, or collaboration.  The <uniqueID> argument, if required, must be valid and associated with the specified type. The "-all" argument simply list all instances of the specifed type.
+
+{{{-describe -researcher <uniqueID>}}}
+
+{{{-describe -organization <uniqueID>}}}
+
+{{{-describe -collaboration <uniqueID>}}}
+
+{{{-describe -all Researchers}}}
+
+{{{-describe -all Organizations}}}
+
+{{{-describe -all Collaborations}}}
+
+
+These commands list all organizations engaged in the specified number of collaborations. An organization engaged in exactly two collaborations would be listed in -collaborationLevelEquals 2, or -collaborationLevelGreaterThan 1.
+
+{{{-listOrganizations -collaborationLevelEquals <integer>}}}
+
+{{{-listOrganizations -collaborationLevelGreaterThan <integer>}}}
