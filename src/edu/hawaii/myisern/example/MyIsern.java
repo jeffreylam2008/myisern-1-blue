@@ -1,8 +1,7 @@
 package edu.hawaii.myisern.example;
 
 import java.util.HashMap;
-import java.util.Iterator;
-//import java.util.Collection;
+import java.util.Iterator; //import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,13 +18,10 @@ import edu.hawaii.myisern.organizations.jaxb.Organizations;
 import edu.hawaii.myisern.organizations.jaxb.ResearchKeywords;
 import edu.hawaii.myisern.researchers.jaxb.Researcher;
 import edu.hawaii.myisern.researchers.jaxb.Researchers;
-
 //import com.meterware.httpunit.WebConversation;
 //import com.meterware.httpunit.WebLink;
 //import com.meterware.httpunit.WebResponse;
-
-import org.eclipse.swt.SWT;
-//import org.eclipse.swt.SWTException;
+import org.eclipse.swt.SWT; //import org.eclipse.swt.SWTException;
 //import org.eclipse.swt.custom.StyledText;
 //import org.eclipse.swt.events.PaintEvent;
 //import org.eclipse.swt.events.PaintListener;
@@ -33,8 +29,7 @@ import org.eclipse.swt.SWT;
 ////import org.eclipse.swt.graphics.Font;
 //import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.FontMetrics;
-import org.eclipse.swt.graphics.GC;
-//import org.eclipse.swt.graphics.Path;
+import org.eclipse.swt.graphics.GC; //import org.eclipse.swt.graphics.Path;
 //import org.eclipse.swt.graphics.Point;
 //import org.eclipse.swt.layout.FillLayout;
 //import org.eclipse.swt.widgets.Canvas;
@@ -77,6 +72,7 @@ public class MyIsern {
       System.out.println("Error in the constructor");
     }
   }
+
   /**
    * Adds a text box to the Gui.
    * @param text to fill in the text box.
@@ -89,16 +85,17 @@ public class MyIsern {
     //http://dev.eclipse.org/viewcvs/index.cgi/~checkout~/org.
     //	eclipse.swt.snippets/src/org/eclipse/swt/snippets/Snippet55.java
     //with some modification.
-    Text textBox = new Text (shell, SWT.BORDER);
-    GC gc = new GC (textBox);
-    FontMetrics fm = gc.getFontMetrics ();
-    int width = text.length() * fm.getAverageCharWidth ();
-    int height = fm.getHeight ();
-    gc.dispose ();
-    textBox.setSize (textBox.computeSize (width, height));
+    Text textBox = new Text(shell, SWT.BORDER);
+    GC gc = new GC(textBox);
+    FontMetrics fm = gc.getFontMetrics();
+    int width = text.length() * fm.getAverageCharWidth();
+    int height = fm.getHeight();
+    gc.dispose();
+    textBox.setSize(textBox.computeSize(width, height));
     textBox.setLocation(x, y);
-    textBox.insert(text);  
+    textBox.insert(text);
   }
+
   /**
    * Creates a Gui representation of the organizations, researchers
    * and their collaborations.
@@ -106,11 +103,10 @@ public class MyIsern {
    * @param organizations list of.
    * @param researchers list of.
    */
-  public static void createGui(Collaborations collaborations,
-                               Organizations organizations,
-                               Researchers researchers) {
-    Display display = new Display ();
-    Shell shell = new Shell (display);
+  public static void createGui(Collaborations collaborations, Organizations organizations,
+      Researchers researchers) {
+    Display display = new Display();
+    Shell shell = new Shell(display);
     shell.setText("myIsern-1-blue baby, cool like the ocean breeze.");
     shell.setSize(640, 480);
     int startX = 0;
@@ -126,54 +122,55 @@ public class MyIsern {
     }
     //process each control in the shell to find organization text boxes
     for (Control ctrl : shell.getChildren()) {
-    //check to see if control is a Text 
-    if ("Text {}".equals(ctrl.toString())) {
-      Text textBox = (Text) ctrl;
-      //spawn child researcher text boxes under organization
-      curX = textBox.getLocation().x;
-      curY = textBox.getLocation().y;
-      curX += 20;
-       for (Researcher researcher : researchers.getResearcher()) {
-         if (textBox.getText().equals(researcher.getOrganization())) {
-           curY += textBox.getSize().y + 10;
-           addTextBoxToGui(researcher.getName(), shell, curX, curY);  
-           //draw tree links from organization text box to each 
-           //researcher text box 
-           
-           GC gc = new GC (shell);
-           gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
-           gc.fillRectangle(0, 0, 100, 100);
-           gc.setLineWidth(50);
-           gc.drawLine(0, 20, 50, 20);
-           gc.dispose();
-           
-          }  
+      //check to see if control is a Text 
+      if ("Text {}".equals(ctrl.toString())) {
+        Text textBox = (Text) ctrl;
+        //spawn child researcher text boxes under organization
+        curX = textBox.getLocation().x;
+        curY = textBox.getLocation().y;
+        curX += 20;
+        for (Researcher researcher : researchers.getResearcher()) {
+          if (textBox.getText().equals(researcher.getOrganization())) {
+            curY += textBox.getSize().y + 10;
+            addTextBoxToGui(researcher.getName(), shell, curX, curY);
+            //draw tree links from organization text box to each 
+            //researcher text box 
+
+            GC gc = new GC(shell);
+            gc.setForeground(display.getSystemColor(SWT.COLOR_BLACK));
+            gc.fillRectangle(0, 0, 100, 100);
+            gc.setLineWidth(50);
+            gc.drawLine(0, 20, 50, 20);
+            gc.dispose();
+
+          }
         }
       }
     }
     // process each collaboration
     //shell.pack ();
-    shell.open ();
-    while (!shell.isDisposed ()) {
-      if (!display.readAndDispatch ()) {
-        display.sleep ();
+    shell.open();
+    while (!shell.isDisposed()) {
+      if (!display.readAndDispatch()) {
+        display.sleep();
       }
     }
-    display.dispose ();
+    display.dispose();
   }
-/*
-  public static void textDisplay() {
-	  Display display = new Display ();
-		Shell shell = new Shell (display);
-		Caret caret = new Caret (shell, SWT.NONE);
-		caret.setBounds (10, 10, 2, 32);
-		shell.open ();
-		while (!shell.isDisposed ()) {
-			if (!display.readAndDispatch ()) display.sleep ();
-		}
-		display.dispose ();
-  }
-*/
+
+  /*
+   public static void textDisplay() {
+   Display display = new Display ();
+   Shell shell = new Shell (display);
+   Caret caret = new Caret (shell, SWT.NONE);
+   caret.setBounds (10, 10, 2, 32);
+   shell.open ();
+   while (!shell.isDisposed ()) {
+   if (!display.readAndDispatch ()) display.sleep ();
+   }
+   display.dispose ();
+   }
+   */
   /**
    * Passes the command line options given to the program.
    * 
@@ -189,7 +186,7 @@ public class MyIsern {
     createGui(myIsern.mixl.getCollaborations(),
     		  myIsern.mixl.getOrganizations(),
     		  myIsern.mixl.getResearchers());
-    */
+     */
     /*
      * if (myIsernRunCheck) { System.out.println("MyIsern Ran successfully."); } else {
      * System.out.println("MyIsern Did not run successfully."); }
@@ -205,7 +202,7 @@ public class MyIsern {
   private void runMyIsern() throws Exception {
     // Prints according to what boolean is true
     checkArguments(this.commandLineArgs);
-    
+
     // @return boolean Returns true if no errors were encountered.
     // return true;
   }
@@ -218,7 +215,7 @@ public class MyIsern {
    */
   public boolean listOrganizationsEquals(int collaborationNumber) {
     Map<String, Integer> collabOrganizations = new HashMap<String, Integer>();
-    
+
     for (Collaboration currentCollaboration : this.mixl.getCollaborations().getCollaboration()) {
       CollaboratingOrganizations collaboratingOrganizations;
       collaboratingOrganizations = currentCollaboration.getCollaboratingOrganizations();
@@ -235,10 +232,10 @@ public class MyIsern {
         }
       }
     }
-    
+
     int organizationCount = 0;
     System.out.println("\nOrganizations involved in " + collaborationNumber + " collaborations.");
-    
+
     Iterator<Map.Entry<String, Integer>> organizationIterator;
     organizationIterator = collabOrganizations.entrySet().iterator();
     while (organizationIterator.hasNext()) {
@@ -249,7 +246,7 @@ public class MyIsern {
         organizationCount++;
       }
     }
-    
+
     if (organizationCount == 0) {
       System.out.println("No organizations found.");
       return false;
@@ -258,7 +255,7 @@ public class MyIsern {
       return true;
     }
   }
-  
+
   /**
    * Lists organizations with collaboration levels equal to what the user specifies.
    * 
@@ -267,7 +264,7 @@ public class MyIsern {
    */
   public boolean listOrganizationsGreaterThan(int collaborationNumber) {
     Map<String, Integer> collabOrganizations = new HashMap<String, Integer>();
-    
+
     for (Collaboration currentCollaboration : this.mixl.getCollaborations().getCollaboration()) {
       CollaboratingOrganizations collaboratingOrganizations;
       collaboratingOrganizations = currentCollaboration.getCollaboratingOrganizations();
@@ -284,11 +281,11 @@ public class MyIsern {
         }
       }
     }
-    
+
     int organizationCount = 0;
-    System.out.println("\nOrganizations involved in greater than" + collaborationNumber + 
-        " collaborations.");
-    
+    System.out.println("\nOrganizations involved in greater than" + collaborationNumber
+        + " collaborations.");
+
     Iterator<Map.Entry<String, Integer>> organizationIterator;
     organizationIterator = collabOrganizations.entrySet().iterator();
     while (organizationIterator.hasNext()) {
@@ -299,7 +296,7 @@ public class MyIsern {
         organizationCount++;
       }
     }
-    
+
     if (organizationCount == 0) {
       System.out.println("No organizations found.");
       return false;
@@ -326,11 +323,11 @@ public class MyIsern {
     if ("-organization".equals(collaborationType)) {
       String orgWithCollab = "";
       System.out.println("--- Collaborations for: " + yearOrId.replace('_', ' '));
-      
+
       for (Collaboration currentCollab : collaborationList) {
         CollaboratingOrganizations collaboratingOrganizations;
         collaboratingOrganizations = currentCollab.getCollaboratingOrganizations();
-        stringList = collaboratingOrganizations.getCollaboratingOrganization();  
+        stringList = collaboratingOrganizations.getCollaboratingOrganization();
         for (String currentOrg : stringList) {
           if (yearOrId.replace('_', ' ').equals(currentOrg)) {
             orgWithCollab += "Collaboration: " + currentCollab.getName();
@@ -344,7 +341,7 @@ public class MyIsern {
     else if ("-researcher".equals(collaborationType)) {
       List<Organization> organizationList;
       organizationList = this.mixl.getListOrganizations();
-      
+
       String researchWithCollab = "";
       System.out.println("--- Collaborations for: " + yearOrId.replace('_', ' '));
       for (Collaboration currentCollab : collaborationList) {
@@ -364,9 +361,9 @@ public class MyIsern {
       }
     }
     else if ("-year".equals(collaborationType)) {
-      
+
       List<BigInteger> bigIntList;
-      
+
       String yearWithCollab = "";
       System.out.println("--- Collaborations for year: " + yearOrId.replace('_', ' '));
       for (Collaboration currentCollab : collaborationList) {
@@ -383,7 +380,7 @@ public class MyIsern {
         }
       }
     }
-    
+
     return collaborationsExist;
   }
 
@@ -394,55 +391,55 @@ public class MyIsern {
    * @param idList List of Ids.
    * @return True if a matching Id was found and corresponding table printed.
    */
-  private boolean printCollaboration(String id, Set<String> idList) {
+  public boolean printCollaboration(String id, Set<String> idList) {
     boolean isIdValid = false;
     for (String collaborationId : idList) {
       if (id.equals(collaborationId)) {
         isIdValid = true;
       }
     }
-    
+
     if (isIdValid) {
-      StringBuffer sb = new StringBuffer(100);      
-      
+      StringBuffer sb = new StringBuffer(100);
+
       sb.append("\n\n + + + + + + + + + + + + + COLLABORATION + + + + + + + + + + + + +");
-      
+
       for (Collaboration current : this.mixl.getCollaborations().getCollaboration()) {
         if (id.equals(current.getName())) {
           List<String> stringList;
-          List<BigInteger> bigIntList;          
-            
+          List<BigInteger> bigIntList;
+
           sb.append(this.nameTableField);
           sb.append(current.getName());
-  
+
           // Prints Organizations part of Collaboration
           sb.append("\nCollaborating Organizations:");
           CollaboratingOrganizations collaboratingOrganizations;
           collaboratingOrganizations = current.getCollaboratingOrganizations();
           stringList = collaboratingOrganizations.getCollaboratingOrganization();
-  
+
           for (String currentOrg : stringList) {
             sb.append(this.newLineNewTab);
             sb.append(currentOrg);
           }
-  
+
           // Prints type of collaboration
           sb.append("\nCollaboration Types:");
           CollaborationTypes collaborationTypes;
           collaborationTypes = current.getCollaborationTypes();
           stringList = collaborationTypes.getCollaborationType();
-  
+
           for (String currentCollabType : stringList) {
             sb.append(this.newLineNewTab);
             sb.append(currentCollabType);
           }
-  
+
           // Prints all Years that Organizations were in Collaboration
           sb.append("\nYears:");
           Years years;
           years = current.getYears();
           bigIntList = years.getYear();
-  
+
           for (BigInteger currentYears : bigIntList) {
             sb.append(this.newLineNewTab);
             sb.append(currentYears.toString());
@@ -452,12 +449,12 @@ public class MyIsern {
           OutcomeTypes outcomeTypes;
           outcomeTypes = current.getOutcomeTypes();
           stringList = outcomeTypes.getOutcomeType();
-  
+
           for (String currentOutcomeType : stringList) {
             sb.append(this.newLineNewTab);
             sb.append(currentOutcomeType);
           }
-  
+
           sb.append("\nDescription: ");
           sb.append(current.getDescription());
           sb.append("\n + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +");
@@ -471,7 +468,7 @@ public class MyIsern {
       return false;
     }
   }
-  
+
   /**
    * Prints the Organization table for the specified Id if it is found in the Id list.
    * 
@@ -479,19 +476,19 @@ public class MyIsern {
    * @param idList List of Ids.
    * @return True if a matching Id was found and corresponding table printed.
    */
-  private boolean printOrganization(String id, Set<String> idList) {
+  public boolean printOrganization(String id, Set<String> idList) {
     boolean isIdValid = false;
     for (String organizationId : idList) {
       if (id.equals(organizationId)) {
         isIdValid = true;
       }
     }
-    
+
     if (isIdValid) {
       StringBuffer sb = new StringBuffer(100);
-      
+
       sb.append("\n\n========================= ORGANIZATION ===========================");
-      
+
       for (Organization current : this.mixl.getOrganizations().getOrganization()) {
         if (id.equals(current.getName())) {
           List<String> stringList;
@@ -546,7 +543,7 @@ public class MyIsern {
       return false;
     }
   }
-  
+
   /**
    * Prints the Researcher table for the specified Id if it is found in the Id list.
    * 
@@ -554,7 +551,7 @@ public class MyIsern {
    * @param idList List of Ids.
    * @return True if a matching Id was found and corresponding table printed.
    */
-  private boolean printResearcher(String id, Set<String> idList) {
+  public boolean printResearcher(String id, Set<String> idList) {
     boolean isIdValid = false;
     for (String collaborationId : idList) {
       if (id.equals(collaborationId)) {
@@ -562,12 +559,12 @@ public class MyIsern {
         isIdValid = true;
       }
     }
-    
+
     if (isIdValid) {
       StringBuffer sb = new StringBuffer(100);
-      
+
       sb.append("\n......................... RESEARCHERS ............................ \n");
-      
+
       for (Researcher currentResearcher : this.mixl.getResearchers().getResearcher()) {
         if (id.equals(currentResearcher.getName())) {
           sb.append(this.nameTableField);
@@ -595,7 +592,7 @@ public class MyIsern {
       return false;
     }
   }
-  
+
   /**
    * Prints collaborations.
    * 
@@ -661,7 +658,7 @@ public class MyIsern {
 
       sb.append("\nDescription: ");
       sb.append(current.getDescription());
-      sb.append("\n+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +");  
+      sb.append("\n+ + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +");
     }
     System.out.println(sb.toString());
   }
@@ -737,7 +734,7 @@ public class MyIsern {
     researcherList = researchers.getResearcher();
     StringBuffer sb = new StringBuffer(3000);
     sb.append("\n......................... RESEARCHERS ............................ \n");
-    
+
     for (Researcher currentResearcher : researcherList) {
       sb.append(this.nameTableField);
       sb.append(currentResearcher.getName());
@@ -758,14 +755,13 @@ public class MyIsern {
     }
     System.out.print(sb.toString());
   }
-  
-  
+
   /**
    * Checks for valid arguments and calls corresponding print methods.
    * @param args containing command Line arguments.
    * @return argumentsPass if first argument given is valid.
    */
-  public boolean checkArguments (String[] args) {
+  public boolean checkArguments(String[] args) {
     boolean argumentsPass = this.argumentsPass;
 
     try {
@@ -773,19 +769,19 @@ public class MyIsern {
         boolean collaborationsExist = false;
         try {
           if ("-organization".equals(args[1])) {
-              collaborationsExist = listCollaborations(args[1], args[2]);
-              if (!collaborationsExist) {
-                System.out.println("There were no collaborations found for " + 
-                    args[2].replace('_', ' '));
-              }
-              argumentsPass = true;
-            
+            collaborationsExist = listCollaborations(args[1], args[2]);
+            if (!collaborationsExist) {
+              System.out.println("There were no collaborations found for "
+                  + args[2].replace('_', ' '));
+            }
+            argumentsPass = true;
           }
           else if ("-year".equals(args[1])) {
             int year = 0;
             try {
               if (args[2].isEmpty()) {
                 System.out.println("Year field empty.  Please specify a year");
+                argumentsPass = false;
               }
               else {
                 year = Integer.parseInt(args[2]);
@@ -796,10 +792,10 @@ public class MyIsern {
                   else {
                     collaborationsExist = listCollaborations(args[1], args[2]);
                     if (!collaborationsExist) {
-                      System.out.println("There were no collaborations found for " + args[2] + 
-                          args[2].replace('_', ' '));
+                      System.out.println("There were no collaborations found for " + args[2]
+                          + args[2].replace('_', ' '));
                     }
-                    //argumentsPass = true;
+                    argumentsPass = true;
                   }
                 }
                 else {
@@ -813,12 +809,12 @@ public class MyIsern {
             }
           }
           else if ("-researcher".equals(args[1])) {
-            collaborationsExist = listCollaborations (args[1], args[2]);
+            collaborationsExist = listCollaborations(args[1], args[2]);
             if (!collaborationsExist) {
-              System.out.println("There were no collaborations found for " + args[2] + 
-                  args[2].replace('_', ' '));
+              System.out.println("There were no collaborations found for " + args[2]
+                  + args[2].replace('_', ' '));
             }
-            //argumentsPass = true;
+            argumentsPass = true;
           }
           else {
             System.out.println("Invalid Second Argument for -listCollaborations");
@@ -832,7 +828,7 @@ public class MyIsern {
           System.out.println(e.getMessage());
         }
       }
-      
+
       else if ("-describe".equals(args[0])) {
         try {
           Set<String> idList;
@@ -843,13 +839,15 @@ public class MyIsern {
             if (!isIdValid) {
               System.out.println("ID entered invalid.");
             }
+            argumentsPass = true;
           }
-          else if ( "-organization".equals(args[1])) {
+          else if ("-organization".equals(args[1])) {
             idList = this.mixl.getUniqueIds();
-            isIdValid = printOrganization (args[2], idList);
+            isIdValid = printOrganization(args[2], idList);
             if (!isIdValid) {
               System.out.println("ID entered invalid.");
             }
+            argumentsPass = true;
           }
           else if ("-collaboration".equals(args[1])) {
             idList = this.mixl.getUniqueIds();
@@ -857,17 +855,21 @@ public class MyIsern {
             if (!isIdValid) {
               System.out.println("ID entered invalid.");
             }
+            argumentsPass = true;
           }
           else if ("-all".equals(args[1])) {
             try {
               if ("Researchers".equals(args[2])) {
                 printResearchers(this.mixl.getResearchers());
+                argumentsPass = true;
               }
               else if ("Organizations".equals(args[2])) {
-               printOrganizations(this.mixl.getOrganizations()); 
+                printOrganizations(this.mixl.getOrganizations());
+                argumentsPass = true;
               }
               else if ("Collaborations".equals(args[2])) {
                 printCollaborations(this.mixl.getCollaborations());
+                argumentsPass = true;
               }
               else {
                 System.out.println("Last argument for '-all' invalid.");
@@ -887,15 +889,16 @@ public class MyIsern {
           System.out.println("Second Argument Error");
           argumentsPass = false;
         }
-      } 
-      
+      }
+
       else if ("-listOrganizations".equals((args[0]))) {
         if ("-collaborationLevelEquals".equals(args[1])) {
           //int numberOfCollabs = 0;
-          
+
           try {
             int numberOfCollabs = Integer.parseInt(args[2]);
             boolean listOrgsEqu = listOrganizationsEquals(numberOfCollabs);
+            argumentsPass = true;
           }
           catch (Exception e) {
             System.out.println("Invalid third argument");
@@ -904,10 +907,11 @@ public class MyIsern {
         }
         else if ("-collaborationLevelGreaterThan".equals(args[1])) {
           //int numberOfCollabs = 0;
-          
+
           try {
             int numberOfCollabs = Integer.parseInt(args[2]);
             boolean listOrgsGreaterThan = listOrganizationsGreaterThan(numberOfCollabs);
+            argumentsPass = true;
           }
           catch (Exception e) {
             System.out.println("Invalid third argument");
@@ -923,6 +927,7 @@ public class MyIsern {
         System.out.println("Error:  Invalid First Argument");
         //System.out.print("Valid First Arguments:");
         //System.out.println("\t-listCollaborations, -describe, -listOrganizations");
+        argumentsPass = false;
       }
     }
     catch (Exception e) {
