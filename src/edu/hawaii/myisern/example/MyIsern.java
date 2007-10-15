@@ -923,6 +923,15 @@ public class MyIsern {
           argumentsPass = false;
         }
       }
+      else if ("-showGui".equals(args[0])) {
+    	  createGui(mixl.getCollaborations(),
+        		  mixl.getOrganizations(),
+        		  mixl.getResearchers());
+         
+        }
+       else if ("-help".equals(args[0])) {
+      	 printHelp();
+        }
       else {
         System.out.println("Error:  Invalid First Argument");
         //System.out.print("Valid First Arguments:");
@@ -935,5 +944,36 @@ public class MyIsern {
       argumentsPass = false;
     }
     return argumentsPass;
+  }
+  /**
+   * Prints helpful information for commmand line options
+   */
+  void printHelp() {
+    //Provides a 'help' mechanism similar to the Unix style.
+    String helpString = "";
+    helpString += "\nProvides sample code for loading XML ";
+    helpString +=   "and marshalling it into their JAXB related classes.";
+    helpString += "\nUsage: MyIsernXmlLoader [OPTION]";
+    helpString += "\n  -listCollaborations -organization <uniqueID>";
+	//helpString +=   "\tLists Collaborations known for specified organization";
+    helpString += "\n  -listCollaborations -year <year>";
+    //helpString +=   "\t\tLists Collaborations known for specified year";
+    helpString += "\n  -listCollaborations -researcher <uniqueID>";
+	//helpString +=   "\tLists Collaborations known for specified researcher";
+    helpString += "\n  -describe -researcher <uniqueID>";
+    helpString += "\n  -describe -organization <uniqueID>";
+    helpString += "\n  -describe -collaboration <uniqueID>";
+    helpString += "\n  -describe -all Researchers";
+    helpString += "\n  -describe -all Organizations";
+    helpString += "\n  -describe -all Collaborations";
+    helpString += "\n  -listOrganizations -collaborationLevelEquals <integer>";
+    helpString += "\n  -listOrganizations -collaborationLevelGreaterThan <integer>";
+    helpString += "\n  -showGui";
+    helpString += "\n  -help";
+    System.out.println(helpString);
+    /*System.out.println("\t-c, --printCollaborations\tprints collaborations.");
+    System.out.println("\t-o, --printOrganizations\tprints organizations.");
+    System.out.println("\t-r, --printResearchers\t\tprints researchers.");
+    System.out.println("\t    --help\t\t\tdisplay this help and exits.");*/
   }
 }
