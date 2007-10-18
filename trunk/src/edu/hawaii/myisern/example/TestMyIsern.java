@@ -142,7 +142,6 @@ public class TestMyIsern extends TestCase {
     args[2] = "Researchers";
     assertTrue(returnTrue, myisern.checkArguments(args));
     
-
     args[0] = describe;
     args[1] = all;
     args[2] = "Collaborations";
@@ -174,8 +173,6 @@ public class TestMyIsern extends TestCase {
     args[1] = "-collaborationLevelGreaterThan";
     args[2] = "";
     assertFalse(returnFalse, myisern.checkArguments(args));
-
-
   }
   /**
    * Tests main method with different argument.
@@ -211,8 +208,8 @@ public class TestMyIsern extends TestCase {
     args[2] = "Philip_Frankenstien";
     MyIsern.main(args);
     for (String testArg : testArgs) {
-    	args[2] = testArg;
-	    MyIsern.main(args);
+    args[2] = testArg;
+    MyIsern.main(args);
     }
     
     
@@ -223,8 +220,8 @@ public class TestMyIsern extends TestCase {
     MyIsern.main(args);
     args[2] = "University_of_Peanutbutter_Island";
     for (String testArg : testArgs) {
-    	args[2] = testArg;
-	    MyIsern.main(args);
+    args[2] = testArg;
+    MyIsern.main(args);
     }
     
     args[1] = "-collaboration";
