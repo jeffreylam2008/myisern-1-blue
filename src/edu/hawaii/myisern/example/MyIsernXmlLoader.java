@@ -245,6 +245,14 @@ public class MyIsernXmlLoader {
   }
   
   /**
+   * Returns true if uniqueIdList contains unique ID.
+   * @param possibleUniqueId containing Id to be compared to with list of Unique Id's.
+   * @return boolean containing whether uniqueIdList contains possibeUniqueId.
+   */
+  public boolean containsUniqueId (String possibleUniqueId) {
+    return this.uniqueIdList.contains(possibleUniqueId);
+  }
+  /**
    * Checks validation of web links..
    * @param url URL to test.
    * @throws SAXException Thrown exception.
