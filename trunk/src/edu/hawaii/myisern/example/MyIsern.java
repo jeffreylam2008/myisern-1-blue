@@ -1,9 +1,11 @@
 package edu.hawaii.myisern.example;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator; //import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 import java.math.BigInteger;
 import edu.hawaii.myisern.collaborations.jaxb.CollaboratingOrganizations;
@@ -18,10 +20,10 @@ import edu.hawaii.myisern.organizations.jaxb.Organizations;
 import edu.hawaii.myisern.organizations.jaxb.ResearchKeywords;
 import edu.hawaii.myisern.researchers.jaxb.Researcher;
 import edu.hawaii.myisern.researchers.jaxb.Researchers;
+
 //import com.meterware.httpunit.WebConversation;
 //import com.meterware.httpunit.WebLink;
 //import com.meterware.httpunit.WebResponse;
-
 
 /**
  * Provides information on the organizations, collaborations, and researchers of the ISERN
@@ -34,13 +36,13 @@ import edu.hawaii.myisern.researchers.jaxb.Researchers;
 public class MyIsern {
   /** Holds values passed from the command line */
   private String[] commandLineArgs;
-  MyIsernXmlLoader mixl;
+  private MyIsernXmlLoader mixl;
   private String newLineNewTab = "\n\t";
   private String nameTableField = "\nName: ";
-  boolean isCollaborationsOn = false;
-  boolean isOrganizationsOn = false;
-  boolean isResearchersOn = false;
-  boolean argumentsPass = false;
+  /*private boolean isCollaborationsOn = false;
+  private boolean isOrganizationsOn = false;
+  private boolean isResearchersOn = false;*/
+  private boolean argumentsPass = false;
 
   /**
    * Initializes command line options.
@@ -57,7 +59,6 @@ public class MyIsern {
     }
   }
 
-  
   /**
    * Passes the command line options given to the program.
    * 
@@ -89,108 +90,9 @@ public class MyIsern {
   private void runMyIsern() throws Exception {
     // Prints according to what boolean is true
     checkArguments(this.commandLineArgs);
-
+    boolean addSuccessful = this.addToIsern();
     // @return boolean Returns true if no errors were encountered.
     // return true;
-  }
-
-  /**
-   * Lists organizations with collaboration levels greater than what the user specifies.
-   * 
-   * @param collaborationNumber Contains the number of collaborations user has specified.
-   * @return true If Organizations were found with values equal to specified number.
-   */
-  public boolean listOrganizationsEquals(int collaborationNumber) {
-    Map<String, Integer> collabOrganizations = new HashMap<String, Integer>();
-
-    for (Collaboration currentCollaboration : this.mixl.getCollaborations().getCollaboration()) {
-      CollaboratingOrganizations collaboratingOrganizations;
-      collaboratingOrganizations = currentCollaboration.getCollaboratingOrganizations();
-      List<String> stringList = collaboratingOrganizations.getCollaboratingOrganization();
-
-      for (String currentOrg : stringList) {
-        if (collabOrganizations.containsKey(currentOrg)) {
-          int valueFrequency;
-          valueFrequency = collabOrganizations.get(currentOrg);
-          collabOrganizations.put(currentOrg, ++valueFrequency);
-        }
-        else if (!collabOrganizations.containsKey(currentOrg)) {
-          collabOrganizations.put(currentOrg, 1);
-        }
-      }
-    }
-
-    int organizationCount = 0;
-    System.out.println("\nOrganizations involved in " + collaborationNumber + " collaborations.");
-
-    Iterator<Map.Entry<String, Integer>> organizationIterator;
-    organizationIterator = collabOrganizations.entrySet().iterator();
-    while (organizationIterator.hasNext()) {
-      Map.Entry<String, Integer> organizationEntry = organizationIterator.next();
-
-      if (organizationEntry.getValue() == collaborationNumber) {
-        System.out.println(organizationEntry.getKey());
-        organizationCount++;
-      }
-    }
-
-    if (organizationCount == 0) {
-      System.out.println("No organizations found.");
-      return false;
-    }
-    else {
-      return true;
-    }
-  }
-
-  /**
-   * Lists organizations with collaboration levels equal to what the user specifies.
-   * 
-   * @param collaborationNumber Contains the number of collaborations user has specified.
-   * @return true If Organizations were found with values greater than specified number
-   */
-  public boolean listOrganizationsGreaterThan(int collaborationNumber) {
-    Map<String, Integer> collabOrganizations = new HashMap<String, Integer>();
-
-    for (Collaboration currentCollaboration : this.mixl.getCollaborations().getCollaboration()) {
-      CollaboratingOrganizations collaboratingOrganizations;
-      collaboratingOrganizations = currentCollaboration.getCollaboratingOrganizations();
-      List<String> stringList = collaboratingOrganizations.getCollaboratingOrganization();
-
-      for (String currentOrg : stringList) {
-        if (collabOrganizations.containsKey(currentOrg)) {
-          int valueFrequency;
-          valueFrequency = collabOrganizations.get(currentOrg);
-          collabOrganizations.put(currentOrg, ++valueFrequency);
-        }
-        else if (!collabOrganizations.containsKey(currentOrg)) {
-          collabOrganizations.put(currentOrg, 1);
-        }
-      }
-    }
-
-    int organizationCount = 0;
-    System.out.println("\nOrganizations involved in greater than" + collaborationNumber
-        + " collaborations.");
-
-    Iterator<Map.Entry<String, Integer>> organizationIterator;
-    organizationIterator = collabOrganizations.entrySet().iterator();
-    while (organizationIterator.hasNext()) {
-      Map.Entry<String, Integer> organizationEntry = organizationIterator.next();
-
-      if (organizationEntry.getValue() > collaborationNumber) {
-        System.out.println(organizationEntry.getKey());
-        organizationCount++;
-      }
-    }
-
-    if (organizationCount == 0) {
-      System.out.println("No organizations found.");
-      return false;
-    }
-    else {
-      return true;
-    }
   }
 
   /**
@@ -644,6 +546,283 @@ public class MyIsern {
   }
 
   /**
+   * Lists organizations with collaboration levels greater than what the user specifies.
+   * 
+   * @param collaborationNumber Contains the number of collaborations user has specified.
+   * @return true If Organizations were found with values equal to specified number.
+   */
+  public boolean listOrganizationsEquals(int collaborationNumber) {
+    Map<String, Integer> collabOrganizations = new HashMap<String, Integer>();
+
+    for (Collaboration currentCollaboration : this.mixl.getCollaborations().getCollaboration()) {
+      CollaboratingOrganizations collaboratingOrganizations;
+      collaboratingOrganizations = currentCollaboration.getCollaboratingOrganizations();
+      List<String> stringList = collaboratingOrganizations.getCollaboratingOrganization();
+
+      for (String currentOrg : stringList) {
+        if (collabOrganizations.containsKey(currentOrg)) {
+          int valueFrequency;
+          valueFrequency = collabOrganizations.get(currentOrg);
+          collabOrganizations.put(currentOrg, ++valueFrequency);
+        }
+        else if (!collabOrganizations.containsKey(currentOrg)) {
+          collabOrganizations.put(currentOrg, 1);
+        }
+      }
+    }
+
+    int organizationCount = 0;
+    System.out.println("\nOrganizations involved in " + collaborationNumber + " collaborations.");
+
+    Iterator<Map.Entry<String, Integer>> organizationIterator;
+    organizationIterator = collabOrganizations.entrySet().iterator();
+    while (organizationIterator.hasNext()) {
+      Map.Entry<String, Integer> organizationEntry = organizationIterator.next();
+
+      if (organizationEntry.getValue() == collaborationNumber) {
+        System.out.println(organizationEntry.getKey());
+        organizationCount++;
+      }
+    }
+
+    if (organizationCount == 0) {
+      System.out.println("No organizations found.");
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
+  /**
+   * Lists organizations with collaboration levels equal to what the user specifies.
+   * 
+   * @param collaborationNumber Contains the number of collaborations user has specified.
+   * @return true If Organizations were found with values greater than specified number
+   */
+  public boolean listOrganizationsGreaterThan(int collaborationNumber) {
+    Map<String, Integer> collabOrganizations = new HashMap<String, Integer>();
+
+    for (Collaboration currentCollaboration : this.mixl.getCollaborations().getCollaboration()) {
+      CollaboratingOrganizations collaboratingOrganizations;
+      collaboratingOrganizations = currentCollaboration.getCollaboratingOrganizations();
+      List<String> stringList = collaboratingOrganizations.getCollaboratingOrganization();
+
+      for (String currentOrg : stringList) {
+        if (collabOrganizations.containsKey(currentOrg)) {
+          int valueFrequency;
+          valueFrequency = collabOrganizations.get(currentOrg);
+          collabOrganizations.put(currentOrg, ++valueFrequency);
+        }
+        else if (!collabOrganizations.containsKey(currentOrg)) {
+          collabOrganizations.put(currentOrg, 1);
+        }
+      }
+    }
+
+    int organizationCount = 0;
+    System.out.println("\nOrganizations involved in greater than" + collaborationNumber
+        + " collaborations.");
+
+    Iterator<Map.Entry<String, Integer>> organizationIterator;
+    organizationIterator = collabOrganizations.entrySet().iterator();
+    while (organizationIterator.hasNext()) {
+      Map.Entry<String, Integer> organizationEntry = organizationIterator.next();
+
+      if (organizationEntry.getValue() > collaborationNumber) {
+        System.out.println(organizationEntry.getKey());
+        organizationCount++;
+      }
+    }
+
+    if (organizationCount == 0) {
+      System.out.println("No organizations found.");
+      return false;
+    }
+    else {
+      return true;
+    }
+  }
+
+  /**
+   * Displays the menu to input researchers, organizations, and collaborations.
+   */
+  private void printInputMenu() {
+    StringBuffer sb = new StringBuffer(100);
+    String menuLine1 = "\n-+-+-+-+-+-+-+-+-+-+- MENU +-+-+-+-+-+-+-+-+-+-+-+-+-\n";
+    String menuLine2 = "\n\tCommand\t\tFunction";
+    String menuLine3 = "\n\t   r\t\t   Add Researchers";
+    String menuLine4 = "\n\t   o\t\t   Add Organizations";
+    String menuLine5 = "\n\t   c\t\t   Add Collaborations";
+    String menuLine6 = "\n\t   s\t\t   Save";
+    String menuLine7 = "\n\t   q\t\t   Quit";
+    String menuLine8 = "\n\n-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-";
+
+    sb.append(menuLine1);
+    sb.append(menuLine2);
+    sb.append(menuLine3);
+    sb.append(menuLine4);
+    sb.append(menuLine5);
+    sb.append(menuLine6);
+    sb.append(menuLine7);
+    sb.append(menuLine8);
+
+    System.out.println(sb.toString());
+  }
+
+  /**
+   * Calls add methods that add researchers, organizations, and collaborations.
+   * 
+   * @return true If the method executed successfully.
+   */
+  private boolean addToIsern() {
+    List<Researchers> newResearchers;
+    List<Organizations> newOrganizations;
+    List<Collaborations> newCollaborations;
+    boolean isDone = false;
+
+    // Print the menu.
+    this.printInputMenu();
+
+    while (!isDone) {
+      Scanner scanner = new Scanner(System.in);
+      String input;
+
+      System.out.println("Enter the command: ");
+      input = scanner.nextLine();
+
+      if (input.equalsIgnoreCase("r")) {
+        List<Researcher> newResearchersList = this.addResearcher();
+      }
+      else if (input.equalsIgnoreCase("o")) {
+        //List<Organization> newOrganizationsList = this.addOrganization();
+        System.out.println("o");
+      }
+      else if (input.equalsIgnoreCase("c")) {
+        //List<Collaboration> newCollaborationsList = this.addCollaboration();
+        System.out.println("c");
+      }
+      else if (input.equalsIgnoreCase("s")) {
+        // Save into xml files.
+        System.out.println("s");
+      }
+      else if (input.equalsIgnoreCase("q")) {
+        isDone = true;
+      }
+      else {
+        System.out.println(" The command you entered " + input + " is incorrect.");
+        System.out.println(" Please enter a valid command.");
+      }
+      //if input is r call addResearchers method
+      //if input is o call addOrganizations method
+      //if input is c call addCollaborations method
+      //if input is s save the current information to XML files then reload the xml data
+      //if input is q, check if lists are saved, if not ask user if he wants to save
+      //if yes, save, then leave the program
+    }
+    return true;
+  }
+
+  /**
+   * Adds researchers.
+   * 
+   * @return A list of all researchers added.
+   */
+  private List<Researcher> addResearcher() {
+    Scanner scanner = new Scanner(System.in);
+    boolean isDone = false;
+    boolean researcherExists = false;
+    List<Researcher> newResearchersList = new ArrayList<Researcher>();
+
+    while (!isDone) {
+      String input;
+
+      // Ask for name.
+      System.out.println("\n Enter the researcher's name:\n ");
+      input = scanner.nextLine();
+      String name = input;
+
+      // Access Researchers to see if the name is on the list.
+      Researchers researchersList = this.mixl.getResearchers();
+      for (Researcher currentResearcher : researchersList.getResearcher()) {
+        if (currentResearcher.getName().equals(name)) {
+          researcherExists = true;
+
+          // Tell the user if the Researcher is on the list.
+          // Ask if the user wants to modify the entry.
+          System.out.println(input
+              + "Is an existing Researcher. Would you like to modify the existing entry?");
+          System.out.println("Enter y for yes, n for no: ");
+          input = scanner.nextLine();
+
+          break;
+        }
+      }
+
+      // If there is no entry or the user wants to modify existing entry, ask for the information.
+      if (!researcherExists || (researcherExists && input.equalsIgnoreCase("y"))) {
+        String researcherName = name;
+        String researcherOrg;
+        String researcherEmail;
+        String researcherPicLink;
+        String researcherBio;
+
+        System.out.print("\n Enter the researcher's organization: ");
+        input = scanner.nextLine();
+        researcherOrg = input;
+
+        System.out.print("\n Enter the researcher's e-mail address: ");
+        input = scanner.nextLine();
+        researcherEmail = input;
+
+        System.out.print("\n Enter the researcher's picture link: ");
+        input = scanner.nextLine();
+        researcherPicLink = input;
+
+        System.out.print("\n Enter the researcher's bio-statement: ");
+        input = scanner.nextLine();
+        researcherBio = input;
+
+        // Show the information entered.
+        System.out.println("You Entered:");
+        System.out.println("Name: " + researcherName);
+        System.out.println("Organization: " + researcherOrg);
+        System.out.println("E-mail Address: " + researcherEmail);
+        System.out.println("Picture Link: " + researcherPicLink);
+        System.out.println("Bio-Statement: " + researcherBio);
+
+        // Confirm the information is correct.
+        System.out.println("Is this correct?\nEnter y for yes, n for no: ");
+        input = scanner.nextLine();
+        if (input.equalsIgnoreCase("y")) {
+          Researcher researcherInfo = new Researcher();
+          researcherInfo.setName(researcherName);
+          researcherInfo.setOrganization(researcherOrg);
+          researcherInfo.setEmail(researcherEmail);
+          researcherInfo.setPictureLink(researcherPicLink);
+          researcherInfo.setBioStatement(researcherBio);
+
+          // Ask if the user wants to add another Researcher entry.
+          System.out.println("Do you want to add another Researcher?\nEnter y for yes, n for no: ");
+          input = scanner.nextLine();
+
+          // If the user doesn't want to add another Researcher entry, set flag to exit loop
+          if (input.equalsIgnoreCase("n")) {
+            isDone = true;
+          }
+
+          // Add researcher to list containing all Researchers added.
+          newResearchersList.add(researcherInfo);
+        }
+      }
+      //if not, go to the main menu
+      //if yes, prompt for name 
+    }
+
+    return newResearchersList;
+  }
+
+  /**
    * Checks for valid arguments and calls corresponding print methods.
    * @param args containing command Line arguments.
    * @return argumentsPass if first argument given is valid.
@@ -810,15 +989,15 @@ public class MyIsern {
           argumentsPass = false;
         }
       }
-      else if ("-showGui".equals(args[0])) {
-    	  MyIsernGui.createGui(mixl.getCollaborations(),
-        		  mixl.getOrganizations(),
-        		  mixl.getResearchers());
-         
-        }
-       else if ("-help".equals(args[0])) {
-      	 printHelp();
-        }
+      /*else if ("-showGui".equals(args[0])) {
+        MyIsernGui.createGui(mixl.getCollaborations(),
+            mixl.getOrganizations(),
+            mixl.getResearchers());
+
+      }*/
+      else if ("-help".equals(args[0])) {
+        printHelp();
+      }
       else {
         System.out.println("Error:  Invalid First Argument");
         //System.out.print("Valid First Arguments:");
@@ -832,6 +1011,7 @@ public class MyIsern {
     }
     return argumentsPass;
   }
+
   /**
    * Prints helpful information for commmand line options
    */
@@ -839,14 +1019,14 @@ public class MyIsern {
     //Provides a 'help' mechanism similar to the Unix style.
     String helpString = "";
     helpString += "\nProvides sample code for loading XML ";
-    helpString +=   "and marshalling it into their JAXB related classes.";
+    helpString += "and marshalling it into their JAXB related classes.";
     helpString += "\nUsage: MyIsernXmlLoader [OPTION]";
     helpString += "\n  -listCollaborations -organization <uniqueID>";
-	//helpString +=   "\tLists Collaborations known for specified organization";
+    //helpString +=   "\tLists Collaborations known for specified organization";
     helpString += "\n  -listCollaborations -year <year>";
     //helpString +=   "\t\tLists Collaborations known for specified year";
     helpString += "\n  -listCollaborations -researcher <uniqueID>";
-	//helpString +=   "\tLists Collaborations known for specified researcher";
+    //helpString +=   "\tLists Collaborations known for specified researcher";
     helpString += "\n  -describe -researcher <uniqueID>";
     helpString += "\n  -describe -organization <uniqueID>";
     helpString += "\n  -describe -collaboration <uniqueID>";
