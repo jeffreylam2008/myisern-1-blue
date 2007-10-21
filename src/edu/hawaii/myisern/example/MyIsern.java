@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
+
 import edu.hawaii.myisern.collaborations.jaxb.CollaboratingOrganizations;
 import edu.hawaii.myisern.collaborations.jaxb.Collaboration;
 import edu.hawaii.myisern.collaborations.jaxb.CollaborationTypes;
@@ -39,7 +40,8 @@ import edu.hawaii.myisern.researchers.jaxb.Researchers;
 public class MyIsern {
   /** Holds values passed from the command line */
   private String[] commandLineArgs;
-  private MyIsernXmlLoader mixl;
+  /** set to public to allow outside access for testing */
+  public MyIsernXmlLoader mixl;
   private String newLineNewTab = "\n\t";
   private String nameTableField = "\nName: ";
   /*private boolean isCollaborationsOn = false;
@@ -835,16 +837,6 @@ public class MyIsern {
     return newResearchersList;
   }
 
-  /**
-   * Saves researchers to an xml file.
-   * @param researcherList List of researchers to save.
-   */
-  private void saveResearchersXml (List<Researcher> researcherList) {
-	  for (Researcher researcher : researcherList) {
-		  //export to an xml string
-	  }
-  }
-  
   
   /**
    * Checks for valid arguments and calls corresponding print methods.
