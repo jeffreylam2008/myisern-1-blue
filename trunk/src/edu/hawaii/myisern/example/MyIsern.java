@@ -103,7 +103,7 @@ public class MyIsern {
        System.out.println("Args lenth >0");
      }
     System.out.println("Exiting...");
-    boolean addSuccessful = this.addToIsern();
+    //boolean addSuccessful = this.addToIsern();
     // @return boolean Returns true if no errors were encountered.
     // return true;
   }
@@ -836,6 +836,17 @@ public class MyIsern {
   }
 
   /**
+   * Saves researchers to an xml file.
+   * @param researcherList List of researchers to save.
+   */
+  private void saveResearchersXml (List<Researcher> researcherList) {
+	  for (Researcher researcher : researcherList) {
+		  //export to an xml string
+	  }
+  }
+  
+  
+  /**
    * Checks for valid arguments and calls corresponding print methods.
    * @param args containing command Line arguments.
    * @return argumentsPass if first argument given is valid.
@@ -1094,12 +1105,12 @@ public class MyIsern {
       else {
         System.out.print("Enter Type of Organization: ");
         orgType = userInput();
-        sb.append("Type:\t")
+        sb.append("Type:\t");
         sb.append(orgType);
         
         System.out.print("Enter Contact: ");
         orgContact = userInput();
-        sb.append("Contact:\t")
+        sb.append("Contact:\t");
         sb.append(orgContact);
         
         System.out.print("Enter an Affiliated Researcher: ");
@@ -1129,7 +1140,7 @@ public class MyIsern {
         
         System.out.print("Enter Country: ");
         orgCountry = userInput();
-        sb.append ("Country:\t")
+        sb.append ("Country:\t");
         sb.append(orgCountry);
         
         System.out.print("Enter a Research Keyword: ");
@@ -1160,7 +1171,8 @@ public class MyIsern {
         
         System.out.println("Enter Research Description:\n\t");
         orgResearchDescription = userInput();
-        sb.append("Research Description: " + orgResearchDescription);
+        sb.append("Research Description: ");
+        sb.append(orgResearchDescription);
         
         System.out.println("Enter Organization homepage: ");
         orgHomepage = userInput();
