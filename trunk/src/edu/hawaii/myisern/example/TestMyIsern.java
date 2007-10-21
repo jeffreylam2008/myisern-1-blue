@@ -43,6 +43,8 @@ public class TestMyIsern extends TestCase {
     assertNotNull(returnTrue, myisern);
   }
   
+  
+  
   /**
    * Tests checkArguments method
    * @throws Exception if problem occurs

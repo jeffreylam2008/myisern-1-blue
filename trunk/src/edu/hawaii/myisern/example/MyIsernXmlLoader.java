@@ -54,10 +54,12 @@ public class MyIsernXmlLoader {
   private JAXBContext organizationsJaxbContext;
   /** Holds the class-wide JAXBContext, which is thread-safe. */
   private JAXBContext researchersJaxbContext;
-
-  private Collaborations collaborations;
-  private Organizations organizations;
-  private Researchers researchers;
+  /** set to public to allow outside access for testing */
+  public Collaborations collaborations;
+  /** set to public to allow outside access for testing */
+  public Organizations organizations;
+  /** set to public to allow outside access for testing */
+  public Researchers researchers;
   private Set<String> uniqueIdList;
 
   /**
