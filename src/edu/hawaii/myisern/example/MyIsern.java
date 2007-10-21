@@ -52,8 +52,9 @@ public class MyIsern {
    * Initializes command line options.
    * 
    * @param args Command line arguments.
+   * @throws Exception thrown if error is encountered.
    */
-  MyIsern(String[] args) {
+  MyIsern(String[] args) throws Exception {
     this.commandLineArgs = args;
   }
 
@@ -75,6 +76,7 @@ public class MyIsern {
    * 
    * @throws Exception If XML data did not load properly.
    */
+
   private void runMyIsern() throws Exception {
     try {
       this.mixl = new MyIsernXmlLoader();
@@ -83,7 +85,7 @@ public class MyIsern {
       this.rList = this.mixl.getResearchers();
     }
     catch (Exception e) {
-      System.out.println("Error in the constructor");
+      System.out.println("Failure in Add");
     }
     this.unsavedExists = false;
     boolean addSuccessful = this.addToIsern();
@@ -679,11 +681,8 @@ public class MyIsern {
    */
   private boolean addToIsern() {
     boolean isDone = false;
-
-    // Print the menu.
-    this.printInputMenu();
-
     while (!isDone) {
+      this.printInputMenu();
       Scanner scanner = new Scanner(System.in);
       String input;
 
@@ -704,6 +703,20 @@ public class MyIsern {
       else if (input.equalsIgnoreCase("s")) {
         // Save into xml files.
         System.out.println("s");
+      }
+      else if (input.equalsIgnoreCase("p")) {
+        printResearchers(this.rList);
+        printOrganizations(this.oList);
+        printCollaborations(this.cList);
+      }
+      else if (input.equalsIgnoreCase("pr")) {
+        printResearchers(this.rList);
+      }
+      else if (input.equalsIgnoreCase("po")) {
+        printOrganizations(this.oList);
+      }
+      else if (input.equalsIgnoreCase("pc")) {
+        printCollaborations(this.cList);
       }
       else if (input.equalsIgnoreCase("q")) {
         if (this.unsavedExists) {
@@ -1037,6 +1050,8 @@ public class MyIsern {
             this.rList.getResearcher().add(newR);
             this.mixl.addUniqueId(rName);
             this.unsavedExists = true;
+            newOrganization(rName, rOrg);
+            
           }
           else {
             System.out.println("Please reenter information for all fields.");
@@ -1073,7 +1088,31 @@ public class MyIsern {
     } //while loop for researcher input
   }
 
-
+  /**
+   * If the organization entered by Researcher does not exist, then it adds a brand new
+   * Organization with Org name and Contact field provided but everything else blank.
+   * 
+   * @param rName String containing Researcher's/Contact name.
+   * @param oName String Containing Organization's name.
+   */
+  public void newOrganization (String rName, String oName) {
+    if (!this.mixl.containsUniqueId(oName.replace(' ', '_'))) {
+      Organization o = new Organization();
+      o.setName(oName);
+      o.setContact(rName);
+      AffiliatedResearchers ar = new AffiliatedResearchers();
+      ar.getAffiliatedResearcher().add("");
+      o.setAffiliatedResearchers(ar);
+      o.setHomePage("");
+      o.setResearchDescription("");
+      ResearchKeywords rk = new ResearchKeywords();
+      rk.getResearchKeyword().add("");
+      o.setResearchKeywords(rk);
+      this.mixl.addUniqueId(oName);
+      this.oList.getOrganization().add(o);
+    }
+  }
+  
   /**
    * Adds an organization and its required fields
    * 
@@ -1233,6 +1272,7 @@ public class MyIsern {
             this.oList.getOrganization().add(newOrg);
             this.mixl.addUniqueId(oName);
             this.unsavedExists = true;
+            newResearcher(oContact, oName);
           }
           else {
             System.out.println("Please reenter information for all fields.");
@@ -1271,6 +1311,22 @@ public class MyIsern {
 
   }
   
+  /**
+   * This method adds a new Researcher if the contact for the Organization given is a new
+   * contact.
+   * @param rName String containing Researcher's/Contact's name.
+   * @param oName String containing Organization name.
+   */
+  public void newResearcher (String rName, String oName) {
+    if (!this.mixl.containsUniqueId(rName.replace(' ', '_'))) {
+      Researcher r = new Researcher();
+      r.setName(rName);
+      r.setOrganization(oName);
+      r.setEmail("");
+      r.setBioStatement("");
+      r.setPictureLink("");
+    }
+  }
   /**
    * Adds a Collaboration and its required fields.
    */
@@ -1524,10 +1580,10 @@ public class MyIsern {
    */
   public void editCollaboration(String collab) {
     if (this.mixl.containsUniqueId(collab.replace(' ', '_'))) {
-      Collaboration c = new Collaboration();
-      
+      System.out.println("Add edit");
     }
   }
+
   /**
    * Checks if year entered is valid.
    * @param currentYear String that contains year to be converted and examined.

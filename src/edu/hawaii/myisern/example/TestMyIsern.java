@@ -59,6 +59,7 @@ public class TestMyIsern extends TestCase {
     String all = "-all";
     String listOrg = "-listOrganizations";
     MyIsern myisern = new MyIsern(null);
+    Parser myParser = new Parser(null);
     String[]args = new String[3];
     args[0] = "";
     args[1] = "";
@@ -221,6 +222,7 @@ public class TestMyIsern extends TestCase {
     for (String testArg : testArgs) {
     args[2] = testArg;
     MyIsern.main(args);
+
     }
   }
   */
