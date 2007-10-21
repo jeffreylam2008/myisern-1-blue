@@ -577,6 +577,13 @@ public class MyIsernXmlLoader {
   public Researchers getResearchers() {
     return this.researchers;
   }
+  /**
+   * Gets list of Researchers.
+   * @return list of Researchers.
+   */
+  public List<Researcher> getListResearchers() {
+    return this.researchers.getResearcher();
+  }
   
   /**
    * Gets a list of all unique Ids available.
@@ -585,6 +592,14 @@ public class MyIsernXmlLoader {
    */
   public Set<String> getUniqueIds() {
     return this.uniqueIdList;
+  }
+  
+  /**
+   * Adds a unique Id to the set of unique Id's that already exist.
+   * @param uniqueId String containing uniqueId.
+   */
+  public void addUniqueId(String uniqueId) {
+    this.uniqueIdList.add(uniqueId.replace(' ', '_'));
   }
   
   /**
