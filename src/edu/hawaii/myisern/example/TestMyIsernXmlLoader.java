@@ -22,6 +22,7 @@ public class TestMyIsernXmlLoader extends TestCase {
    * 
    * @throws Exception If problems occur.
    */
+	
   @Test
   public void testLoader() throws Exception {
     MyIsernXmlLoader loader = new MyIsernXmlLoader();
@@ -36,13 +37,31 @@ public class TestMyIsernXmlLoader extends TestCase {
    * 
    * @throws Exception if problem occurs.
    */
+	
   @Test
   public void testisLinkValidMethod() throws Exception {
     MyIsernXmlLoader mixl = new MyIsernXmlLoader();
-    assertTrue("known website: http://www.hawaii.edu", mixl.isLinkValid("http://www.hawaii.edu"));
+    assertTrue("known website: http://www.hawaii.edu", 
+               mixl.isValidWebLink("http://www.hawaii.edu"));
     assertFalse("fake website: http://myfake.invalid.website", mixl
-        .isLinkValid("http://myfake.invalid.website"));
-    assertFalse("no website entered", mixl.isLinkValid(""));
+        .isValidWebLink("http://myfake.invalid.website"));
+    assertFalse("no website entered", mixl.isValidWebLink(""));
   }
+  
+	
+	/**
+	   * Tests loader.
+	   * 
+	   * @throws Exception if problem occurs.
+	   */
+		
+	  @Test
+	  public void testXmlLoader() throws Exception {
+	    
+		  MyIsernXmlLoader mixl = new MyIsernXmlLoader();
+		  assertNotNull("loader test", mixl);
+	    
+	  }
+	  
 
 }
