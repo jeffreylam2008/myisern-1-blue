@@ -45,7 +45,9 @@ import com.meterware.httpunit.WebResponse;
  */
 public class MyIsernXmlLoader {
 
+  /** The year found cannot be earlier than 1990 */
   private final int VALID_MIN_YEAR = 1990;
+  /** The year found cannot be later than 2010 */
   private final int VALID_MAX_YEAR = 2010;
   
   /** Holds the class-wide JAXBContext, which is thread-safe. */
