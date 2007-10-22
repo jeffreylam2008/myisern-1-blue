@@ -1,0 +1,45 @@
+#summary Join Collaboration
+#labels Use-Case
+
+*Case Number:* UC006
+
+*Case Name:* Join Collaboration
+
+*Description:* An ISERN member wants to join an existing collaboration.
+
+*Actors:*
+  * Researcher – An ISERN member
+  * System – The MyISERN application
+
+*Frequency:* Below Average
+
+*Preconditions:*
+  * The researcher is viewing the homepage.
+  * The researcher has a profile in the system.
+
+*Postconditions:*
+  * The researcher is part of the collaboration.
+
+*Basic Course:*
+|| *User* || *System* ||
+|| 1. The researcher clicks on the view collaborations link. || 2. The system loads a list of all existing collaborations. ||
+|| 3. The researcher looks for the collaboration he wishes to join and clicks on the edit collaboration link. || 4. The system loads the join collaboration form. ||
+|| 5. The researcher adds his name to the collaborating researchers, and enters his comment that states why he's joining.  He also enters his name as an author of the commend. ||  ||
+|| 6. The researcher clicks on the save button. || 7. The system adds the new information into the collaboration. ||
+||  || 8. The system sends email notifications to researchers associated with the collaboration stating that the collaboration has been changed. ||
+||  || 9. The system tells the researcher that the change to the collaboration was successful and loads the homepage. ||
+
+*Alternate Course A:*
+|| *User* || *System* ||
+|| A.5. The researcher incorrectly inputs his name on the list of collaborating researchers. ||  ||
+|| A.6. The researcher clicks on the save button. || A.7. The system tells the researcher that his name is not to the system. ||
+||  || A.8. The system tells the researcher to make sure he didn't make a typo. ||
+
+*Alternate Course B:*
+|| *User* || *System* ||
+|| B.5. The researcher incorrectly enters his name in the comment author name field. ||  ||
+|| B.6. The researcher clicks on the save button. || B.7. The system tells the researcher that the name on the comment author name field was not found. ||
+||  || B.8. The system tells the researcher to make sure he didn't make a typo. ||
+
+*Change History:*
+  * Created - 2007/10/21
