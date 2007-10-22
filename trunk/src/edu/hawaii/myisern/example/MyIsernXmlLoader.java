@@ -73,7 +73,7 @@ public class MyIsernXmlLoader {
     String jaxbContentString = "edu.hawaii.myisern.collaborations.jaxb";
     this.collaborationsJaxbContext = JAXBContext.newInstance(jaxbContentString);
     String currentWorkingDirectory = System.getProperty("user.dir");
-    String collabFilePath = currentWorkingDirectory + "/xml/examples/collaborations.example.xml";
+    String collabFilePath = currentWorkingDirectory + "/xml/examples/collaborations.save.xml";
     File collabFile = new File(collabFilePath);
     Unmarshaller unmarshaller = this.collaborationsJaxbContext.createUnmarshaller();
     Collaborations unmarshalledCollab = (Collaborations) unmarshaller.unmarshal(collabFile);
@@ -101,7 +101,7 @@ public class MyIsernXmlLoader {
     // Do the same for organizations.
     jaxbContentString = "edu.hawaii.myisern.organizations.jaxb";
     this.organizationsJaxbContext = JAXBContext.newInstance(jaxbContentString);
-    String orgFilePath = currentWorkingDirectory + "/xml/examples/organizations.example.xml";
+    String orgFilePath = currentWorkingDirectory + "/xml/examples/organizations.save.xml";
     File orgFile = new File(orgFilePath);
     unmarshaller = this.organizationsJaxbContext.createUnmarshaller();
     Organizations unmarshalledOrg = (Organizations) unmarshaller.unmarshal(orgFile);
@@ -128,7 +128,7 @@ public class MyIsernXmlLoader {
     // Now do it once more for the researchers.
     jaxbContentString = "edu.hawaii.myisern.researchers.jaxb";
     this.researchersJaxbContext = JAXBContext.newInstance(jaxbContentString);
-    String researcherFilePath = currentWorkingDirectory + "/xml/examples/researchers.example.xml";
+    String researcherFilePath = currentWorkingDirectory + "/xml/examples/researchers.save.xml";
     File researchersFile = new File(researcherFilePath);
     unmarshaller = this.researchersJaxbContext.createUnmarshaller();
     Researchers unmarshalledResearchers = (Researchers) unmarshaller.unmarshal(researchersFile);
@@ -602,7 +602,7 @@ public class MyIsernXmlLoader {
   public void addUniqueId(String uniqueId) {
     this.uniqueIdList.add(uniqueId.replace(' ', '_'));
   }
-  
+
   /**
    * Returns true if uniqueIdList contains unique ID.
    * @param possibleUniqueId containing Id to be compared to with list of Unique Id's.
