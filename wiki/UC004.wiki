@@ -23,4 +23,4 @@
 || 1. The researcher clicks on the view gallery link. || 2. The system loads the gallery page with thumbnails of all ISERN members and their names underneath the thumbnail. ||
 
 *Change History:*
-  *Created* - 2007/10/21
+  * Created - 2007/10/21
