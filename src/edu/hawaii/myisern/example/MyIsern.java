@@ -75,6 +75,18 @@ public class MyIsern {
     this.commandLineArgs = args;
     this.mixl = new MyIsernXmlLoader();
     this.mixs = new MyIsernXmlSaver();
+    try {
+        this.oList = this.mixl.getOrganizations();
+        this.cList = this.mixl.getCollaborations();
+        this.rList = this.mixl.getResearchers();
+        this.collabList = this.cList.getCollaboration();
+      }                   
+      catch (Exception e) {
+        System.out.println("Failure in Add");
+      }
+      this.newcAdded = false;
+      this.newoAdded = false;
+      this.newrAdded = false;
   }
 
   /**
@@ -170,7 +182,6 @@ public class MyIsern {
         if (this.commandLineArgs.length > 2) {
           arg2 = this.commandLineArgs[2];
         }
-        
         if ("-listCollaboration".equals(arg0)) {
          this.listCollaborations(arg1, arg2); 
         }
@@ -211,32 +222,6 @@ public class MyIsern {
     }
   }
   
-  /**
-   * Checks for user input and then runs the print methods accordingly. If the user does not enter
-   * any arguments, nothing will be printed out.
-   * 
-   * @throws Exception If XML data did not load properly.
-   */
-
-  private void runMyIsern() throws Exception {
-    try {
-      this.mixl = new MyIsernXmlLoader();
-      this.oList = this.mixl.getOrganizations();
-      this.cList = this.mixl.getCollaborations();
-      this.rList = this.mixl.getResearchers();
-      this.collabList = this.cList.getCollaboration();
-    }
-    catch (Exception e) {
-      System.out.println("Failure in Add");
-    }
-    this.newcAdded = false;
-    this.newoAdded = false;
-    this.newrAdded = false;
-   
-    // @return boolean Returns true if no errors were encountered.
-    // return true;
-  }
-
   /**
    * Lists collaborations for given organization, researcher, or year.
    * 

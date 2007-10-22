@@ -42,7 +42,6 @@ public class MyIsernGui {
   public MyIsernGui(Collaborations collaborations, 
             Organizations organizations,
             Researchers researchers) {
-    String currentWorkingDirectory = System.getProperty("user.dir");
     this.collaborations = collaborations;
     this.organizations = organizations;
     this.researchers = researchers;

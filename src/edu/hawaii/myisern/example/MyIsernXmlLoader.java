@@ -210,7 +210,7 @@ public class MyIsernXmlLoader {
     try {
       int curYear = year.intValue();
       //then check most recent year is between min year && max year
-      if (1990 < curYear && curYear < 2010) {
+      if (1990 <= curYear && curYear <= 2010) {
         //year is valid and we can attempt to add the unique id to the list
       pass = true;
       }

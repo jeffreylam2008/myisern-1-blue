@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+
 import edu.hawaii.myisern.researchers.jaxb.Researcher;
 
 
@@ -54,13 +55,31 @@ public class ResearcherImage {
         }
       }
     );
-    canvas.addListener(SWT.MouseDown, 
-      new Listener() {
-        public void handleEvent(Event e) {
-          //to do... display bubble window with info
+    Listener listener = new Listener() {
+        Point point = null;
+        static final int JITTER = 8;
+        public void handleEvent(Event event) {
+          switch (event.type) {
+          case SWT.MouseDown:
+            //point = new Point(event.x, event.y);
+            break;
+          case SWT.MouseMove:
+        	  //point = new Point(event.x, event.y);
+              break;
+          case SWT.MouseUp:
+        	  //point = new Point(event.x, event.y);
+              break;
+          default:
+        	  break;
+          }
+         
+          
         }
-      }
-    );
+      };
+    //canvas.addListener(SWT.MouseDown, listener);
+    canvas.addListener(SWT.MouseMove, listener);
+    //canvas.addListener(SWT.MouseUp, listener);
+      
     display.asyncExec(
       new Runnable() {
         public void run() {
@@ -75,6 +94,13 @@ public class ResearcherImage {
       }
     );
   } 
+  /**
+   * Sets location of researcher image object
+   * @param pt point to set to.
+   */
+  public void setLocation(Point pt) {
+	  this.location = pt;
+  }
   /**
    * Garbage collection.
    */
