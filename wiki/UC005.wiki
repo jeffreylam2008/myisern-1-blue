@@ -1,0 +1,44 @@
+#summary Create Collaboration
+#labels Use-Case
+
+*Case Number:* UC005
+
+*Case Name:* Create Collaboration
+
+*Description:* An ISERN member wishes to create a new collaboration.
+
+*Actors:*
+  * Researcher – An ISERN member
+  * System – The MyISERN application
+
+*Frequency:* Above Average
+
+*Preconditions:*
+  * The researcher is viewing the homepage.
+  * The researcher has a profile in the system.
+  * The collaboration does not exist in the system.
+
+*Postconditions:*
+  * The collaboration is added to the system.
+  * All participants for the collaboration are notified via email.
+
+*Basic Course:*
+|| *User* || *System* ||
+|| 1. The researcher clicks on the create collaboration link. || 2. The system loads the new collaboration form. ||
+|| 3. The researcher lists all researchers that will be involved, enters a brief proposal for the collaboration, and selects their name from a list as the proposer of the collaboration. ||  ||
+|| 4. The researcher clicks on the save button. || 5. The system sends emails to all researchers listed in the collaboration saying that they've been invited to the collaboration and provides a link to the collaboration. ||
+|| || 6. The system tells the user that the collaboration was added and all listed researchers notified. ||
+|| || 7. The system loads the homepage. ||
+
+*Alternate Course A:*
+|| *User* || *System*||
+|| A.1. The researcher doesn't know the name of the ISERN members that he wants to add to the collaboration so he clicks on the view gallery link. || A.2. The system loads the gallery page with thumbnails of all ISERN members and their names underneath the thumbnail. ||
+|| A.3. The researcher clicks on the home link. || A.4. The system loads the homepage. ||
+|| A.5. The researcher clicks on the create collaboration link. || A.6. The system loads the new collaboration form. ||
+|| A.7. The researcher lists all researchers that will be involved, enters a brief proposal for the collaboration, and selects their name from a list as the proposer of the collaboration. ||  ||
+|| A.8. The researcher clicks on the save button. || A.9. The system sends emails to all researchers listed in the collaboration saying that they've been invited to the collaboration and provides a link to the collaboration. ||
+||  || A.10. The system tells the user that the collaboration was added and all listed researchers notified. ||
+||  || A.11. The system loads the homepage. ||
+
+*Change History:*
+  * Created - 2007/10/21
