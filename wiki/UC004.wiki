@@ -1,0 +1,26 @@
+#summary View Members Gallery
+
+*Case Number:* UC004
+
+*Case Name:* View ISERN Members Gallery
+
+*Description:* View gallery with all ISERN members.
+
+*Actors:*
+  * Researcher – An ISERN member
+  * System – The MyISERN application
+
+*Frequency:* Above Average
+
+*Preconditions:*
+  * The researcher is viewing the homepage.
+
+*Postconditions:*
+  * The researcher is viewing the gallery.
+
+*Basic Course:*
+|| *User* || *System* ||
+|| 1. The researcher clicks on the view gallery link. || 2. The system loads the gallery page with thumbnails of all ISERN members and their names underneath the thumbnail. ||
+
+*Change History:*
+  *Created - 2007/10/21*
