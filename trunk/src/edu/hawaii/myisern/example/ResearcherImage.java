@@ -41,7 +41,7 @@ public class ResearcherImage {
     FormLayout layout = new FormLayout();
     parent.setLayout(layout);
     this.image = new Image(display, 
-                 "C:/projects/svn-google/myisern-1-blue/images/image1.jpg");
+        System.getProperty("user.dir") + "/images/image1.jpg");
     final Canvas canvas = new Canvas(parent, SWT.NO_BACKGROUND);
     final Rectangle rect = this.image.getBounds();
     canvas.setSize(size);
