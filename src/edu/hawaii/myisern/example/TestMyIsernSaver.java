@@ -20,6 +20,7 @@ public class TestMyIsernSaver  extends TestCase {
 		  mixs.saveCollaboratotionsXml(mixl.collaborations);
 		  mixs.saveOrganizationsXml(mixl.organizations);
 		  mixs.saveResearchersXml(mixl.researchers);
+		  //assertNull ("Should fail since there is no file found", mixl);
 		  assertNotNull("just maken it through.", mixl);
 	  }
 }

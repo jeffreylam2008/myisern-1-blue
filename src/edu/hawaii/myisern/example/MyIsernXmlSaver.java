@@ -50,7 +50,7 @@ public class MyIsernXmlSaver {
   public void saveResearchersXml (Researchers researchers) throws JAXBException, 
                                                                   FileNotFoundException {
     String currentWorkingDirectory = System.getProperty("user.dir");
-    String researcherFilePath = currentWorkingDirectory + "/xml/save/researchers.save.xml";
+    String researcherFilePath = currentWorkingDirectory + "/xml/examples/researchers.save.xml";
     Marshaller marshaller = this.researchersJaxbContext.createMarshaller();
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
     marshaller.marshal(researchers, new FileOutputStream(researcherFilePath));
@@ -64,7 +64,7 @@ public class MyIsernXmlSaver {
   public void saveCollaboratotionsXml (Collaborations collaboraions) throws JAXBException, 
                                                                             IOException {
     String currentWorkingDirectory = System.getProperty("user.dir");
-    String collabFilePath = currentWorkingDirectory + "/xml/save/collaborations.save.xml";
+    String collabFilePath = currentWorkingDirectory + "/xml/examples/collaborations.save.xml";
     Marshaller marshaller = this.collaborationsJaxbContext.createMarshaller();
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
     marshaller.marshal(collaboraions, new FileOutputStream(collabFilePath));
@@ -78,7 +78,7 @@ public class MyIsernXmlSaver {
   public void saveOrganizationsXml (Organizations organizations) throws JAXBException, 
                                                                         IOException {
     String currentWorkingDirectory = System.getProperty("user.dir");
-    String orgFilePath = currentWorkingDirectory + "/xml/save/organizations.save.xml";
+    String orgFilePath = currentWorkingDirectory + "/xml/examples/organizations.save.xml";
     Marshaller marshaller = this.organizationsJaxbContext.createMarshaller();
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
     marshaller.marshal(organizations, new FileOutputStream(orgFilePath));

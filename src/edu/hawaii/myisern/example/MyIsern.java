@@ -11,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
+import javax.xml.bind.JAXBException;
 import edu.hawaii.myisern.collaborations.jaxb.CollaboratingOrganizations;
 import edu.hawaii.myisern.collaborations.jaxb.Collaboration;
 import edu.hawaii.myisern.collaborations.jaxb.CollaborationTypes;
@@ -42,12 +43,26 @@ public class MyIsern {
   private MyIsernXmlLoader mixl;
   private String newLineNewTab = "\n\t";
   private String nameTableField = "\nName: ";
-  //private boolean argumentsPass = false;
-  private boolean unsavedExists;
+  private String reminderToSave = "Adding to List...\nPlease remember to save.\n";
+  private String innerLoopEnter = "Please hit <ENTER> if you are done, or hit any key + <ENTER> " +
+  		"to add another field entry: ";
+  private String confirmEntry = "Is the information provided " +
+  		"correcty?\nPlease hit <ENTER> if you are satisfied with " +
+  		"the entry or hit any key + <ENTER> if you would like to edit.";
+  private String reenterMessage = "Please reenter information for all fields.";
+  private String exitMainLoop = "Please hit <ENTER> to return to the Menu or hit any key + " +
+  		"<ENTER> to add another entry.";
+  private String enterKeyword = "Enter another keyword: ";
+  private boolean newrAdded = false;
+  private boolean newoAdded = false;
+  private boolean newcAdded = false;
   private Researchers rList = new Researchers();
   private Organizations oList = new Organizations();
   private Collaborations cList = new Collaborations();
-
+  private List<Collaboration> collabList = new ArrayList<Collaboration>();
+  private List<Organization> orgList = new ArrayList<Organization>();
+  private List<Researcher> resList = new ArrayList<Researcher>();
+  
   /**
    * Initializes command line options.
    * 
@@ -206,21 +221,17 @@ public class MyIsern {
       this.oList = this.mixl.getOrganizations();
       this.cList = this.mixl.getCollaborations();
       this.rList = this.mixl.getResearchers();
+      this.collabList = this.cList.getCollaboration();
     }
     catch (Exception e) {
       System.out.println("Failure in Add");
     }
-    /*
-    if (this.commandLineArgs.length == 0) {
-       addOrganization();
-       //addCollaboration();
-     }
-     else {
-       System.out.println("Args lenth >0");
-     }
-    System.out.println("Exiting...");
-    */
-    //boolean addSuccessful = this.addToIsern();
+//<<<<<<< .mine
+    this.newcAdded = false;
+    this.newoAdded = false;
+    this.newrAdded = false;
+   
+//=======
     // @return boolean Returns true if no errors were encountered.
     // return true;
   }
@@ -807,9 +818,10 @@ public class MyIsern {
    * Calls add methods that add researchers, organizations, and collaborations.
    * 
    * @return true If the method executed successfully.
- * @throws Exception if problems occur.
- * @throws NumberFormatException if problems occur.
+   * @throws Exception if problems occur.
+   * @throws NumberFormatException if problems occur.
    */
+
   private boolean addToIsern() throws NumberFormatException, Exception {
     boolean isDone = false;
     while (!isDone) {
@@ -850,7 +862,7 @@ public class MyIsern {
         printCollaborations(this.cList);
       }
       else if (input.equalsIgnoreCase("q")) {
-        if (this.unsavedExists) {
+        if (this.newrAdded || this.newcAdded || this.newoAdded) {
           System.out.println("There seems to be some unsaved information you entered. ");
           System.out.println("Would you like to save? ");
           System.out.println("Please hit <Enter> if you would like to save and exit or hit a key" +
@@ -858,13 +870,26 @@ public class MyIsern {
           try {
             if (userHitEnter()) {
               System.out.println("Saving...");
-              //Call save function here
+              MyIsernXmlSaver mixs = new MyIsernXmlSaver();
+              if (this.newrAdded) {
+                mixs.saveResearchersXml(this.rList);
+              }
+              else if (this.newcAdded) {
+                mixs.saveCollaboratotionsXml(this.cList);
+              }
+              else if (this.newoAdded) {
+                mixs.saveOrganizationsXml(this.oList);
+              }
             }
             else {
               System.out.println("Nothing saved...");
             }
           }
           catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+          catch (JAXBException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
           }
@@ -1129,12 +1154,12 @@ public class MyIsern {
       
       if (this.mixl.containsUniqueId(rName.replace(' ', '_'))) {
         System.out.println("This Researcher already exists");
-        System.out.println("Would you like to edit?");
-        System.out.println("Please hit <Enter> if you would like to edit or hit" +
-            "any key then <Enter> if you don't want to edit");
+        System.out.print("Hit <Enter> if you would like to edit existing " +
+        		"Researcher or hit a key then <Enter> if you do not want to " +
+        		"edit and would like to reenter a Researcher name.");
         try {
           if (userHitEnter()) {
-            userWantsToEdit = true;
+            editResearcher(rName);
           }
           else {
             System.out.println("No Edit");
@@ -1173,21 +1198,18 @@ public class MyIsern {
         System.out.println("Picture Link: " + rPictureLink);
         System.out.println("Bio-Statement: " + rBio);
         
-        System.out.print("\nIs the information correct?\n");
-        System.out.print("Please hit <Enter> if you are satisfied with the entry and submit to " +
-            "the list.  Hit any key then <Enter> if you would like to edit.");
+        System.out.print(confirmEntry);
         try {
           if (userHitEnter()) {
-            System.out.println("Adding to list...");
-            System.out.println("*NOTE* Adding to list does not mean file has been saved to XML");
+            System.out.println(reminderToSave);
             this.rList.getResearcher().add(newR);
             this.mixl.addUniqueId(rName);
-            this.unsavedExists = true;
+            this.newrAdded = true;
             newOrganization(rName, rOrg);
             
           }
           else {
-            System.out.println("Please reenter information for all fields.");
+            System.out.println(reenterMessage);
             userWantsToEdit = true;
           }
         }
@@ -1201,11 +1223,9 @@ public class MyIsern {
       }
       else {
         System.out.println("Would you like to add another researcher?");
-        System.out.print("Please hit <Enter> if you are done and would like to go back to the " +
-            "main menu.  Hit any key then <Enter> if you would like to add another.");
+        System.out.print(exitMainLoop);
         try {
           if (userHitEnter()) {
-            System.out.println("Exiting to Main menu...");
             userIsDone = true;
           }
           else {
@@ -1219,6 +1239,80 @@ public class MyIsern {
         }
       }
     } //while loop for researcher input
+  }
+
+  /**
+   * Edits an existing researcher with the name rName.
+   * @param rName containing the name of the Researcher to be edited.
+   */
+  public void editResearcher (String rName) {
+    if (this.mixl.containsUniqueId(rName.replace(' ', '_'))) {
+    List<Researcher> temp = new ArrayList<Researcher>();
+    this.resList = this.rList.getResearcher();
+    String rBio, rEmail, rOrg, rPictureLink;
+    boolean userIsDone = false;
+
+    //REMOVES RESEARCHER FROM LIST
+    for (Researcher curr : resList) {
+      if (rName.equals(curr.getName())) {
+        temp.add(curr);
+      }
+    }
+    this.resList.removeAll(temp);
+    
+    while (!userIsDone) {
+      Researcher newR = new Researcher();
+      
+        newR.setName(rName);
+        
+        System.out.print("\n Enter the researcher's organization: ");
+        rOrg = (userInput());
+        newR.setOrganization(rOrg);
+
+        System.out.print("\n Enter the researcher's e-mail address: ");
+        rEmail = (userInput());
+        newR.setEmail(rEmail);
+
+        System.out.print("\n Enter the researcher's picture link: ");
+        rPictureLink = (userInput());
+        newR.setPictureLink(rPictureLink);
+        
+        System.out.print("\n Enter the researcher's bio-statement: ");
+        rBio = (userInput());
+        newR.setBioStatement(rBio);
+        
+        // Show the information entered.
+        System.out.println("You Entered:");
+        System.out.println("Name: " + rName);
+        System.out.println("Organization: " + rOrg);
+        System.out.println("E-mail Address: " + rEmail);
+        System.out.println("Picture Link: " + rPictureLink);
+        System.out.println("Bio-Statement: " + rBio);
+        
+        System.out.print("\nPlease review your researcher edit\n");
+        System.out.print(exitMainLoop);
+        try {
+          if (userHitEnter()) {
+            System.out.println(reminderToSave);
+            this.rList.getResearcher().add(newR);
+            this.mixl.addUniqueId(rName);
+            this.newrAdded = true;
+            newOrganization(rName, rOrg);
+            userIsDone = true;
+            
+          }
+          else {
+            System.out.println(reenterMessage);
+            userIsDone = false;
+          }
+        }
+        catch (IOException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }     
+    } //while loop for researcher input
+    
+    }
   }
 
   /**
@@ -1251,19 +1345,11 @@ public class MyIsern {
    * 
    */
   public void addOrganization() {
-    String oName;
-    String oType;
-    String oContact;
-    String oCountry;
-    String oResearcherDescription;
-    String oHomepage;
+    String oName, oType, oContact, oCountry, oResearcherDescription, oHomepage;
     String newLine = "\n";
     boolean userIsDone = false;
     boolean innerLoopIsDone = false;
-    
-    String hitEnter = "Hit <Enter> if you are done or hit any other key then <enter>"
-      + " to add another: ";
-    
+   
     while (!userIsDone) {
       Organization newOrg = new Organization();
       List<String> oAffilResearchers = new ArrayList<String>();
@@ -1277,13 +1363,12 @@ public class MyIsern {
       
       if (this.mixl.containsUniqueId(oName.replace(' ', '_'))) {
         System.out.println("This Organization already exists");
-        System.out.println("Would you like to edit?");
-        System.out.println("Please hit <Enter> if you would like to edit or hit" +
-        		"any key then <Enter> if you don't want to edit");
+        System.out.println("Please hit <Enter> if you would like to edit  the existing " +
+        		"Organization or hit any key then <Enter> if you don't want to edit");
         try {
           if (userHitEnter()) {
             System.out.println("Edit");
-            userWantsToEdit = true;
+            editOrganization(oName);
           }
           else {
             System.out.println("No Edit");
@@ -1314,7 +1399,7 @@ public class MyIsern {
         while (!innerLoopIsDone) {
           oAffilResearchers.add(userInput());
           System.out.println("Would you like to add another Affiliated Researcher? ");
-          System.out.print(hitEnter);
+          System.out.print(innerLoopEnter);
           
           try {
             if (userHitEnter()) {
@@ -1348,13 +1433,14 @@ public class MyIsern {
         while (!innerLoopIsDone) {
           oResearchKeywords.add(userInput());
           System.out.println("Would you like to add another keyword? ");
-          System.out.print(hitEnter);
+          System.out.print(innerLoopEnter);
           try {
             if (userHitEnter()) {
               innerLoopIsDone = true;
             }
             else {
-              System.out.print("Enter another keyword: ");
+              
+              System.out.print(enterKeyword);
               innerLoopIsDone = false;
             }
           }
@@ -1395,20 +1481,18 @@ public class MyIsern {
         }
         System.out.println("Homepage: " + oHomepage);
         
-        System.out.print("\nIs the information correct?\n");
-        System.out.print("Please hit <Enter> if you are satisfied with the entry and submit to " +
-        		"the list.  Hit any key then <Enter> if you would like to edit.");
+        System.out.print("\nIs the information provided correct?\n");
+        System.out.print(confirmEntry);
         try {
           if (userHitEnter()) {
-            System.out.println("Adding to list...");
-            System.out.println("*NOTE* Adding to list does not mean file has been saved to XML");
+            System.out.println(reminderToSave);
             this.oList.getOrganization().add(newOrg);
             this.mixl.addUniqueId(oName);
-            this.unsavedExists = true;
+            this.newoAdded = true;
             newResearcher(oContact, oName);
           }
           else {
-            System.out.println("Please reenter information for all fields.");
+            System.out.println(reenterMessage);
             userWantsToEdit = true;
           }
         }
@@ -1422,8 +1506,7 @@ public class MyIsern {
       }
       else {
         System.out.println("Would you like to add another organization?");
-        System.out.print("Please hit <Enter> if you are done and would like to go back to the " +
-        		"main menu.  Hit any key then <Enter> if you would like to add another.");
+        System.out.print(exitMainLoop);
         try {
           if (userHitEnter()) {
             System.out.println("Exiting to Main menu...");
@@ -1445,6 +1528,155 @@ public class MyIsern {
   }
   
   /**
+   * Edits an existing organization with the name oName.
+   * @param oName containing the name of the Organization to be edited.
+   */
+  public void editOrganization(String oName) {
+    if (this.mixl.containsUniqueId(oName.replace(' ', '_'))) {
+      List<Organization> temp = new ArrayList<Organization>();
+      this.orgList = this.oList.getOrganization();   
+      String oType, oContact, oCountry, oResearcherDescription, oHomepage;
+      boolean userIsDone = false;
+      boolean innerLoopIsDone = false;
+      
+      //ACTUAL REMOVAL OF THE ORGANIZATION FROM LIST
+      for (Organization curr : orgList) {
+        if (oName.equals(curr.getName())) {
+          temp.add(curr);
+        }
+      }
+      this.orgList.removeAll(temp);
+      
+      while (!userIsDone) {
+        Organization newOrg = new Organization();
+        List<String> oAffilResearchers = new ArrayList<String>();
+        List<String> oResearchKeywords = new ArrayList<String>();
+
+          newOrg.setName(oName);
+          
+          System.out.print("Enter Type of Organization: ");
+          oType = userInput();
+
+          newOrg.setType(oType);
+          
+          System.out.print("Enter Contact: ");
+          oContact = userInput();
+
+          newOrg.setContact(oContact);
+          
+          System.out.print("Enter an Affiliated Researcher: ");
+          innerLoopIsDone = false;
+          while (!innerLoopIsDone) {
+            oAffilResearchers.add(userInput());
+            System.out.println("Would you like to add another Affiliated Researcher? ");
+            System.out.print(innerLoopEnter);
+            
+            try {
+              if (userHitEnter()) {
+                innerLoopIsDone = true;
+              }
+              else {
+                System.out.print("Enter another affiliated Researcher: ");
+                innerLoopIsDone = false;
+              }
+            }
+            catch (IOException e) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
+            }
+            
+          } //While loop for adding affiliated researchers
+          
+          AffiliatedResearchers ar = new AffiliatedResearchers();
+          newOrg.setAffiliatedResearchers(ar);
+          for (String current : oAffilResearchers) {
+            newOrg.getAffiliatedResearchers().getAffiliatedResearcher().add(current);
+
+          }
+          
+          System.out.print("Enter Country: ");
+          oCountry = userInput();
+          newOrg.setCountry(oCountry);
+          
+          System.out.print("Enter a Research Keyword: ");
+          innerLoopIsDone = false;
+          while (!innerLoopIsDone) {
+            oResearchKeywords.add(userInput());
+            System.out.println("Would you like to add another keyword? ");
+            System.out.print(innerLoopEnter);
+            try {
+              if (userHitEnter()) {
+                innerLoopIsDone = true;
+              }
+              else {
+                System.out.print(enterKeyword);
+                innerLoopIsDone = false;
+              }
+            }
+            catch (IOException e) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
+            }
+          } //while for research keyword inner Loop
+          
+          ResearchKeywords rk = new ResearchKeywords();
+          newOrg.setResearchKeywords(rk);
+          for (String current : oResearchKeywords) {
+            newOrg.getResearchKeywords().getResearchKeyword().add(current);
+          }
+          
+          System.out.println("Enter Research Description:\n\t");
+          oResearcherDescription = userInput();
+          
+          newOrg.setResearchDescription(oResearcherDescription);
+          
+          System.out.println("Enter Organization homepage: ");
+          oHomepage = userInput();
+          
+          newOrg.setHomePage(oHomepage);
+          
+          System.out.println("--- You Entered:");
+          System.out.println("Organization:" + oName);
+          System.out.println("Type:" + oType);
+          System.out.println("Contact: " + oContact);
+          System.out.println("Affiliated Researchers");
+          for (String curr : oAffilResearchers) {
+            System.out.println("t" + curr);
+          }
+          System.out.println("Country: " + oCountry);
+          System.out.println("Research Keywords: ");
+          for (String curr : oResearchKeywords) {
+            System.out.println("t" + curr);
+          }
+          System.out.println("Homepage: " + oHomepage);
+          
+          System.out.print("\nIs the information provided correct?\n");
+          System.out.print("Please hit <Enter> if you are satisfied with the entry and submit to " +
+              "the list or hit any key then <Enter> if you would like to edit.");
+          try {
+            if (userHitEnter()) {
+              System.out.println("Adding to list of Organizations...");
+              System.out.println(reminderToSave);
+              this.oList.getOrganization().add(newOrg);
+              this.mixl.addUniqueId(oName);
+              this.newoAdded = true;
+              newResearcher(oContact, oName);
+              userIsDone = true;
+            }
+            else {
+              System.out.println(reenterMessage);
+              userIsDone = false;
+            }
+          }
+          catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+        
+      } //Main while loop for entering organization info
+    } //if statement for Organization that already exists
+  }
+  /**
    * This method adds a new Researcher if the contact for the Organization given is a new
    * contact.
    * @param rName String containing Researcher's/Contact's name.
@@ -1462,16 +1694,14 @@ public class MyIsern {
   }
   /**
    * Adds a Collaboration and its required fields.
- * @throws Exception If problems occur.
- * @throws NumberFormatException If problems occur.
+   * @throws Exception If problems occur.
+   * @throws NumberFormatException If problems occur.
    */
+
   public void addCollaboration() throws NumberFormatException, Exception {
     Collaboration newCollab = new Collaboration();
-    String collabName;
-    String collabDescription;
+    String collabName, collabDescription;
     String tab = "\t";
-    String hitEnter = "Hit <Enter> if you are done or hit any other key then <enter>"
-      + " to add another: ";
     boolean userIsDone = false;
     boolean innerLoopIsDone = false;
     
@@ -1488,13 +1718,12 @@ public class MyIsern {
       
       if (this.mixl.containsUniqueId(collabName.replace(' ', '_'))) {
         System.out.println("This Collaboration already exists");
-        System.out.println("Would you like to edit?");
-        System.out.println("Please hit <Enter> if you would like to edit or hit" +
-            "any key then <Enter> if you don't want to edit");
+        System.out.println("Please hit <Enter> if you would like to edit the existing" +
+        		"collaboration or hit any key then <Enter> if you don't want to edit");
         
         try {
           if (userHitEnter()) {
-            userWantsToEdit = true;
+            editCollaboration(collabName);
           }
           else {
             System.out.println("No Edit");
@@ -1521,18 +1750,18 @@ public class MyIsern {
           }
           else {
             System.out.println("Would you like to add more Organizations? ");
-            System.out.print(hitEnter);
+            System.out.print(innerLoopEnter);
             try {
               if (userHitEnter()) {
                 innerLoopIsDone = true;
               }
               else {
-                System.out.print("Enter another keyword: ");
+                System.out.print(enterKeyword);
                 innerLoopIsDone = false;
               }
             }
             catch (Exception e) {
-             System.out.println ("Catch userHitenter");
+             System.out.println ("Error");
               e.printStackTrace();
             }
             
@@ -1551,7 +1780,7 @@ public class MyIsern {
         while (!innerLoopIsDone) {
           collabTypes.add(userInput());
           System.out.println("Would you like to add another Collaboration Type? ");
-          System.out.print(hitEnter);
+          System.out.print(innerLoopEnter);
           try {
             if (userHitEnter()) {
               innerLoopIsDone = true;
@@ -1580,7 +1809,7 @@ public class MyIsern {
           if (this.mixl.isValidYear(BigInteger.valueOf(Integer.parseInt(tempYear)))) {
             collabYears.add(tempYear);
             System.out.println("Would you like to add another Year? ");
-            System.out.print(hitEnter);
+            System.out.print(innerLoopEnter);
             try {
               if (userHitEnter()) {
                 innerLoopIsDone = true;
@@ -1613,7 +1842,7 @@ public class MyIsern {
           collabOutcomeTypes.add(userInput());
          
             System.out.println("Would you like to add another Outcome Type? ");
-            System.out.print(hitEnter);
+            System.out.print(innerLoopEnter);
             try {
               if (userHitEnter()) {
                 innerLoopIsDone = true;
@@ -1662,15 +1891,13 @@ public class MyIsern {
         System.out.println(collabDescription);
        
         System.out.print("\nIs the information correct?\n");
-        System.out.print("Please hit <Enter> if you are satisfied with the entry and submit to " +
-            "the list.  Hit any key then <Enter> if you would like to edit.");
+        System.out.print(confirmEntry);
         try {
           if (userHitEnter()) {
-            System.out.println("Adding to list...");
-            System.out.println("*NOTE* Adding to list does not mean file has been saved to XML");
+            System.out.println(reminderToSave);
             this.cList.getCollaboration().add(newCollab);
             this.mixl.addUniqueId(collabName);
-            this.unsavedExists = true;
+            this.newcAdded = true;
           }
           else {
             System.out.println("Please reenter information for all fields.");
@@ -1710,13 +1937,208 @@ public class MyIsern {
   }
   
   /**
-   * Edits an existing collaboration.
-   * @param collab String containing name of collaboration.
+   * Edits an existing collaboration with the name collabName.
+   * @param collabName String containing name of collaboration.
+   * @throws Exception when error occrus.
    */
-  public void editCollaboration(String collab) {
-    if (this.mixl.containsUniqueId(collab.replace(' ', '_'))) {
-      System.out.println("Add edit");
-    }
+  public void editCollaboration(String collabName) throws Exception {
+    if (this.mixl.containsUniqueId(collabName.replace(' ', '_'))) {
+      List<Collaboration> temp = new ArrayList<Collaboration>();
+      Collaboration newCollab = new Collaboration();
+      this.collabList = this.cList.getCollaboration();
+      
+      String collabDescription;
+      String tab = "\t";
+      boolean userIsDone = false;
+      boolean innerLoopIsDone = false;
+      
+      //ACTUAL REMOVAL OF THE COLLABORATION FROM LIST
+      for (Collaboration curr : collabList) {
+        if (collabName.equals(curr.getName())) {
+          temp.add(curr);
+        }
+      }
+      this.collabList.removeAll(temp);
+      
+      while (!userIsDone) {
+        List<String> collabOrganizations = new ArrayList<String>();
+        List<String> collabTypes = new ArrayList<String>();
+        List<String> collabYears = new ArrayList<String>();
+        List<String> collabOutcomeTypes = new ArrayList<String>();
+        
+        newCollab.setName(collabName);
+          System.out.print("Please enter A collaborating Organization: ");
+          innerLoopIsDone = false;
+          while (!innerLoopIsDone) {
+            collabOrganizations.add(userInput());
+
+            if (collabOrganizations.size() < 2) {
+              System.out.print("Please add second collaborating Organization: ");
+            }
+            else {
+              System.out.println("Would you like to add more Organizations? ");
+              System.out.print(innerLoopEnter);
+              try {
+                if (userHitEnter()) {
+                  innerLoopIsDone = true;
+                }
+                else {
+                  System.out.print(enterKeyword);
+                  innerLoopIsDone = false;
+                }
+              }
+              catch (Exception e) {
+               System.out.println ("Catch userHitenter");
+                e.printStackTrace();
+              }
+              
+            }
+          } // while for collaborating organization inner Loop
+
+          CollaboratingOrganizations co = new CollaboratingOrganizations();
+          newCollab.setCollaboratingOrganizations(co);
+
+          for (String current : collabOrganizations) {
+            newCollab.getCollaboratingOrganizations().getCollaboratingOrganization().add(current);
+          }
+          
+          innerLoopIsDone = false;
+          System.out.print("Please enter a Collaboration Type: ");
+          while (!innerLoopIsDone) {
+            collabTypes.add(userInput());
+            System.out.println("Would you like to add another Collaboration Type? ");
+            System.out.print(innerLoopEnter);
+            try {
+              if (userHitEnter()) {
+                innerLoopIsDone = true;
+              }
+              else {
+                System.out.print("Enter another Collaboration Type: ");
+                innerLoopIsDone = false;
+              }
+            }
+            catch (IOException e) {
+              e.printStackTrace();
+            }
+          } // while for  inner Loop
+          
+          CollaborationTypes ct = new CollaborationTypes();
+          newCollab.setCollaborationTypes(ct);
+          
+          for (String current : collabTypes) {
+            newCollab.getCollaborationTypes().getCollaborationType().add(current);
+          }
+          
+          innerLoopIsDone = false;
+          System.out.print("Please enter year of collaboration: ");
+          while (!innerLoopIsDone) {
+            String tempYear = userInput();
+            if (yearIsValid(tempYear)) {
+              collabYears.add(tempYear);
+              System.out.println("Would you like to add another Year? ");
+              System.out.print(innerLoopEnter);
+              try {
+                if (userHitEnter()) {
+                  innerLoopIsDone = true;
+                }
+                else {
+                  System.out.print("Please enter another Year: ");
+                  innerLoopIsDone = false;
+                }
+              }
+              catch (IOException e) {
+                e.printStackTrace();
+              }
+            }
+            else {
+              System.out.print("Year Invalid. Please enter a year between 1990 and 2010: ");
+            }
+          } // while for inner Loop
+          
+          Years y = new Years();
+          newCollab.setYears(y);
+          
+          for (String current : collabYears) {
+            BigInteger bi = new BigInteger(current);
+            newCollab.getYears().getYear().add(bi);
+          }
+          
+          innerLoopIsDone = false;
+          System.out.print("Please enter Outcome Type of collaboration: ");
+          while (!innerLoopIsDone) {
+            collabOutcomeTypes.add(userInput());
+           
+              System.out.println("Would you like to add another Outcome Type? ");
+              System.out.print(innerLoopEnter);
+              try {
+                if (userHitEnter()) {
+                  innerLoopIsDone = true;
+                }
+                else {
+                  System.out.print("Enter another Outcome type: ");
+                  innerLoopIsDone = false;
+                }
+              }
+              catch (IOException e) {
+                e.printStackTrace();
+              }
+          } // while for inner Loop
+          
+          OutcomeTypes ot = new OutcomeTypes();
+          newCollab.setOutcomeTypes(ot);
+          
+          for (String current : collabOutcomeTypes) {
+            newCollab.getOutcomeTypes().getOutcomeType().add(current);
+          }
+          
+          System.out.print("Please enter a description for this collaboration:\n\t");
+          collabDescription = userInput();
+          newCollab.setDescription(collabDescription);
+          
+          //Prints out user input
+          System.out.println("You Entered: ");
+          System.out.println("Collaboration Name: " + collabName);
+          System.out.println("Collaborating Organizations: ");
+          for (String curr : collabOrganizations ) {
+            System.out.println(tab + curr);
+          }
+          System.out.println("Collaboration Types: ");
+          for (String curr : collabTypes ) {
+            System.out.println(tab + curr);
+          }
+          System.out.println("Years: ");
+          for (String curr : collabYears ) {
+            System.out.println(tab + curr);
+          }
+          System.out.println("Outcome Types: ");
+          for (String curr : collabOutcomeTypes ) {
+            System.out.println(tab + curr);
+          }
+          System.out.println("Description: ");
+          System.out.println(collabDescription);
+         
+          System.out.print("\nIs the information correct?\n");
+          System.out.print("Please hit <Enter> if you are satisfied with the entry and submit to " +
+              "the list.  Hit any key then <Enter> if you would like to edit.");
+          try {
+            if (userHitEnter()) {
+              System.out.println("Adding to list...");
+              System.out.println("*NOTE* Adding to list does not mean file has been saved to XML");
+              this.cList.getCollaboration().add(newCollab);
+              this.newcAdded = true;
+              userIsDone = true;
+            }
+            else {
+              System.out.println("Please reenter information for all fields.");
+              userIsDone = false;
+            }
+          }
+          catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+      }
+    } //if statement for collaboration that already exists
   }
 
   /**
@@ -1724,7 +2146,7 @@ public class MyIsern {
    * @param currentYear String that contains year to be converted and examined.
    * @return boolean whether year entered is valid.
    */
-  /*
+  
   public boolean yearIsValid (String currentYear) {
     boolean yearIsValid = false;
     try {
@@ -1739,7 +2161,7 @@ public class MyIsern {
     }
     return yearIsValid;
   }
-  */
+  
   /**
    * Returns true if user hits <Enter> or false if otherwise.
    * @return boolean containing boolean value whether user hit enter.
