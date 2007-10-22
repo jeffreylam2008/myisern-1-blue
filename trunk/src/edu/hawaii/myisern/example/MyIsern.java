@@ -50,16 +50,16 @@ public class MyIsern {
   private String nameTableField = "\nName: ";
   /** String to remind user to save, checkstyle fix */
   private String reminderToSave = "Adding to List...\nPlease remember to save.\n";
-  /** String to use with all edit functions, checkstyle fix*/
+  /** String to use with all edit functions, checkstyle fix */
   private String reenterMessage = "Please reenter information for all fields.";
   /** String to prompt user to enter for all following fields, checkstyle fix */
   private String enterPrompt = " --- Please Enter information for following fields.\n";
   /** boolean value that holds true if a new researcher is added */
-  private boolean newrAdded = false;
+  private boolean newrExists = false;
   /** boolean value that holds true if a new organization is added */
-  private boolean newoAdded = false;
+  private boolean newoExists = false;
   /** boolean value that holds true if a new collaboration is added */
-  private boolean newcAdded = false;
+  private boolean newcExists = false;
   /** Researcher object that will hold all new and old researchers */
   private Researchers rList = new Researchers();
   /** Organization object that will hold all new and old organizations */
@@ -72,7 +72,7 @@ public class MyIsern {
   private List<Organization> orgList = new ArrayList<Organization>();
   /** Array List of all Researchers */
   private List<Researcher> resList = new ArrayList<Researcher>();
-  
+
   /**
    * Initializes command line options.
    * 
@@ -92,9 +92,9 @@ public class MyIsern {
     catch (Exception e) {
       System.out.println("Failure in Add");
     }
-    this.newcAdded = false;
-    this.newoAdded = false;
-    this.newrAdded = false;
+    this.newcExists = false;
+    this.newoExists = false;
+    this.newrExists = false;
   }
 
   /**
@@ -111,6 +111,7 @@ public class MyIsern {
 
   /**
    * Method handle -describe command line argument.
+   * 
    * @param typeDescribing Object to describe.
    */
   public void describe(String typeDescribing) {
@@ -131,13 +132,14 @@ public class MyIsern {
       }
     }
     catch (Exception e) {
-      //to do exception handling
+      // to do exception handling
       System.out.println(e.toString());
     }
   }
 
   /**
    * Overload describe to handle searching.
+   * 
    * @param typeDescribing Object looking for.
    * @param uniqueId Unique identifier of Object.
    */
@@ -159,7 +161,7 @@ public class MyIsern {
       }
     }
     catch (Exception e) {
-      //to do execption handling
+      // to do execption handling
       System.out.println(e.toString());
     }
   }
@@ -191,8 +193,8 @@ public class MyIsern {
         else if ("-listOrganizations".equals(arg0) && "-collaborationLevelEquals".equals(arg1)) {
           this.listOrganizationsEquals(Integer.parseInt(arg2));
         }
-        else if ("-listOrganizations".equals(arg0) 
-            && "-collaborationLevelGreaterThan".equals(arg1)) {
+        else if ("-listOrganizations".equals(arg0) && 
+            "-collaborationLevelGreaterThan".equals(arg1)) {
           this.listOrganizationsGreaterThan(Integer.parseInt(arg2));
         }
         else if ("-showGui".equals(arg0)) {
@@ -212,7 +214,7 @@ public class MyIsern {
       }
     }
     catch (Exception e) {
-      //to do exception handling.
+      // to do exception handling.
       System.out.println(e.toString());
     }
   }
@@ -468,7 +470,7 @@ public class MyIsern {
     boolean isIdValid = false;
     for (String collaborationId : idList) {
       if (id.replace(' ', '_').equals(collaborationId)) {
-        //System.out.println("Found");
+        // System.out.println("Found");
         isIdValid = true;
         break;
       }
@@ -826,31 +828,43 @@ public class MyIsern {
       }
       else if (input.equalsIgnoreCase("s")) {
         System.out.println("s");
-        if (this.newrAdded) {
+        if (this.newrExists) {
           mixs.saveResearchersXml(this.rList);
+          System.out.println("New Researcher(s) saved.");
+          this.newrExists = false;
         }
-        else if (this.newcAdded) {
+        else if (this.newcExists) {
           mixs.saveCollaboratotionsXml(this.cList);
+          System.out.println("New Collaboration(s) saved.");
+          this.newcExists = false;
         }
-        else if (this.newoAdded) {
+        else if (this.newoExists) {
           mixs.saveOrganizationsXml(this.oList);
+          System.out.println("New Organization(s) saved.");
+          this.newoExists = false;
         }
       }
       else if (input.equalsIgnoreCase("q")) {
-        if (this.newrAdded || this.newcAdded || this.newoAdded) {
+        if (this.newrExists || this.newcExists || this.newoExists) {
           System.out.println("There seems to be some unsaved information you entered. ");
           System.out.print("Would you like to save?(Y/N) ");
           try {
             if (userEntersYes()) {
               System.out.println("Saving...");
-              if (this.newrAdded) {
+              if (this.newrExists) {
                 mixs.saveResearchersXml(this.rList);
+                System.out.println("New Researcher(s) saved.");
+                this.newrExists = false;
               }
-              else if (this.newcAdded) {
+              else if (this.newcExists) {
                 mixs.saveCollaboratotionsXml(this.cList);
+                System.out.println("New Collaboration(s) saved.");
+                this.newcExists = false;
               }
-              else if (this.newoAdded) {
+              else if (this.newoExists) {
                 mixs.saveOrganizationsXml(this.oList);
+                System.out.println("New Organization(s) saved.");
+                this.newoExists = false;
               }
             }
             else {
@@ -869,7 +883,7 @@ public class MyIsern {
         System.out.println("Exiting MyIsern...Have a nice Day!");
         isDone = true;
       }
-      // Also has "secret" print functions for testing purposes 
+      // Also has "secret" print functions for testing purposes
       else if (input.equalsIgnoreCase("p")) {
         printResearchers(this.rList);
         printOrganizations(this.oList);
@@ -892,223 +906,31 @@ public class MyIsern {
         System.out.println(" The command you entered " + input + " is incorrect.");
         System.out.println(" Please enter a valid command.");
       }
-      //if input is r call addResearchers method
-      //if input is o call addOrganizations method
-      //if input is c call addCollaborations method
-      //if input is s save the current information to XML files then reload the xml data
-      //if input is q, check if lists are saved, if not ask user if he wants to save
-      //if yes, save, then leave the program
+      // if input is r call addResearchers method
+      // if input is o call addOrganizations method
+      // if input is c call addCollaborations method
+      // if input is s save the current information to XML files then reload the xml data
+      // if input is q, check if lists are saved, if not ask user if he wants to save
+      // if yes, save, then leave the program
     }
     return true;
   }
 
   /**
-   * Checks for valid arguments and calls corresponding print methods.
-   * @param args containing command Line arguments.
-   * @return argumentsPass if first argument given is valid.
-   */
-  /*
-  public boolean checkArguments(String[] args) {
-    boolean argumentsPass = this.argumentsPass;
-
-    try {
-      if ("-listCollaborations".equals(args[0])) {
-        boolean collaborationsExist = false;
-        try {
-          if ("-organization".equals(args[1])) {
-            collaborationsExist = listCollaborations(args[1], args[2]);
-            if (!collaborationsExist) {
-              System.out.println("There were no collaborations found for "
-                  + args[2].replace('_', ' '));
-            }
-            argumentsPass = true;
-          }
-          else if ("-year".equals(args[1])) {
-            int year = 0;
-            try {
-              if (args[2].isEmpty()) {
-                System.out.println("Year field empty.  Please specify a year");
-                argumentsPass = false;
-              }
-              else {
-                year = Integer.parseInt(args[2]);
-                if (year >= 1990 && year <= 2010) {
-                  if (args[2].isEmpty()) {
-                    System.out.println("Empty third argument for -organization");
-                  }
-                  else {
-                    collaborationsExist = listCollaborations(args[1], args[2]);
-                    if (!collaborationsExist) {
-                      System.out.println("There were no collaborations found for " + args[2]
-                          + args[2].replace('_', ' '));
-                    }
-                    argumentsPass = true;
-                  }
-                }
-                else {
-                  System.out.println("Year specified needs to fall between 1990 and 2010.");
-                }
-              }
-            }
-            catch (Exception e) {
-              System.out.println("Year provided invalid.");
-              argumentsPass = false;
-            }
-          }
-          else if ("-researcher".equals(args[1])) {
-            collaborationsExist = listCollaborations(args[1], args[2]);
-            if (!collaborationsExist) {
-              System.out.println("There were no collaborations found for " + args[2]
-                  + args[2].replace('_', ' '));
-            }
-            argumentsPass = true;
-          }
-          else {
-            System.out.println("Invalid Second Argument for -listCollaborations");
-            System.out.println("Valid Second Argument for -listCollaborations:");
-            System.out.println("\t-organization, -year, -researcher");
-            argumentsPass = false;
-          }
-        }
-        catch (Exception e) {
-          System.out.println("Invalid Second argument");
-          System.out.println(e.getMessage());
-        }
-      }
-
-      else if ("-describe".equals(args[0])) {
-        try {
-          Set<String> idList;
-          boolean isIdValid = false;
-          if ("-researcher".equals(args[1])) {
-            idList = this.mixl.getUniqueIds();
-            isIdValid = printResearcher(args[2], idList);
-            if (!isIdValid) {
-              System.out.println("ID entered invalid.");
-            }
-            argumentsPass = true;
-          }
-          else if ("-organization".equals(args[1])) {
-            idList = this.mixl.getUniqueIds();
-            isIdValid = printOrganization(args[2], idList);
-            if (!isIdValid) {
-              System.out.println("ID entered invalid.");
-            }
-            argumentsPass = true;
-          }
-          else if ("-collaboration".equals(args[1])) {
-            idList = this.mixl.getUniqueIds();
-            isIdValid = printCollaboration(args[2], idList);
-            if (!isIdValid) {
-              System.out.println("ID entered invalid.");
-            }
-            argumentsPass = true;
-          }
-          else if ("-all".equals(args[1])) {
-            try {
-              if ("Researchers".equals(args[2])) {
-                printResearchers(this.mixl.getResearchers());
-                argumentsPass = true;
-              }
-              else if ("Organizations".equals(args[2])) {
-                printOrganizations(this.mixl.getOrganizations());
-                argumentsPass = true;
-              }
-              else if ("Collaborations".equals(args[2])) {
-                printCollaborations(this.mixl.getCollaborations());
-                argumentsPass = true;
-              }
-              else {
-                System.out.println("Last argument for '-all' invalid.");
-                argumentsPass = false;
-              }
-            }
-            catch (Exception e) {
-              System.out.println(e.getMessage());
-              argumentsPass = false;
-            }
-          }
-          else {
-            argumentsPass = false;
-          }
-        }
-        catch (Exception e) {
-          System.out.println("Second Argument Error");
-          argumentsPass = false;
-        }
-      }
-
-      else if ("-listOrganizations".equals((args[0]))) {
-        if ("-collaborationLevelEquals".equals(args[1])) {
-          //int numberOfCollabs = 0;
-
-          try {
-            int numberOfCollabs = Integer.parseInt(args[2]);
-            boolean listOrgsEqu = listOrganizationsEquals(numberOfCollabs);
-            argumentsPass = true;
-          }
-          catch (Exception e) {
-            System.out.println("Invalid third argument");
-            argumentsPass = false;
-          }
-        }
-        else if ("-collaborationLevelGreaterThan".equals(args[1])) {
-          //int numberOfCollabs = 0;
-
-          try {
-            int numberOfCollabs = Integer.parseInt(args[2]);
-            boolean listOrgsGreaterThan = listOrganizationsGreaterThan(numberOfCollabs);
-            argumentsPass = true;
-          }
-          catch (Exception e) {
-            System.out.println("Invalid third argument");
-            argumentsPass = false;
-          }
-        }
-        else {
-          System.out.println("Second Argument error.");
-          argumentsPass = false;
-        }
-      }
-      else if ("-showGui".equals(args[0])) {
-        System.out.println("Show GUI");
-        MyIsernGui.createGui(mixl.getCollaborations(),
-              mixl.getOrganizations(),
-              mixl.getResearchers());
-         
-        }
-       else if ("-help".equals(args[0])) {
-         printHelp();
-        }
-      else {
-        System.out.println("Error:  Invalid First Argument");
-        //System.out.print("Valid First Arguments:");
-        //System.out.println("\t-listCollaborations, -describe, -listOrganizations");
-        argumentsPass = false;
-      }
-    }
-    catch (Exception e) {
-      System.out.println("Error on first argument passed");
-      argumentsPass = false;
-    }
-    return argumentsPass;
-  }
-   */
-  /**
    * Prints helpful information for commmand line options
    */
   void printHelp() {
-    //Provides a 'help' mechanism similar to the Unix style.
+    // Provides a 'help' mechanism similar to the Unix style.
     String helpString = "";
     helpString += "\nProvides sample code for loading XML ";
     helpString += "and marshalling it into their JAXB related classes.";
     helpString += "\nUsage: java -jar myisern-1-blue.jar [OPTION]";
     helpString += "\n  -listCollaborations -organization <uniqueID>";
-    //helpString +=   "\tLists Collaborations known for specified organization";
+    // helpString += "\tLists Collaborations known for specified organization";
     helpString += "\n  -listCollaborations -year <year>";
-    //helpString +=   "\t\tLists Collaborations known for specified year";
+    // helpString += "\t\tLists Collaborations known for specified year";
     helpString += "\n  -listCollaborations -researcher <uniqueID>";
-    //helpString +=   "\tLists Collaborations known for specified researcher";
+    // helpString += "\tLists Collaborations known for specified researcher";
     helpString += "\n  -describe -researcher <uniqueID>";
     helpString += "\n  -describe -organization <uniqueID>";
     helpString += "\n  -describe -collaboration <uniqueID>";
@@ -1121,14 +943,11 @@ public class MyIsern {
     helpString += "\n  -showGui";
     helpString += "\n  -help";
     System.out.println(helpString);
-    /*System.out.println("\t-c, --printCollaborations\tprints collaborations.");
-    System.out.println("\t-o, --printOrganizations\tprints organizations.");
-    System.out.println("\t-r, --printResearchers\t\tprints researchers.");
-    System.out.println("\t    --help\t\t\tdisplay this help and exits.");*/
   }
 
   /**
    * Adds Researchers to the researchers List.
+   * 
    * @throws IOException when I/O error occurs.
    */
   public void addResearcher() throws IOException {
@@ -1189,7 +1008,7 @@ public class MyIsern {
           System.out.println(reminderToSave);
           this.rList.getResearcher().add(newR);
           this.mixl.addUniqueId(rName);
-          this.newrAdded = true;
+          this.newrExists = true;
           newOrganization(rName, rOrg);
           userWantsToEdit = false;
         }
@@ -1228,7 +1047,7 @@ public class MyIsern {
       String rBio, rEmail, rOrg, rPictureLink;
       boolean userIsDone = false;
 
-      //REMOVES RESEARCHER FROM LIST
+      // REMOVES RESEARCHER FROM LIST
       for (Researcher curr : resList) {
         if (rName.equals(curr.getName())) {
           temp.add(curr);
@@ -1273,7 +1092,7 @@ public class MyIsern {
           System.out.println(reminderToSave);
           this.rList.getResearcher().add(newR);
           this.mixl.addUniqueId(rName);
-          this.newrAdded = true;
+          this.newrExists = true;
           newOrganization(rName, rOrg);
           userIsDone = true;
         }
@@ -1281,14 +1100,14 @@ public class MyIsern {
           System.out.println(reenterMessage);
           userIsDone = false;
         }
-        
-      } //while loop for researcher input
+
+      } // while loop for researcher input
     }
   }
 
   /**
-   * If the organization entered by Researcher does not exist, then it adds a brand new
-   * Organization with Org name and Contact field provided but everything else blank.
+   * If the organization entered by Researcher does not exist, then it adds a brand new Organization
+   * with Org name and Contact field provided but everything else blank.
    * 
    * @param rName String containing Researcher's/Contact name.
    * @param oName String Containing Organization's name.
@@ -1313,6 +1132,7 @@ public class MyIsern {
 
   /**
    * Adds an organization and its required fields.
+   * 
    * @throws IOException when I/O error occurs.
    * 
    */
@@ -1342,7 +1162,7 @@ public class MyIsern {
         else {
           System.out.println("You chose not to edit...");
         }
-        //Need to add for editing
+        // Need to add for editing
       }
       else {
 
@@ -1372,7 +1192,7 @@ public class MyIsern {
             innerLoopIsDone = true;
           }
 
-        } //While loop for adding affiliated researchers
+        } // While loop for adding affiliated researchers
 
         AffiliatedResearchers ar = new AffiliatedResearchers();
         newOrg.setAffiliatedResearchers(ar);
@@ -1436,7 +1256,7 @@ public class MyIsern {
           System.out.println(reminderToSave);
           this.oList.getOrganization().add(newOrg);
           this.mixl.addUniqueId(oName);
-          this.newoAdded = true;
+          this.newoExists = true;
           newResearcher(oContact, oName);
           userWantsToEdit = false;
         }
@@ -1468,6 +1288,7 @@ public class MyIsern {
 
   /**
    * Edits an existing organization with the name oName.
+   * 
    * @param oName containing the name of the Organization to be edited.
    * @throws IOException when I/O error occurs.
    */
@@ -1479,7 +1300,7 @@ public class MyIsern {
       boolean userIsDone = false;
       boolean innerLoopIsDone = false;
 
-      //ACTUAL REMOVAL OF THE ORGANIZATION FROM LIST
+      // ACTUAL REMOVAL OF THE ORGANIZATION FROM LIST
       for (Organization curr : orgList) {
         if (oName.equals(curr.getName())) {
           temp.add(curr);
@@ -1518,7 +1339,7 @@ public class MyIsern {
             innerLoopIsDone = true;
           }
 
-        } //While loop for adding affiliated researchers
+        } // While loop for adding affiliated researchers
 
         AffiliatedResearchers ar = new AffiliatedResearchers();
         newOrg.setAffiliatedResearchers(ar);
@@ -1583,7 +1404,7 @@ public class MyIsern {
           System.out.println(reminderToSave);
           this.oList.getOrganization().add(newOrg);
           this.mixl.addUniqueId(oName);
-          this.newoAdded = true;
+          this.newoExists = true;
           newResearcher(oContact, oName);
           userIsDone = true;
         }
@@ -1594,12 +1415,12 @@ public class MyIsern {
 
       } // Main while loop for entering organization info
 
-    } //if statement for Organization that already exists
+    } // if statement for Organization that already exists
   }
 
   /**
-   * This method adds a new Researcher if the contact for the Organization given is a new
-   * contact.
+   * This method adds a new Researcher if the contact for the Organization given is a new contact.
+   * 
    * @param rName String containing Researcher's/Contact's name.
    * @param oName String containing Organization name.
    */
@@ -1616,6 +1437,7 @@ public class MyIsern {
 
   /**
    * Adds a Collaboration and its required fields.
+   * 
    * @throws Exception If problems occur.
    * @throws NumberFormatException If problems occur.
    */
@@ -1757,7 +1579,7 @@ public class MyIsern {
         collabDescription = userInput();
         newCollab.setDescription(collabDescription);
 
-        //Prints out user input
+        // Prints out user input
         System.out.println("You Entered: ");
         System.out.println("Collaboration Name: " + collabName);
         System.out.print("Collaborating Organizations: ");
@@ -1784,14 +1606,14 @@ public class MyIsern {
           System.out.println(reminderToSave);
           this.cList.getCollaboration().add(newCollab);
           this.mixl.addUniqueId(collabName);
-          this.newcAdded = true;
+          this.newcExists = true;
           userWantsToEdit = false;
         }
         else {
           System.out.println(reenterMessage);
           userWantsToEdit = true;
         }
-      } //Else for if collaboration is unique
+      } // Else for if collaboration is unique
 
       if (userWantsToEdit) {
         userIsDone = false;
@@ -1814,6 +1636,7 @@ public class MyIsern {
 
   /**
    * Edits an existing collaboration with the name collabName.
+   * 
    * @param collabName String containing name of collaboration.
    * @throws Exception when error occurs.
    */
@@ -1828,7 +1651,7 @@ public class MyIsern {
       boolean userIsDone = false;
       boolean innerLoopIsDone = false;
 
-      //ACTUAL REMOVAL OF THE COLLABORATION FROM LIST
+      // ACTUAL REMOVAL OF THE COLLABORATION FROM LIST
       for (Collaboration curr : collabList) {
         if (collabName.equals(curr.getName())) {
           temp.add(curr);
@@ -1974,7 +1797,7 @@ public class MyIsern {
           System.out.println(reminderToSave);
           this.cList.getCollaboration().add(newCollab);
           this.mixl.addUniqueId(collabName);
-          this.newcAdded = true;
+          this.newcExists = true;
           userIsDone = true;
         }
         else {
@@ -2009,6 +1832,7 @@ public class MyIsern {
 
   /**
    * Returns true if user hits <Enter> or false if otherwise.
+   * 
    * @return boolean containing boolean value whether user hit enter.
    * @throws IOException when there is an input/output Exception.
    */
@@ -2019,6 +1843,7 @@ public class MyIsern {
 
   /**
    * Checks to see if user enters yes, y, no, or n.
+   * 
    * @return boolean true if the entered yes, or false if the user entered false.
    * @throws IOException when an Input/output error occurs.
    */
@@ -2045,6 +1870,7 @@ public class MyIsern {
 
   /**
    * Reads in a user input from the line.
+   * 
    * @return String containing user's input.
    */
   public String userInput() {
