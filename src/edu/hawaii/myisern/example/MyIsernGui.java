@@ -51,12 +51,13 @@ public class MyIsernGui {
    * Method to initiate GUI creation.
    */
   public void createGui() {
+    String currentWorkingDirectory = System.getProperty("user.dir");
     this.image1 = new Image(this.display, 
-                  "C:/projects/svn-google/myisern-1-blue/images/image1.jpg");
+        currentWorkingDirectory + "/images/image1.jpg");
     this.image2 = new Image(this.display, 
-                  "C:/projects/svn-google/myisern-1-blue/images/image2.jpg");
+        currentWorkingDirectory + "/images/image2.jpg");
     this.image3 = new Image(this.display, 
-                  "C:/projects/svn-google/myisern-1-blue/images/image2.jpg");
+        currentWorkingDirectory + "/images/image2.jpg");
     Shell shell = new Shell();
     shell.setText("myIsern-1-blue baby, cool like the ocean breeze.");
     shell.setSize(640, 480);
