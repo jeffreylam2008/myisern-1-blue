@@ -33,7 +33,6 @@ public class TestMyIsernXmlLoader extends TestCase {
    * 
    * @throws Exception if problem occurs.
    */
-	
   @Test
   public void testisLinkValidMethod() throws Exception {
     MyIsernXmlLoader mixl = new MyIsernXmlLoader();
@@ -44,7 +43,6 @@ public class TestMyIsernXmlLoader extends TestCase {
     assertFalse("no website entered", mixl.isValidWebLink(""));
   }
   
-	
 	/**
 	   * Tests loader.
 	   * 
