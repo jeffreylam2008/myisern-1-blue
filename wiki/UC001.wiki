@@ -1,0 +1,34 @@
+#labels Use-Case
+#System Login
+
+*Case Number:* UC001
+
+*Case Name:* Log in to System
+
+*Description:* An ISERN member logs in to the System.
+
+*Actors:*
+  * Researcher – An ISERN member
+  * System – the MyISERN application
+
+*Frequency:* High
+
+*Preconditions:*
+  * The ISERN member must have the username and password.
+
+*Postconditions:*
+  * The homepage for the system is displayed.
+
+*Basic Course:*
+|| *User* || *System* ||
+||1.  The researcher enters the username and password.|| ||
+||2.  The researcher clicks on the login button.||3.  The system displays the homepage||
+
+*Alternate Course A:*
+|| *User* || *System* ||
+||A.1.  The researcher enters the incorrect username and/or password.|| ||
+||A.2.  The researcher clicks on the login button.||A.3.  The system tells the user that the username and/or password are incorrect.||
+|| ||A.4.  The system reloads the login page.||
+
+*Change History:*
+  * Created - 2007/10/21
