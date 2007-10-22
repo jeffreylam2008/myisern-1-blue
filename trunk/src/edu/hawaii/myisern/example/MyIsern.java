@@ -77,21 +77,17 @@ public class MyIsern {
    * Initializes command line options.
    * 
    * @param args Command line arguments.
+   * @throws Exception 
    * @throws Exception thrown if error is encountered.
    */
   MyIsern(String[] args) throws Exception {
     this.commandLineArgs = args;
     this.mixl = new MyIsernXmlLoader();
     this.mixs = new MyIsernXmlSaver();
-    try {
       this.oList = this.mixl.getOrganizations();
       this.cList = this.mixl.getCollaborations();
       this.rList = this.mixl.getResearchers();
       this.collabList = this.cList.getCollaboration();
-    }
-    catch (Exception e) {
-      System.out.println("Failure in Add");
-    }
     this.newcExists = false;
     this.newoExists = false;
     this.newrExists = false;
@@ -774,7 +770,7 @@ public class MyIsern {
   /**
    * Displays the menu to input researchers, organizations, and collaborations.
    */
-  private void printInputMenu() {
+  public void printInputMenu() {
     StringBuffer sb = new StringBuffer(100);
     String menuLine1 = "\n-+-+-+-+-+-+-+-+-+-+- MENU +-+-+-+-+-+-+-+-+-+-+-+-+-\n";
     String menuLine2 = "\n\tCommand\t\tFunction";
@@ -1828,17 +1824,6 @@ public class MyIsern {
       yearIsValid = false;
     }
     return yearIsValid;
-  }
-
-  /**
-   * Returns true if user hits <Enter> or false if otherwise.
-   * 
-   * @return boolean containing boolean value whether user hit enter.
-   * @throws IOException when there is an input/output Exception.
-   */
-  public boolean userHitEnter() throws IOException {
-    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-    return in.readLine().equals("");
   }
 
   /**
