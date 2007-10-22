@@ -20,12 +20,10 @@
     </Researcher>
     <Researcher>
         <Name>Marvin Zelkowitz</Name>
-        <Organization>University of Maryland</Organization>
+        <Organization>Fraunhofer Center Maryland</Organization>
         <Email>mvz@cs.umd.edu</Email>
         <Picture-Link>http://cs.umd.edu/~mvz/mvz.jpg</Picture-Link>
-        <Bio-Statement>
-      Marv Zelkowitz is a Professor of Computer Science at the University of Maryland. 
-    </Bio-Statement>
+        <Bio-Statement>Mark Zelkowitz is a Professor of Computer Science at the University of Maryland</Bio-Statement>
     </Researcher>
     <Researcher>
         <Name>Bernard Wong</Name>
@@ -33,5 +31,40 @@
         <Email>bwong@uts.edu</Email>
         <Picture-Link>http://www-staff.it.uts.edu.au/~bernard</Picture-Link>
         <Bio-Statement>Bernard Wong is a Senior Lecturer at the University of Technology</Bio-Statement>
+    </Researcher>
+    <Researcher>
+        <Name>David Zubrow</Name>
+        <Organization>Carnegie Mellon University</Organization>
+        <Email>dz@sei.cmu.edu</Email>
+        <Picture-Link>www.sei.cmu.edu</Picture-Link>
+        <Bio-Statement>Dr. David Zubrow is the Team Lead for the Software Engineering Measurement and Analysis at CMU.</Bio-Statement>
+    </Researcher>
+    <Researcher>
+        <Name>Marcela Genero Bocco</Name>
+        <Organization>University of Castilla-La Mancha</Organization>
+        <Email>mgb@uclm.es</Email>
+        <Picture-Link>http://alarcos.inf-cr.uclm.es</Picture-Link>
+        <Bio-Statement>Dra. Marcela Genero Bocco is an Assistant Professor at the University of Castilla in La Mancha, Spain.</Bio-Statement>
+    </Researcher>
+    <Researcher>
+        <Name>Oscar Pastor</Name>
+        <Organization>OO-Method Research Group</Organization>
+        <Email>opastor@upv.es</Email>
+        <Picture-Link>http://www.dsic.upv.es/~opastor/</Picture-Link>
+        <Bio-Statement>Dr. Oscar Pastor is the Full Professor and the leader of the OO-Method Research Group in Polytechnic University of Valencia.</Bio-Statement>
+    </Researcher>
+    <Researcher>
+        <Name>Kenichi Matsumoto</Name>
+        <Organization>Nara Institute of Science and Technology</Organization>
+        <Email>km@NAIST.edu</Email>
+        <Picture-Link>http://se.naist.jp/index_e.html</Picture-Link>
+        <Bio-Statement>Professor Kenichi Matsumoto teaches at the Nara Institute  of Science and Technology</Bio-Statement>
+    </Researcher>
+    <Researcher>
+        <Name>David Klappholz</Name>
+        <Organization>Stevens Institute of Technology</Organization>
+        <Email>dk@cs.stevens-tech.edu</Email>
+        <Picture-Link>http://www.cs.stevens-tech.edu/People/Faculty/David_Klappholz.htm</Picture-Link>
+        <Bio-Statement>Dr. David Klappholz is an Assoc. Professor of the Stevens Institute of Technology and is the Assoc. Director of the NJ Center for Software Engineering</Bio-Statement>
     </Researcher>
 </Researchers>
