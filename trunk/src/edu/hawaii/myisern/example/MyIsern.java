@@ -611,7 +611,7 @@ public class MyIsern {
         sb.append(currentString);
       }
 
-      sb.append("\nCounter");
+      sb.append("\nCountry");
       sb.append(current.getCountry());
 
       // Prints Research Keywords for organization
@@ -1237,12 +1237,12 @@ public class MyIsern {
         System.out.println("Contact: " + oContact);
         System.out.println("Affiliated Researchers");
         for (String curr : oAffilResearchers) {
-          System.out.println("t" + curr);
+          System.out.println(curr);
         }
         System.out.println("Country: " + oCountry);
         System.out.println("Research Keywords: ");
         for (String curr : oResearchKeywords) {
-          System.out.println("t" + curr);
+          System.out.println(curr);
         }
         System.out.println("Homepage: " + oHomepage);
 
@@ -1385,12 +1385,12 @@ public class MyIsern {
         System.out.println("Contact: " + oContact);
         System.out.println("Affiliated Researchers");
         for (String curr : oAffilResearchers) {
-          System.out.println("t" + curr);
+          System.out.println(curr);
         }
         System.out.println("Country: " + oCountry);
         System.out.println("Research Keywords: ");
         for (String curr : oResearchKeywords) {
-          System.out.println("t" + curr);
+          System.out.println(curr);
         }
         System.out.println("Homepage: " + oHomepage);
 

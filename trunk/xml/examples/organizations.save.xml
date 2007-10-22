@@ -32,4 +32,50 @@
     </Research-Description>
         <Home-Page>http://cs.umd.edu/</Home-Page>
     </Organization>
+    <Organization>
+        <Name>Avaya Labs Research-Software Technology Research Departmen</Name>
+        <Type>Research</Type>
+        <Contact>Audris Mockus</Contact>
+        <Affiliated-Researchers>
+            <Affiliated-Researcher> </Affiliated-Researcher>
+        </Affiliated-Researchers>
+        <Country>USA</Country>
+        <Research-Keywords>
+            <Research-Keyword>usa</Research-Keyword>
+            <Research-Keyword>avaya</Research-Keyword>
+            <Research-Keyword>research</Research-Keyword>
+        </Research-Keywords>
+        <Research-Description>Provides services like Product &amp; IP Support, System Integration</Research-Description>
+        <Home-Page>http://www.research.avayalabs.com/</Home-Page>
+    </Organization>
+    <Organization>
+        <Name>BTH</Name>
+        <Type>Technology</Type>
+        <Contact>Claes Wohlin</Contact>
+        <Affiliated-Researchers>
+            <Affiliated-Researcher>none</Affiliated-Researcher>
+        </Affiliated-Researchers>
+        <Country>Sweden</Country>
+        <Research-Keywords>
+            <Research-Keyword>Institute</Research-Keyword>
+            <Research-Keyword>Technology</Research-Keyword>
+        </Research-Keywords>
+        <Research-Description>Institute of Technology</Research-Description>
+        <Home-Page>none</Home-Page>
+    </Organization>
+    <Organization>
+        <Name>COPPE</Name>
+        <Type>Technology</Type>
+        <Contact>Guilherme Horta Travassos</Contact>
+        <Affiliated-Researchers>
+            <Affiliated-Researcher>none</Affiliated-Researcher>
+        </Affiliated-Researchers>
+        <Country>Brazil</Country>
+        <Research-Keywords>
+            <Research-Keyword>Brazil</Research-Keyword>
+            <Research-Keyword>Engineering</Research-Keyword>
+        </Research-Keywords>
+        <Research-Description>A Computer Science Program in Brazil</Research-Description>
+        <Home-Page>http://www.cos.ufrj.br/</Home-Page>
+    </Organization>
 </Organizations>
