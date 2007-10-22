@@ -21,12 +21,26 @@ public class TestMyIsernGui {
     */
   @Test
   public void testDistanceBetweenTwoPoints() throws Exception {
-    MyIsernGui myiserngui = new MyIsernGui();
     double distance = 
-      myiserngui.getDistanceBetweenTwoPoints(new Point(-2, -3), 
+      MyIsernGui.getDistanceBetweenTwoPoints(new Point(-2, -3), 
     		                                 new Point(-4, 4));
     System.out.println("**********DISTANCE:   " + distance + "  ***************");
     //assertEqual(distance, 7.28);
     assertNotNull("Should pass", distance);
+  }
+  /**
+   * Tests my gui.
+   * 
+   * @throws Exception If problems occur.
+   */
+ @Test
+  public void testCreateGui() throws Exception {
+	  MyIsernXmlLoader mixl = new MyIsernXmlLoader();
+	  
+	  MyIsernGui mig = new MyIsernGui(mixl.collaborations, 
+			                          mixl.organizations, 
+			                          mixl.researchers);
+	  mig.createGui();
+	  assertNotNull("passing through", mixl);
   }
 }
