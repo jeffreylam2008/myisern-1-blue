@@ -1,0 +1,43 @@
+#summary Add Researcher
+#labels Use-Case
+
+*Case Number:* UC002
+
+*Case Name:* Add New Researcher Profile
+
+*Description:* Add a profile for an ISERN member.
+
+*Actors:*
+  * Researcher – An ISERN member
+  * System – The MyISERN application
+
+*Frequency:* Average
+
+*Preconditions:* 
+  * The researcher is an ISERN member.
+  * The researcher is viewing the homepage.
+  * The researcher's profile does not exist in the system.
+
+*Postconditions:*
+  * The researcher's profile is added to the system.
+  * The researcher's organization is added if it does not exist.
+
+*Basic Course:*
+|| *User* || *System* ||
+|| 1. The researcher clicks on the create new researcher link. || 2. The system displays the new researcher form. ||
+|| 3. The researcher enters their name, biography statement, and email, then uploads their picture, lists links to recent publications, and selects their organization from a list. ||  ||
+|| 4. The researcher clicks on the save button. || 5. The system adds the researcher information. ||
+||  || 6. The system tells the user that the addition succeeds, and returns the user to the homepage. ||
+
+*Alternate Course A:*
+|| *User* || *System* ||
+|| A.3. The researcher does not find their organization on the list and selects the option stating that their organization is not on the list. ||  ||
+|| A.4. The researcher clicks on the save button. || A.5. The system temporarily saves the researcher information ||
+||  || A.6. The system displays the add organization form. ||
+|| A.7. The researcher enters the organization name, location, country, web page, what the organization does, and selects the organization status. ||  ||
+|| A.8. The researcher clicks on the save button. || A.9. The system adds the organization information. ||
+||  || A.10. The system adds the researcher information with the organization name. ||
+||  || A.11. The system tells the user that the addition succeeds and displays the homepage. ||
+
+*Change History:*
+  * Created - 2007/10/21
