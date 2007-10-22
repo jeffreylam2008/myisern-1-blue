@@ -858,11 +858,9 @@ public class MyIsern {
       else if (input.equalsIgnoreCase("q")) {
         if (this.newrAdded || this.newcAdded || this.newoAdded) {
           System.out.println("There seems to be some unsaved information you entered. ");
-          System.out.println("Would you like to save? ");
-          System.out.println("Please hit <Enter> if you would like to save and exit or hit a key" +
-          		"then <Enter> to quit without saving");
+          System.out.print("Would you like to save?(Y/N) ");
           try {
-            if (userHitEnter()) {
+            if (userEntersYes()) {
               System.out.println("Saving...");
               if (this.newrAdded) {
                 mixs.saveResearchersXml(this.rList);
@@ -1335,10 +1333,11 @@ public class MyIsern {
   }
   
   /**
-   * Adds an organization and its required fields
+   * Adds an organization and its required fields.
+   * @throws IOException when I/O error occurs.
    * 
    */
-  public void addOrganization() {
+  public void addOrganization() throws IOException {
     String oName, oType, oContact, oCountry, oResearcherDescription, oHomepage;
     String newLine = "\n";
     boolean userIsDone = false;
@@ -1357,21 +1356,14 @@ public class MyIsern {
       
       if (this.mixl.containsUniqueId(oName.replace(' ', '_'))) {
         System.out.println("This Organization already exists");
-        System.out.println("Please hit <Enter> if you would like to edit  the existing " +
-        		"Organization or hit any key then <Enter> if you don't want to edit");
-        try {
-          if (userHitEnter()) {
-            System.out.println("Edit");
+        System.out.println("Would you like to edit this Organization? (Y/N) ");
+          if (userEntersYes()) {
+            System.out.println("You chose to edit");
             editOrganization(oName);
           }
           else {
-            System.out.println("No Edit");
+            System.out.println("You chose not to edit...");
           }
-        }
-        catch (IOException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
         //Need to add for editing
       }
       else {
@@ -1392,21 +1384,14 @@ public class MyIsern {
         innerLoopIsDone = false;
         while (!innerLoopIsDone) {
           oAffilResearchers.add(userInput());
-          System.out.println("Would you like to add another Affiliated Researcher? ");
-          System.out.print(innerLoopEnter);
-          
-          try {
-            if (userHitEnter()) {
-              innerLoopIsDone = true;
-            }
-            else {
-              System.out.print("Enter another affiliated Researcher: ");
-              innerLoopIsDone = false;
-            }
+          System.out.print("Would you like to add another Affiliated Researcher?(Y/N) ");
+
+          if (userEntersYes()) {
+            innerLoopIsDone = false;
+            System.out.print("Enter another affiliated Researcher: ");
           }
-          catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+          else {
+            innerLoopIsDone = true;
           }
           
         } //While loop for adding affiliated researchers
@@ -1426,16 +1411,14 @@ public class MyIsern {
         innerLoopIsDone = false;
         while (!innerLoopIsDone) {
           oResearchKeywords.add(userInput());
-          System.out.println("Would you like to add another keyword? ");
-          System.out.print(innerLoopEnter);
+          System.out.print("Would you like to add another research keyword?(Y/N) ");
           try {
-            if (userHitEnter()) {
-              innerLoopIsDone = true;
+            if (userEntersYes()) {
+              innerLoopIsDone = false;
+              System.out.print(enterKeyword);
             }
             else {
-              
-              System.out.print(enterKeyword);
-              innerLoopIsDone = false;
+              innerLoopIsDone = true;
             }
           }
           catch (IOException e) {
@@ -1450,12 +1433,12 @@ public class MyIsern {
           newOrg.getResearchKeywords().getResearchKeyword().add(current);
         }
         
-        System.out.println("Enter Research Description:\n\t");
+        System.out.print("Enter Research Description:\n\t");
         oResearcherDescription = userInput();
         
         newOrg.setResearchDescription(oResearcherDescription);
         
-        System.out.println("Enter Organization homepage: ");
+        System.out.print("Enter Organization homepage: ");
         oHomepage = userInput();
         
         newOrg.setHomePage(oHomepage);
@@ -1475,57 +1458,48 @@ public class MyIsern {
         }
         System.out.println("Homepage: " + oHomepage);
         
-        System.out.print("\nIs the information provided correct?\n");
-        System.out.print(confirmEntry);
-        try {
-          if (userHitEnter()) {
+        System.out.print("\nIs the information provided correct?(Y/N) ");
+
+          if (userEntersYes()) {
             System.out.println(reminderToSave);
             this.oList.getOrganization().add(newOrg);
             this.mixl.addUniqueId(oName);
             this.newoAdded = true;
             newResearcher(oContact, oName);
+            userWantsToEdit = false;
           }
           else {
             System.out.println(reenterMessage);
             userWantsToEdit = true;
           }
-        }
-        catch (IOException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-        }
-      } //else if Organization entered is unique
+
+      } // else if Organization entered is unique
+
       if (userWantsToEdit) {
         userIsDone = false;
       }
       else {
-        System.out.println("Would you like to add another organization?");
-        System.out.print(exitMainLoop);
-        try {
-          if (userHitEnter()) {
-            System.out.println("Exiting to Main menu...");
-            userIsDone = true;
-          }
-          else {
-            System.out.println("Adding more Organizations");
-            userIsDone = false;
-          }
+        System.out.print("Would you like to add another organization?(Y/N) ");
+        if (userEntersYes()) {
+          System.out.println("Adding more Organizations");
+          userIsDone = false;
         }
-        catch (IOException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
+        else {
+          System.out.println("Exiting to the Main Menu...");
+          userIsDone = true;
         }
       }
-      
-    } //Main while loop for entering organization info
+
+    } // Main while loop for entering organization info
 
   }
   
   /**
    * Edits an existing organization with the name oName.
    * @param oName containing the name of the Organization to be edited.
+   * @throws IOException when I/O error occurs.
    */
-  public void editOrganization(String oName) {
+  public void editOrganization(String oName) throws IOException {
     if (this.mixl.containsUniqueId(oName.replace(' ', '_'))) {
       List<Organization> temp = new ArrayList<Organization>();
       this.orgList = this.oList.getOrganization();   
@@ -1545,6 +1519,7 @@ public class MyIsern {
         Organization newOrg = new Organization();
         List<String> oAffilResearchers = new ArrayList<String>();
         List<String> oResearchKeywords = new ArrayList<String>();
+        boolean userWantsToEdit = false;
 
           newOrg.setName(oName);
           
@@ -1562,21 +1537,14 @@ public class MyIsern {
           innerLoopIsDone = false;
           while (!innerLoopIsDone) {
             oAffilResearchers.add(userInput());
-            System.out.println("Would you like to add another Affiliated Researcher? ");
-            System.out.print(innerLoopEnter);
-            
-            try {
-              if (userHitEnter()) {
-                innerLoopIsDone = true;
-              }
-              else {
-                System.out.print("Enter another affiliated Researcher: ");
-                innerLoopIsDone = false;
-              }
+            System.out.print("Would you like to add another Affiliated Researcher?(Y/N) ");
+
+            if (userEntersYes()) {
+              innerLoopIsDone = false;
+              System.out.print("Enter another affiliated Researcher: ");
             }
-            catch (IOException e) {
-              // TODO Auto-generated catch block
-              e.printStackTrace();
+            else {
+              innerLoopIsDone = true;
             }
             
           } //While loop for adding affiliated researchers
@@ -1596,15 +1564,14 @@ public class MyIsern {
           innerLoopIsDone = false;
           while (!innerLoopIsDone) {
             oResearchKeywords.add(userInput());
-            System.out.println("Would you like to add another keyword? ");
-            System.out.print(innerLoopEnter);
+            System.out.print("Would you like to add another research keyword?(Y/N) ");
             try {
-              if (userHitEnter()) {
-                innerLoopIsDone = true;
+              if (userEntersYes()) {
+                innerLoopIsDone = false;
+                System.out.print(enterKeyword);
               }
               else {
-                System.out.print(enterKeyword);
-                innerLoopIsDone = false;
+                innerLoopIsDone = true;
               }
             }
             catch (IOException e) {
@@ -1619,12 +1586,12 @@ public class MyIsern {
             newOrg.getResearchKeywords().getResearchKeyword().add(current);
           }
           
-          System.out.println("Enter Research Description:\n\t");
+          System.out.print("Enter Research Description:\n\t");
           oResearcherDescription = userInput();
           
           newOrg.setResearchDescription(oResearcherDescription);
           
-          System.out.println("Enter Organization homepage: ");
+          System.out.print("Enter Organization homepage: ");
           oHomepage = userInput();
           
           newOrg.setHomePage(oHomepage);
@@ -1644,12 +1611,9 @@ public class MyIsern {
           }
           System.out.println("Homepage: " + oHomepage);
           
-          System.out.print("\nIs the information provided correct?\n");
-          System.out.print("Please hit <Enter> if you are satisfied with the entry and submit to " +
-              "the list or hit any key then <Enter> if you would like to edit.");
-          try {
-            if (userHitEnter()) {
-              System.out.println("Adding to list of Organizations...");
+          System.out.print("\nIs the information provided correct?(Y/N) ");
+
+            if (userEntersYes()) {
               System.out.println(reminderToSave);
               this.oList.getOrganization().add(newOrg);
               this.mixl.addUniqueId(oName);
@@ -1661,13 +1625,9 @@ public class MyIsern {
               System.out.println(reenterMessage);
               userIsDone = false;
             }
-          }
-          catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-          }
-        
-      } //Main while loop for entering organization info
+
+      } // Main while loop for entering organization info
+
     } //if statement for Organization that already exists
   }
   /**
@@ -1857,6 +1817,7 @@ public class MyIsern {
             this.cList.getCollaboration().add(newCollab);
             this.mixl.addUniqueId(collabName);
             this.newcAdded = true;
+            userWantsToEdit = false;
           }
           else {
             System.out.println(reenterMessage);
