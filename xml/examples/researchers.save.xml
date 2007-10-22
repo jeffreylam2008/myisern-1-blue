@@ -27,4 +27,11 @@
       Marv Zelkowitz is a Professor of Computer Science at the University of Maryland. 
     </Bio-Statement>
     </Researcher>
+    <Researcher>
+        <Name>Bernard Wong</Name>
+        <Organization>University of Technology, Sydney</Organization>
+        <Email>bwong@uts.edu</Email>
+        <Picture-Link>http://www-staff.it.uts.edu.au/~bernard</Picture-Link>
+        <Bio-Statement>Bernard Wong is a Senior Lecturer at the University of Technology</Bio-Statement>
+    </Researcher>
 </Researchers>
