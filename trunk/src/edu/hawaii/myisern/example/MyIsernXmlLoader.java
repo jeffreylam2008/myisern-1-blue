@@ -78,7 +78,8 @@ public class MyIsernXmlLoader {
     Unmarshaller unmarshaller = this.collaborationsJaxbContext.createUnmarshaller();
     Collaborations unmarshalledCollab = (Collaborations) unmarshaller.unmarshal(collabFile);
     this.collaborations = new Collaborations();
-    System.out.println("Loading collaborations.");
+    //System.out.println("Loading collaborations.");
+    
     for (Collaboration collab : unmarshalledCollab.getCollaboration()) {
       //validate collaboration object
       if (isValidCollaboration(collab)) {
@@ -105,7 +106,7 @@ public class MyIsernXmlLoader {
     unmarshaller = this.organizationsJaxbContext.createUnmarshaller();
     Organizations unmarshalledOrg = (Organizations) unmarshaller.unmarshal(orgFile);
     this.organizations = new Organizations();
-    System.out.println("Loading organizations.");
+    //System.out.println("Loading organizations.");
     for (Organization org : unmarshalledOrg.getOrganization()) {
       //validate collaboration object
       if (isValidOrganization(org)) {
@@ -132,7 +133,7 @@ public class MyIsernXmlLoader {
     unmarshaller = this.researchersJaxbContext.createUnmarshaller();
     Researchers unmarshalledResearchers = (Researchers) unmarshaller.unmarshal(researchersFile);
     this.researchers = new Researchers();
-    System.out.println("Loading researchers.");
+    //System.out.println("Loading researchers.");
     for (Researcher researcher : unmarshalledResearchers.getResearcher()) {
       //validate collaboration object
       if (isValidResearcher(researcher)) {
@@ -157,7 +158,7 @@ public class MyIsernXmlLoader {
    * @param stringList List of strings to validate.
    * @return True if all strings are valid, False if any one string is not valid.
    */
-  private boolean isValidString(List<String> stringList) {
+  private static boolean isValidString(List<String> stringList) {
     try {
       for (String s : stringList) {
         if (!isValidString(s)) {
@@ -176,7 +177,7 @@ public class MyIsernXmlLoader {
    * @param s String to validate.
    * @return True if string is valid, False if not valid.
    */
-  private boolean isValidString(String s) {
+  private static boolean isValidString(String s) {
     boolean pass = true;
     try {
       //not ""
@@ -204,12 +205,12 @@ public class MyIsernXmlLoader {
    * @return True if year is valid, False if not valid.
    * @throws Exception Handle thrown exceptions.
    */
-  private boolean isValidYear(BigInteger year) throws Exception {
+  public static boolean isValidYear(BigInteger year) throws Exception {
     boolean pass = true;
     try {
       int curYear = year.intValue();
       //then check most recent year is between min year && max year
-      if (this.VALID_MIN_YEAR < curYear && curYear < this.VALID_MAX_YEAR) {
+      if (1990 < curYear && curYear < 2010) {
         //year is valid and we can attempt to add the unique id to the list
       pass = true;
       }
@@ -231,7 +232,7 @@ public class MyIsernXmlLoader {
    * @return True if most recent year is valid, False if not valid.
    * @throws Exception Handle thrown exceptions.
    */
-  private boolean isValidYear(List<BigInteger> yearList) throws Exception {
+  private static boolean isValidYear(List<BigInteger> yearList) throws Exception {
     try {
       //check year field between min year && max year
       //first get most current year
@@ -440,7 +441,7 @@ public class MyIsernXmlLoader {
    * @return True if valid, False if not valid.
    * @throws Exception Handle thrown exceptions.
    */ 
-  private boolean isValidCollaboration(Collaboration collab) throws Exception {
+  public static boolean isValidCollaboration(Collaboration collab) throws Exception {
     try {
       List<String> collabOrgList =
         collab.getCollaboratingOrganizations().getCollaboratingOrganization();

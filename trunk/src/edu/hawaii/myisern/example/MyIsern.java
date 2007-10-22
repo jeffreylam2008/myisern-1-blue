@@ -42,7 +42,7 @@ public class MyIsern {
   private MyIsernXmlLoader mixl;
   private String newLineNewTab = "\n\t";
   private String nameTableField = "\nName: ";
-  private boolean argumentsPass = false;
+  //private boolean argumentsPass = false;
   private boolean unsavedExists;
   private Researchers rList = new Researchers();
   private Organizations oList = new Organizations();
@@ -56,6 +56,7 @@ public class MyIsern {
    */
   MyIsern(String[] args) throws Exception {
     this.commandLineArgs = args;
+    this.mixl = new MyIsernXmlLoader();
   }
 
   /**
@@ -65,11 +66,133 @@ public class MyIsern {
    * @throws Exception if there is an exception
    */
   public static void main(String[] args) throws Exception {
+    
     MyIsern myIsern = new MyIsern(args);
-    myIsern.runMyIsern();
+    myIsern.parseCommandLine();
+    
+    /* boolean myIsernRunCheck = */
+    //textDisplay();
+    //myIsern.runMyIsern();
 
+    /*
+    createGui(myIsern.mixl.getCollaborations(),
+          myIsern.mixl.getOrganizations(),
+          myIsern.mixl.getResearchers());
+     */
+    /*
+     * if (myIsernRunCheck) { System.out.println("MyIsern Ran successfully."); } else {
+     * System.out.println("MyIsern Did not run successfully."); }
+     */
   }
-
+  /**
+   * Method handle -describe command line argument.
+   * @param typeDescribing Object to describe.
+   */
+  public void describe(String typeDescribing) {
+    try { 
+      if (typeDescribing != null) {
+        if ("Researchers".equals(typeDescribing)) {
+          this.printResearchers(this.mixl.researchers);
+        }
+        else if ("Organizations".equals(typeDescribing)) {
+          this.printOrganizations(this.mixl.organizations);
+        }
+        else if ("Collaborations".equals(typeDescribing)) {
+          this.printCollaborations(this.mixl.collaborations);
+        }
+        else {
+          this.printHelp();
+        }
+      }
+    }
+    catch (Exception e) {
+    //to do exception handling
+      System.out.println(e.toString());
+    }
+  }
+  /**
+   * Overload describe to handle searching.
+   * @param typeDescribing Object looking for.
+   * @param uniqueId Unique identifier of Object.
+   */
+  public void describe(String typeDescribing, String uniqueId) {
+    try {
+      if (typeDescribing != null) {
+        if ("-researcher".equals(typeDescribing)) {
+          this.printResearcher(uniqueId, mixl.getUniqueIds());
+        }
+        else if ("-organization".equals(typeDescribing)) {
+          this.printOrganization(uniqueId, mixl.getUniqueIds());
+        }
+        else if ("-collaboration".equals(typeDescribing)) {
+          this.printCollaboration(uniqueId, mixl.getUniqueIds());
+        }
+        else {
+          this.printHelp();
+        }
+      }
+    }
+    catch (Exception e) {
+      //to do execption handling
+      System.out.println(e.toString());
+    }
+  }
+  /**
+   * Method to parse the command line and do designated task.
+   */
+  public void parseCommandLine() {
+    try {
+      if (this.commandLineArgs.length > 0) {
+        String arg0 = this.commandLineArgs[0];
+        String arg1 = "";
+        String arg2 = "";
+        if (this.commandLineArgs.length > 1) {
+          arg1 = this.commandLineArgs[1];
+        }
+        if (this.commandLineArgs.length > 2) {
+          arg2 = this.commandLineArgs[2];
+        }
+        
+        if ("-listCollaboration".equals(arg0)) {
+         this.listCollaborations(arg1, arg2); 
+        }
+        else if ("-describe".equals(arg0) && "-all".equals(arg1)) {
+          this.describe(arg2);
+        }
+        else if ("-describe".equals(arg0) && !"-all".equals(arg1)) {
+          this.describe(arg1, arg2);
+        }
+        else if ("-listOrganizations".equals(arg0) && 
+                 "-collaborationLevelEquals".equals(arg1)) {
+          this.listOrganizationsEquals(Integer.parseInt(arg2));
+        }
+        else if ("-listOrganizations".equals(arg0) && 
+                 "-collaborationLevelGreaterThan".equals(arg1)) {
+          this.listOrganizationsGreaterThan(Integer.parseInt(arg2));
+        }
+        else if ("-showGui".equals(arg0)) {
+          MyIsernGui mig = new MyIsernGui(this.mixl.collaborations, 
+                                      this.mixl.organizations, 
+                                      this.mixl.researchers);
+          mig.createGui();
+        }
+        else if ("-input".equals(arg0)) {
+          this.addToIsern();
+        }
+        else {
+          this.printHelp();
+        }
+      }
+      else {
+        this.printHelp();
+      }
+    }
+    catch (Exception e) {
+      //to do exception handling.
+      System.out.println(e.toString());
+    }
+  }
+  
   /**
    * Checks for user input and then runs the print methods accordingly. If the user does not enter
    * any arguments, nothing will be printed out.
@@ -87,14 +210,17 @@ public class MyIsern {
     catch (Exception e) {
       System.out.println("Failure in Add");
     }
-    this.unsavedExists = false;
-    boolean addSuccessful = this.addToIsern();
-    if (addSuccessful) {
-      System.out.println("Successful");
-    }
-    else {
-      System.out.println("Failure in Add");
-    }
+    /*
+    if (this.commandLineArgs.length == 0) {
+       addOrganization();
+       //addCollaboration();
+     }
+     else {
+       System.out.println("Args lenth >0");
+     }
+    System.out.println("Exiting...");
+    */
+    //boolean addSuccessful = this.addToIsern();
     // @return boolean Returns true if no errors were encountered.
     // return true;
   }
@@ -189,6 +315,7 @@ public class MyIsern {
     for (String collaborationId : idList) {
       if (id.equals(collaborationId)) {
         isIdValid = true;
+        break;
       }
     }
 
@@ -198,7 +325,7 @@ public class MyIsern {
       sb.append("\n\n + + + + + + + + + + + + + COLLABORATION + + + + + + + + + + + + +");
 
       for (Collaboration current : this.mixl.getCollaborations().getCollaboration()) {
-        if (id.equals(current.getName())) {
+        if (current.getName().replace(' ', '_').equals(id)) {
           List<String> stringList;
           List<BigInteger> bigIntList;
 
@@ -274,6 +401,7 @@ public class MyIsern {
     for (String organizationId : idList) {
       if (id.equals(organizationId)) {
         isIdValid = true;
+        break;
       }
     }
 
@@ -283,7 +411,7 @@ public class MyIsern {
       sb.append("\n\n========================= ORGANIZATION ===========================");
 
       for (Organization current : this.mixl.getOrganizations().getOrganization()) {
-        if (id.equals(current.getName())) {
+        if (current.getName().replace(' ', '_').equals(id)) {
           List<String> stringList;
 
           sb.append(this.nameTableField);
@@ -347,9 +475,10 @@ public class MyIsern {
   public boolean printResearcher(String id, Set<String> idList) {
     boolean isIdValid = false;
     for (String collaborationId : idList) {
-      if (id.equals(collaborationId)) {
-        System.out.println("Found");
+      if (id.replace(' ', '_').equals(collaborationId)) {
+        //System.out.println("Found");
         isIdValid = true;
+        break;
       }
     }
 
@@ -359,7 +488,7 @@ public class MyIsern {
       sb.append("\n......................... RESEARCHERS ............................ \n");
 
       for (Researcher currentResearcher : this.mixl.getResearchers().getResearcher()) {
-        if (id.equals(currentResearcher.getName())) {
+        if (currentResearcher.getName().replace(' ', '_').equals(id)) {
           sb.append(this.nameTableField);
           sb.append(currentResearcher.getName());
 
@@ -678,8 +807,10 @@ public class MyIsern {
    * Calls add methods that add researchers, organizations, and collaborations.
    * 
    * @return true If the method executed successfully.
+ * @throws Exception if problems occur.
+ * @throws NumberFormatException if problems occur.
    */
-  private boolean addToIsern() {
+  private boolean addToIsern() throws NumberFormatException, Exception {
     boolean isDone = false;
     while (!isDone) {
       this.printInputMenu();
@@ -759,6 +890,7 @@ public class MyIsern {
    * @param args containing command Line arguments.
    * @return argumentsPass if first argument given is valid.
    */
+  /*
   public boolean checkArguments(String[] args) {
     boolean argumentsPass = this.argumentsPass;
 
@@ -923,13 +1055,13 @@ public class MyIsern {
       }
       else if ("-showGui".equals(args[0])) {
         System.out.println("Show GUI");
-    	  /*MyIsernGui.createGui(mixl.getCollaborations(),
-        		  mixl.getOrganizations(),
-        		  mixl.getResearchers());
-         */
+        MyIsernGui.createGui(mixl.getCollaborations(),
+              mixl.getOrganizations(),
+              mixl.getResearchers());
+         
         }
        else if ("-help".equals(args[0])) {
-      	 printHelp();
+         printHelp();
         }
       else {
         System.out.println("Error:  Invalid First Argument");
@@ -944,7 +1076,7 @@ public class MyIsern {
     }
     return argumentsPass;
   }
-
+  */
   /**
    * Prints helpful information for commmand line options
    */
@@ -953,7 +1085,7 @@ public class MyIsern {
     String helpString = "";
     helpString += "\nProvides sample code for loading XML ";
     helpString += "and marshalling it into their JAXB related classes.";
-    helpString += "\nUsage: MyIsernXmlLoader [OPTION]";
+    helpString += "\nUsage: java -jar myisern-1-blue.jar [OPTION]";
     helpString += "\n  -listCollaborations -organization <uniqueID>";
     //helpString +=   "\tLists Collaborations known for specified organization";
     helpString += "\n  -listCollaborations -year <year>";
@@ -968,6 +1100,7 @@ public class MyIsern {
     helpString += "\n  -describe -all Collaborations";
     helpString += "\n  -listOrganizations -collaborationLevelEquals <integer>";
     helpString += "\n  -listOrganizations -collaborationLevelGreaterThan <integer>";
+    helpString += "\n  -input";
     helpString += "\n  -showGui";
     helpString += "\n  -help";
     System.out.println(helpString);
@@ -1329,8 +1462,10 @@ public class MyIsern {
   }
   /**
    * Adds a Collaboration and its required fields.
+ * @throws Exception If problems occur.
+ * @throws NumberFormatException If problems occur.
    */
-  public void addCollaboration() {
+  public void addCollaboration() throws NumberFormatException, Exception {
     Collaboration newCollab = new Collaboration();
     String collabName;
     String collabDescription;
@@ -1442,7 +1577,7 @@ public class MyIsern {
         System.out.print("Please enter year of collaboration: ");
         while (!innerLoopIsDone) {
           String tempYear = userInput();
-          if (yearIsValid(tempYear)) {
+          if (this.mixl.isValidYear(BigInteger.valueOf(Integer.parseInt(tempYear)))) {
             collabYears.add(tempYear);
             System.out.println("Would you like to add another Year? ");
             System.out.print(hitEnter);
@@ -1589,6 +1724,7 @@ public class MyIsern {
    * @param currentYear String that contains year to be converted and examined.
    * @return boolean whether year entered is valid.
    */
+  /*
   public boolean yearIsValid (String currentYear) {
     boolean yearIsValid = false;
     try {
@@ -1603,6 +1739,7 @@ public class MyIsern {
     }
     return yearIsValid;
   }
+  */
   /**
    * Returns true if user hits <Enter> or false if otherwise.
    * @return boolean containing boolean value whether user hit enter.
