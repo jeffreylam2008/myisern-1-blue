@@ -8,6 +8,6 @@
 	<classpathentry kind="var" path="HTTPUNIT_HOME/jars/xercesImpl.jar" sourcepath="/HTTPUNIT_HOME/jars/"/>
 	<classpathentry kind="var" path="HTTPUNIT_HOME/jars/xmlParserAPIs.jar" sourcepath="/HTTPUNIT_HOME/jars/"/>
 	<classpathentry kind="var" path="HTTPUNIT_HOME/lib/httpunit.jar" sourcepath="/HTTPUNIT_HOME/lib/"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/org.eclipse.swt"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.swt"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

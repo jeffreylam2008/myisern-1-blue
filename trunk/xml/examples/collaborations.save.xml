@@ -21,43 +21,250 @@
     </Description>
     </Collaboration>
     <Collaboration>
-        <Name>UM-UH-HPCS2</Name>
+        <Name>JAMSS-UH-FIESE-SR-NI</Name>
         <Collaborating-Organizations>
-            <Collaborating-Organization>University of Hawaiid</Collaborating-Organization>
-            <Collaborating-Organization>University of Maryland</Collaborating-Organization>
+            <Collaborating-Organization>Japan Manned Space Systems Corporation</Collaborating-Organization>
+            <Collaborating-Organization>University of Hawaii</Collaborating-Organization>
+            <Collaborating-Organization>Fraunhofer IESE</Collaborating-Organization>
+            <Collaborating-Organization>Simula Research</Collaborating-Organization>
+            <Collaborating-Organization>Nara Institute</Collaborating-Organization>
         </Collaborating-Organizations>
         <Collaboration-Types>
-            <Collaboration-Type>Student Intern</Collaboration-Type>
+            <Collaboration-Type>Space Application</Collaboration-Type>
+        </Collaboration-Types>
+        <Years>
+            <Year>2007</Year>
+        </Years>
+        <Outcome-Types>
+            <Outcome-Type>Space Application</Outcome-Type>
+        </Outcome-Types>
+        <Description>Space Application</Description>
+    </Collaboration>
+    <Collaboration>
+        <Name>UH-VTT</Name>
+        <Collaborating-Organizations>
+            <Collaborating-Organization>University of Hawaii</Collaborating-Organization>
+            <Collaborating-Organization>VTT Electronics</Collaborating-Organization>
+        </Collaborating-Organizations>
+        <Collaboration-Types>
+            <Collaboration-Type>Fun</Collaboration-Type>
+        </Collaboration-Types>
+        <Years>
+            <Year>2007</Year>
+        </Years>
+        <Outcome-Types>
+            <Outcome-Type>Publication</Outcome-Type>
+            <Outcome-Type>Explorative Empirical Data</Outcome-Type>
+            <Outcome-Type>Many Visits to Hawaii</Outcome-Type>
+        </Outcome-Types>
+        <Description>Experimental use of Hackystat in VTT's Global Agile Software Development Laboratory.</Description>
+    </Collaboration>
+    <Collaboration>
+        <Name>USG-VTT</Name>
+        <Collaborating-Organizations>
+            <Collaborating-Organization>University of Strathclyde</Collaborating-Organization>
+            <Collaborating-Organization>VTT Electronics</Collaborating-Organization>
+        </Collaborating-Organizations>
+        <Collaboration-Types>
+            <Collaboration-Type>Data Collection</Collaboration-Type>
+        </Collaboration-Types>
+        <Years>
+            <Year>2007</Year>
+        </Years>
+        <Outcome-Types>
+            <Outcome-Type>Data for Marc's Tool Project</Outcome-Type>
+        </Outcome-Types>
+        <Description>Experimental use of CRI tool in VTT's Global Agile Software Development Laboratory.</Description>
+    </Collaboration>
+    <Collaboration>
+        <Name>FIESE-TUV</Name>
+        <Collaborating-Organizations>
+            <Collaborating-Organization>Fraunhofer IESE</Collaborating-Organization>
+            <Collaborating-Organization>Vienna University of Technology</Collaborating-Organization>
+        </Collaborating-Organizations>
+        <Collaboration-Types>
+            <Collaboration-Type>Tech Report</Collaboration-Type>
+        </Collaboration-Types>
+        <Years>
+            <Year>2007</Year>
+            <Year>2008</Year>
+        </Years>
+        <Outcome-Types>
+            <Outcome-Type>Tech Report</Outcome-Type>
+        </Outcome-Types>
+        <Description>Tech report on balancing QA techniques.</Description>
+    </Collaboration>
+    <Collaboration>
+        <Name>TUV-FIESE</Name>
+        <Collaborating-Organizations>
+            <Collaborating-Organization>Vienna University of Technology</Collaborating-Organization>
+            <Collaborating-Organization>Fraunhofer IESE</Collaborating-Organization>
+        </Collaborating-Organizations>
+        <Collaboration-Types>
+            <Collaboration-Type>Data Analysis</Collaboration-Type>
+        </Collaboration-Types>
+        <Years>
+            <Year>2000</Year>
+            <Year>2001</Year>
+        </Years>
+        <Outcome-Types>
+            <Outcome-Type>Paper</Outcome-Type>
+        </Outcome-Types>
+        <Description>Data analysis of inspection experiments.</Description>
+    </Collaboration>
+    <Collaboration>
+        <Name>TUV-TKK</Name>
+        <Collaborating-Organizations>
+            <Collaborating-Organization>Vienna University of Technology</Collaborating-Organization>
+            <Collaborating-Organization>Helsinki University of Technology</Collaborating-Organization>
+        </Collaborating-Organizations>
+        <Collaboration-Types>
+            <Collaboration-Type>Tech Report</Collaboration-Type>
+        </Collaboration-Types>
+        <Years>
+            <Year>2007</Year>
+            <Year>2008</Year>
+        </Years>
+        <Outcome-Types>
+            <Outcome-Type>Tech Report</Outcome-Type>
+        </Outcome-Types>
+        <Description>Value-based software process improvement and workshops with industry partners.</Description>
+    </Collaboration>
+    <Collaboration>
+        <Name>BTH-UH</Name>
+        <Collaborating-Organizations>
+            <Collaborating-Organization>Blekinge Institute of Technology</Collaborating-Organization>
+            <Collaborating-Organization>University of Hawaii</Collaborating-Organization>
+        </Collaborating-Organizations>
+        <Collaboration-Types>
+            <Collaboration-Type>Visiting Researcher</Collaboration-Type>
         </Collaboration-Types>
         <Years>
             <Year>2006</Year>
-            <Year>2005</Year>
         </Years>
         <Outcome-Types>
-            <Outcome-Type>Technical Report</Outcome-Type>
+            <Outcome-Type>Joint Papers</Outcome-Type>
         </Outcome-Types>
-        <Description>
-    A graduate student at the University of Hawaii spent the summer working in the University of Maryland research group.
-    </Description>
+        <Description>Joint papers with visiting researcher.</Description>
     </Collaboration>
     <Collaboration>
-        <Name>UM-UH-HPCS3</Name>
+        <Name>BTH-UNSW</Name>
         <Collaborating-Organizations>
-            <Collaborating-Organization>University of Hawaii</Collaborating-Organization>
-            <Collaborating-Organization>University of Maryland</Collaborating-Organization>
+            <Collaborating-Organization>Blekinge Institute of Technology</Collaborating-Organization>
+            <Collaborating-Organization>University of New South Wales</Collaborating-Organization>
+        </Collaborating-Organizations>
+        <Collaboration-Types>
+            <Collaboration-Type>Visiting Researcher</Collaboration-Type>
+        </Collaboration-Types>
+        <Years>
+            <Year>2000</Year>
+            <Year>2001</Year>
+            <Year>2002</Year>
+            <Year>2003</Year>
+            <Year>2004</Year>
+            <Year>2005</Year>
+            <Year>2006</Year>
+            <Year>2007</Year>
+        </Years>
+        <Outcome-Types>
+            <Outcome-Type>Joint Paper</Outcome-Type>
+            <Outcome-Type>Jointly Edited Books</Outcome-Type>
+        </Outcome-Types>
+        <Description>Join paper and edited books.</Description>
+    </Collaboration>
+    <Collaboration>
+        <Name>BTH-LU</Name>
+        <Collaborating-Organizations>
+            <Collaborating-Organization>Blekinge Institute of Technology</Collaborating-Organization>
+            <Collaborating-Organization>Lund University</Collaborating-Organization>
+        </Collaborating-Organizations>
+        <Collaboration-Types>
+            <Collaboration-Type>Joint</Collaboration-Type>
+        </Collaboration-Types>
+        <Years>
+            <Year>2000</Year>
+            <Year>2001</Year>
+            <Year>2002</Year>
+            <Year>2003</Year>
+            <Year>2004</Year>
+            <Year>2005</Year>
+            <Year>2006</Year>
+            <Year>2007</Year>
+        </Years>
+        <Outcome-Types>
+            <Outcome-Type>Joint Papers</Outcome-Type>
+            <Outcome-Type>Joint Research Application</Outcome-Type>
+        </Outcome-Types>
+        <Description>Join papers and research application.</Description>
+    </Collaboration>
+    <Collaboration>
+        <Name>BTH-UO</Name>
+        <Collaborating-Organizations>
+            <Collaborating-Organization>Blekinge Institute of Technology</Collaborating-Organization>
+            <Collaborating-Organization>University of Oulu</Collaborating-Organization>
+        </Collaborating-Organizations>
+        <Collaboration-Types>
+            <Collaboration-Type>Guest Lecture</Collaboration-Type>
+        </Collaboration-Types>
+        <Years>
+            <Year>2008</Year>
+        </Years>
+        <Outcome-Types>
+            <Outcome-Type>Guest Lecture</Outcome-Type>
+        </Outcome-Types>
+        <Description>Guest lecture.</Description>
+    </Collaboration>
+    <Collaboration>
+        <Name>BTH-UPV</Name>
+        <Collaborating-Organizations>
+            <Collaborating-Organization>Blekinge Institute of Technology</Collaborating-Organization>
+            <Collaborating-Organization>Universidad Politecnica de Valencia</Collaborating-Organization>
+        </Collaborating-Organizations>
+        <Collaboration-Types>
+            <Collaboration-Type>Guest Lecture</Collaboration-Type>
+        </Collaboration-Types>
+        <Years>
+            <Year>2007</Year>
+        </Years>
+        <Outcome-Types>
+            <Outcome-Type>Guest Lecture</Outcome-Type>
+        </Outcome-Types>
+        <Description>Guest lecture.</Description>
+    </Collaboration>
+    <Collaboration>
+        <Name>UMBC-USP</Name>
+        <Collaborating-Organizations>
+            <Collaborating-Organization>University of Maryland Baltimore County</Collaborating-Organization>
+            <Collaborating-Organization>University of Sao Paulo</Collaborating-Organization>
         </Collaborating-Organizations>
         <Collaboration-Types>
             <Collaboration-Type>Student Intern</Collaboration-Type>
         </Collaboration-Types>
         <Years>
             <Year>2007</Year>
-            <Year>2005</Year>
+            <Year>2008</Year>
         </Years>
         <Outcome-Types>
-            <Outcome-Type>Technical Report</Outcome-Type>
+            <Outcome-Type>Paper</Outcome-Type>
+            <Outcome-Type>Dissertation Proposal</Outcome-Type>
         </Outcome-Types>
-        <Description>
-    A graduate student at the University of Hawaii spent the summer working in the University of Maryland research group.
-    </Description>
+        <Description>Student Viviane malheiros spends 1 year in UMBC to collaborate on several ongoing projects.</Description>
+    </Collaboration>
+    <Collaboration>
+        <Name>UMBC-NCS</Name>
+        <Collaborating-Organizations>
+            <Collaborating-Organization>University of Maryland Baltimore County</Collaborating-Organization>
+            <Collaborating-Organization>North Carolina State</Collaborating-Organization>
+        </Collaborating-Organizations>
+        <Collaboration-Types>
+            <Collaboration-Type>Pair Programming</Collaboration-Type>
+        </Collaboration-Types>
+        <Years>
+            <Year>2006</Year>
+        </Years>
+        <Outcome-Types>
+            <Outcome-Type>ICSE07 Paper</Outcome-Type>
+        </Outcome-Types>
+        <Description>Study of pedagogical benefits of pair programming among millenial students.</Description>
     </Collaboration>
 </Collaborations>
