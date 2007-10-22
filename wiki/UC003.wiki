@@ -1,0 +1,29 @@
+#summary Organization Modification
+
+*Case Number:* UC003
+
+*Case Name:* Edit Organization
+
+*Description:* An ISERN member wants to edit the information for their organization.
+
+*Actors:*
+  * Researcher – An ISERN member
+  * System – The MyISERN application
+
+*Frequency:* Low
+
+*Preconditions:*
+  * The researcher is viewing their own organization's information.
+
+*Postconditions:*
+  * The organization information is modified.
+
+*Basic Course:*
+|| *User* || *System* ||
+|| 1. The researcher is viewing an organization's information and clicks on the edit organization button. || 2. The system loads the edit organization form. ||
+|| 3. The researcher changes the location, country, web page, what the organization does, and/or the organization status. ||  ||
+|| 4. The researcher clicks on the save button. || 5. The system saves the new information. ||
+||  || 6. The system tells the user that the action was successful and loads the homepage. ||
+
+*Change History:*
+  * Created - 2007/10/21
