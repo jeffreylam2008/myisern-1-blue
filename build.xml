@@ -49,9 +49,9 @@
   <fail message="This package requires JAXB to be installed" unless="jaxb.available"/>
  
   <!-- Basic properties for this system. --> 
-  <property name="system.name" value="myisern-xml" />
+  <property name="system.name" value="myisern-blue" />
   <property name="majorVersionNumber" value="1" />
-  <property name="minorVersionNumber" value="2" />
+  <property name="minorVersionNumber" value="3" />
   <tstamp>
     <format property="DAYSTAMP" pattern="Mdd" />
   </tstamp>

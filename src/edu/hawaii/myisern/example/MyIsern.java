@@ -84,10 +84,10 @@ public class MyIsern {
     this.commandLineArgs = args;
     this.mixl = new MyIsernXmlLoader();
     this.mixs = new MyIsernXmlSaver();
-      this.oList = this.mixl.getOrganizations();
-      this.cList = this.mixl.getCollaborations();
-      this.rList = this.mixl.getResearchers();
-      this.collabList = this.cList.getCollaboration();
+    this.oList = this.mixl.getOrganizations();
+    this.cList = this.mixl.getCollaborations();
+    this.rList = this.mixl.getResearchers();
+    this.collabList = this.cList.getCollaboration();
     this.newcExists = false;
     this.newoExists = false;
     this.newrExists = false;
@@ -100,7 +100,6 @@ public class MyIsern {
    * @throws Exception if there is an exception
    */
   public static void main(String[] args) throws Exception {
-
     MyIsern myIsern = new MyIsern(args);
     myIsern.parseCommandLine();
   }
