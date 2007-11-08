@@ -192,11 +192,6 @@ public class MyIsern {
             "-collaborationLevelGreaterThan".equals(arg1)) {
           this.listOrganizationsGreaterThan(Integer.parseInt(arg2));
         }
-        else if ("-showGui".equals(arg0)) {
-          MyIsernGui mig = new MyIsernGui(this.mixl.collaborations, this.mixl.organizations,
-              this.mixl.researchers);
-          mig.createGui();
-        }
         else if ("-input".equals(arg0)) {
           this.addToIsern();
         }

@@ -27,27 +27,12 @@
   <property name="junit.jar" location="${env.JUNIT_HOME}/junit-${junit.version}.jar"/>
   <available file="${junit.jar}" type="file" property="junit.available"/>
   <fail message="This package requires JUNIT_HOME to be defined and ${junit.jar} available" unless="junit.available"/>
- 
-  <!-- Make sure that a compatible version of HttpUnit is installed. -->
-  <property name="httpunit.version" value="1.6.2" />
-  <property name="httpunit.jar"
-            location="${env.HTTPUNIT_HOME}/lib/httpunit.jar" />
-  <available file="${httpunit.jar}" type="file" property="httpunit.available" />
-  <fail message="This package requires HTTPUNIT_HOME to be defined and ${httpunit.jar} available"
-        unless="httpunit.available" />
-  
-  <!-- Make sure that the SWL library is available. -->
-  <property name="swt-version" value="3.3" />
-  <property name="swt.jar"
-            location="${env.SWT_HOME}/swt.jar" />
-  <available file="${swt.jar}" type="file" property="swt.available" />
-  <fail message="This package requires SWT_HOME to be defined and ${swt.jar} available"
-        unless="swt.available" />
-   
-  <!-- Make sure that the JAXB library is available (by default in Java 6, through manual installation in Java 5. --> 
-  <available classname="javax.xml.bind.JAXBContext" property="jaxb.available"/>
-  <fail message="This package requires JAXB to be installed" unless="jaxb.available"/>
- 
+
+  <!-- Make sure that HTTPUnit is installed. --> 
+   <property name="httpunit.jar" location="${env.HTTPUNIT_HOME}/lib/httpunit.jar"/>
+   <available file="${httpunit.jar}" type="file" property="httpunit.available"/>
+   <fail message="Missing ${httpunit.jar}. This package requires HTTPUNIT_HOME to be defined and ${httpunit.jar} available" unless="httpunit.available"/>
+
   <!-- Basic properties for this system. --> 
   <property name="system.name" value="myisern-blue" />
   <property name="majorVersionNumber" value="1" />
@@ -56,69 +41,54 @@
     <format property="DAYSTAMP" pattern="Mdd" />
   </tstamp>
   <property name="version" value="${majorVersionNumber}.${minorVersionNumber}.${DAYSTAMP}" />
+  
+  <!-- Needed by junit.build.xml and emma.build.xml -->
+  <property name="test.host" value="http://localhost:8080/"/>  
 
 
   <!-- Basic directory structure. --> 
   <property name="src.dir" location="${basedir}/src" />
   <property name="lib.dir" location="${basedir}/lib" />
   <property name="build.dir" location="${basedir}/build" />
+  <property name="build.war.dir" value="${build.dir}/war"/>
+  <property name="build.war.web.inf.dir" value="${build.war.dir}/WEB-INF"/>
+  <property name="build.war.web.inf.classes.dir" value="${build.war.web.inf.dir}/classes"/>
 
   <!-- The compile classpath is useful to many tools. -->
   <path id="compile.classpath">
     <fileset file="${env.JUNIT_HOME}/junit-${junit.version}.jar"/>
-    <fileset dir="${env.HTTPUNIT_HOME}/jars">
-          <include name="*.jar" />
-          <exclude name="nekohtml.jar" if="use.jtidy" />
-        </fileset>
-        <fileset file="${httpunit.jar}" />
-    <fileset file="${env.SWT_HOME}/swt.jar"/>
+    <fileset file="${env.HTTPUNIT_HOME}/lib/httpunit.jar"/>
+    <fileset dir="${basedir}/web/WEB-INF/lib">
+      <include name="**/*.jar"/>
+    </fileset>
   </path> 
 
   <target name="compile" description="Compiles the code.">
     <!-- Now compile the code into build/classes -->   
-    <mkdir dir="${build.dir}/classes"/>
-    <javac srcdir="${src.dir}" destdir="${build.dir}/classes" source="1.5" target="1.5" debug="on" includeAntRuntime="no">
+    <mkdir dir="${build.war.web.inf.classes.dir}"/>
+    <javac srcdir="${src.dir}" destdir="${build.war.web.inf.classes.dir}" source="1.5" target="1.5" debug="on" includeAntRuntime="no">
       <classpath refid="compile.classpath" />
       <compilerarg value="-Xlint:all"/>
       <compilerarg value="-Werror"/>
     </javac>
-  </target>
+  </target> 
 
-  <target name="jar" depends="compile" 
-       description="Create myisern.jar">
-       <!-- Define the directories and distribution name -->
-       <mkdir dir="${tmp.dir}" />
-       <copy todir="${tmp.dir}">
-         <fileset dir="${basedir}/build/classes"/>
-       </copy>
-     
-       <!-- Expand libraries into jar location --> 
-       <unjar src="${env.HTTPUNIT_HOME}/jars/js.jar" dest="${tmp.dir}"/>
-       <unjar src="${env.HTTPUNIT_HOME}/jars/nekohtml.jar" dest="${tmp.dir}"/>
-       <unjar src="${env.HTTPUNIT_HOME}/jars/xercesImpl.jar" dest="${tmp.dir}"/>
-       <unjar src="${env.HTTPUNIT_HOME}/jars/xmlParserAPIs.jar" dest="${tmp.dir}"/>
-       <unjar src="${env.HTTPUNIT_HOME}/lib/httpunit.jar" dest="${tmp.dir}"/>
-       <unjar src="${env.SWT_HOME}/swt.jar" dest="${tmp.dir}"/>
-       <jar destfile="${basedir}/myisern-1-blue.jar" basedir="${tmp.dir}">
-         <manifest>
-           <attribute name="Main-Class" value="edu.hawaii.myisern.example.MyIsern"/>
-           <attribute name="Implementation-Title" value="MyIsern"/>
-           <attribute name="Implementation-Version" value="${version}"/>
-           <attribute name="Implementation-Vendor" value="Collaborative Software Development Laboratory, University of Hawaii"/>
-         </manifest>
-       </jar>
-       <delete dir="${tmp.dir}" />
-     </target>
-  <target name="clean" description="Delete build/ directory and top-level sensorbase jar files.">
-    <delete>
-      <fileset dir="${basedir}" includes="sensorbase*.jar"/> 
-    </delete>
+  <target name="clean" description="Delete build/ directory.">
     <delete dir="${build.dir}"/> 
   </target>
- 
+
   <target name="convertLineEndings" description="Makes line endings compatible with host platform.">
     <fixcrlf srcdir="${basedir}" includes="*.build.xml"/>
   </target>
+  
+  <target name="war" depends="compile" description="Packages the Web files into a WAR file">
+    <copy todir="${build.war.dir}">
+      <fileset dir="${basedir}/web"/>
+    </copy>
+    <war destFile="${build.dir}/${system.name}.war" webxml="${build.war.web.inf.dir}/web.xml">
+      <fileset dir="${build.war.dir}" excludes="WEB-INF/web.xml" />        
+    </war>
+   </target> 
  
 </project>
 
