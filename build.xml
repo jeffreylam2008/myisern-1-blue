@@ -35,14 +35,6 @@
   <available file="${httpunit.jar}" type="file" property="httpunit.available" />
   <fail message="This package requires HTTPUNIT_HOME to be defined and ${httpunit.jar} available"
         unless="httpunit.available" />
-  
-  <!-- Make sure that the SWL library is available. -->
-  <property name="swt-version" value="3.3" />
-  <property name="swt.jar"
-            location="${env.SWT_HOME}/swt.jar" />
-  <available file="${swt.jar}" type="file" property="swt.available" />
-  <fail message="This package requires SWT_HOME to be defined and ${swt.jar} available"
-        unless="swt.available" />
    
   <!-- Make sure that the JAXB library is available (by default in Java 6, through manual installation in Java 5. --> 
   <available classname="javax.xml.bind.JAXBContext" property="jaxb.available"/>
@@ -70,8 +62,7 @@
           <include name="*.jar" />
           <exclude name="nekohtml.jar" if="use.jtidy" />
         </fileset>
-        <fileset file="${httpunit.jar}" />
-    <fileset file="${env.SWT_HOME}/swt.jar"/>
+    <fileset file="${httpunit.jar}" />
   </path> 
 
   <target name="compile" description="Compiles the code.">
