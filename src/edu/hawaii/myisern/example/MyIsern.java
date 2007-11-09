@@ -1379,12 +1379,12 @@ public class MyIsern {
 	      List<String> oResearchKeywords = new ArrayList<String>();
 	      boolean userWantsToEdit = false;
 
-	      System.out.println(enterPrompt);
-	      System.out.print("Enter Organization Name: ");
+	      /*System.out.println(enterPrompt);
+	      System.out.print("Enter Organization Name: ");*/
 	      // checks user input if its a unique id
 	      oName = userInput();
 
-	      if (this.mixl.containsUniqueId(oName.replace(' ', '_'))) {
+	      /*if (this.mixl.containsUniqueId(oName.replace(' ', '_'))) {
 	        System.out.println("This Organization already exists");
 	        System.out.println("Would you like to edit this Organization? (Y/N) ");
 	        if (userEntersYes()) {
@@ -1396,23 +1396,24 @@ public class MyIsern {
 	        }
 	        // Need to add for editing
 	      }
-	      else {
+	      else {*/
 
 	        newOrg.setName(oName);
 
-	        System.out.print("Enter Type of Organization: ");
+	        //System.out.print("Enter Type of Organization: ");
 	        oType = userInput();
 
 	        newOrg.setType(oType);
 
-	        System.out.print("Enter Contact: ");
+	        //System.out.print("Enter Contact: ");
 	        oContact = userInput();
 
 	        newOrg.setContact(oContact);
 
-	        System.out.print("Enter an Affiliated Researcher: ");
+	        //System.out.print("Enter an Affiliated Researcher: ");
 	        innerLoopIsDone = false;
-	        while (!innerLoopIsDone) {
+
+	        /*while (!innerLoopIsDone) {
 	          oAffilResearchers.add(userInput());
 	          System.out.print("Would you like to add another Affiliated Researcher?(Y/N) ");
 
@@ -1424,22 +1425,23 @@ public class MyIsern {
 	            innerLoopIsDone = true;
 	          }
 
-	        } // While loop for adding affiliated researchers
+	        } // While loop for adding affiliated researchers*/
 
 	        AffiliatedResearchers ar = new AffiliatedResearchers();
 	        newOrg.setAffiliatedResearchers(ar);
+
 	        for (String current : oAffilResearchers) {
 	          newOrg.getAffiliatedResearchers().getAffiliatedResearcher().add(current);
 
 	        }
 
-	        System.out.print("Enter Country: ");
+	        //System.out.print("Enter Country: ");
 	        oCountry = userInput();
 	        newOrg.setCountry(oCountry);
 
-	        System.out.print("Enter a Research Keyword: ");
+	        //System.out.print("Enter a Research Keyword: ");
 	        innerLoopIsDone = false;
-	        while (!innerLoopIsDone) {
+	        /*while (!innerLoopIsDone) {
 	          oResearchKeywords.add(userInput());
 	          System.out.print("Would you like to add another research keyword?(Y/N) ");
 	          if (userEntersYes()) {
@@ -1449,7 +1451,7 @@ public class MyIsern {
 	          else {
 	            innerLoopIsDone = true;
 	          }
-	        } // while for research keyword inner Loop
+	        } // while for research keyword inner Loop*/
 
 	        ResearchKeywords rk = new ResearchKeywords();
 	        newOrg.setResearchKeywords(rk);
@@ -1457,17 +1459,17 @@ public class MyIsern {
 	          newOrg.getResearchKeywords().getResearchKeyword().add(current);
 	        }
 
-	        System.out.print("Enter Research Description:\n\t");
+	        //System.out.print("Enter Research Description:\n\t");
 	        oResearcherDescription = userInput();
 
 	        newOrg.setResearchDescription(oResearcherDescription);
 
-	        System.out.print("Enter Organization homepage: ");
+	        //System.out.print("Enter Organization homepage: ");
 	        oHomepage = userInput();
 
 	        newOrg.setHomePage(oHomepage);
 
-	        System.out.println("--- You Entered:");
+	        /*System.out.println("--- You Entered:");
 	        System.out.println("Organization:" + oName);
 	        System.out.println("Type:" + oType);
 	        System.out.println("Contact: " + oContact);
@@ -1497,7 +1499,7 @@ public class MyIsern {
 	          userWantsToEdit = true;
 	        }
 
-	      } // else if Organization entered is unique
+	      //} // else if Organization entered is unique
 
 	      if (userWantsToEdit) {
 	        userIsDone = false;
@@ -1512,7 +1514,7 @@ public class MyIsern {
 	          System.out.println("Exiting to the Main Menu...");
 	          userIsDone = true;
 	        }
-	      }
+	      }*/
 
 	    } // Main while loop for entering organization info
 
