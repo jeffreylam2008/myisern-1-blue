@@ -54,63 +54,45 @@
   <property name="src.dir" location="${basedir}/src" />
   <property name="lib.dir" location="${basedir}/lib" />
   <property name="build.dir" location="${basedir}/build" />
+  <property name="build.war.dir" value="${build.dir}/war"/>
+  <property name="build.war.web.inf.dir" value="${build.war.dir}/WEB-INF"/>
+  <property name="build.war.web.inf.classes.dir" value="${build.war.web.inf.dir}/classes"/>
 
   <!-- The compile classpath is useful to many tools. -->
   <path id="compile.classpath">
     <fileset file="${env.JUNIT_HOME}/junit-${junit.version}.jar"/>
-    <fileset dir="${env.HTTPUNIT_HOME}/jars">
-          <include name="*.jar" />
-          <exclude name="nekohtml.jar" if="use.jtidy" />
-        </fileset>
-    <fileset file="${httpunit.jar}" />
+    <fileset file="${env.HTTPUNIT_HOME}/lib/httpunit.jar"/>
+    <fileset dir="${basedir}/web/WEB-INF/lib">
+      <include name="**/*.jar"/>
+    </fileset>
   </path> 
 
   <target name="compile" description="Compiles the code.">
     <!-- Now compile the code into build/classes -->   
-    <mkdir dir="${build.dir}/classes"/>
-    <javac srcdir="${src.dir}" destdir="${build.dir}/classes" source="1.5" target="1.5" debug="on" includeAntRuntime="no">
+    <mkdir dir="${build.war.web.inf.classes.dir}"/>
+    <javac srcdir="${src.dir}" destdir="${build.war.web.inf.classes.dir}" source="1.5" target="1.5" debug="on" includeAntRuntime="no">
       <classpath refid="compile.classpath" />
       <compilerarg value="-Xlint:all"/>
       <compilerarg value="-Werror"/>
     </javac>
-  </target>
+  </target> 
 
-  <target name="jar" depends="compile" 
-       description="Create myisern.jar">
-       <!-- Define the directories and distribution name -->
-       <mkdir dir="${tmp.dir}" />
-       <copy todir="${tmp.dir}">
-         <fileset dir="${basedir}/build/classes"/>
-       </copy>
-     
-       <!-- Expand libraries into jar location --> 
-       <unjar src="${env.HTTPUNIT_HOME}/jars/js.jar" dest="${tmp.dir}"/>
-       <unjar src="${env.HTTPUNIT_HOME}/jars/nekohtml.jar" dest="${tmp.dir}"/>
-       <unjar src="${env.HTTPUNIT_HOME}/jars/xercesImpl.jar" dest="${tmp.dir}"/>
-       <unjar src="${env.HTTPUNIT_HOME}/jars/xmlParserAPIs.jar" dest="${tmp.dir}"/>
-       <unjar src="${env.HTTPUNIT_HOME}/lib/httpunit.jar" dest="${tmp.dir}"/>
-       <unjar src="${env.SWT_HOME}/swt.jar" dest="${tmp.dir}"/>
-       <jar destfile="${basedir}/myisern-1-blue.jar" basedir="${tmp.dir}">
-         <manifest>
-           <attribute name="Main-Class" value="edu.hawaii.myisern.example.MyIsern"/>
-           <attribute name="Implementation-Title" value="MyIsern"/>
-           <attribute name="Implementation-Version" value="${version}"/>
-           <attribute name="Implementation-Vendor" value="Collaborative Software Development Laboratory, University of Hawaii"/>
-         </manifest>
-       </jar>
-       <delete dir="${tmp.dir}" />
-     </target>
-  <target name="clean" description="Delete build/ directory and top-level sensorbase jar files.">
-    <delete>
-      <fileset dir="${basedir}" includes="sensorbase*.jar"/> 
-    </delete>
+  <target name="clean" description="Delete build/ directory.">
     <delete dir="${build.dir}"/> 
   </target>
- 
+
   <target name="convertLineEndings" description="Makes line endings compatible with host platform.">
     <fixcrlf srcdir="${basedir}" includes="*.build.xml"/>
   </target>
- 
+  
+  <target name="war" depends="compile" description="Packages the Web files into a WAR file">
+    <copy todir="${build.war.dir}">
+      <fileset dir="${basedir}/web"/>
+    </copy>
+    <war destFile="${build.dir}/${system.name}.war" webxml="${build.war.web.inf.dir}/web.xml">
+      <fileset dir="${build.war.dir}" excludes="WEB-INF/web.xml" />        
+    </war>
+   </target> 
 </project>
 
 
