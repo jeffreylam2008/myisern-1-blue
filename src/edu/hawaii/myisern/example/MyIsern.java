@@ -25,10 +25,6 @@ import edu.hawaii.myisern.organizations.jaxb.ResearchKeywords;
 import edu.hawaii.myisern.researchers.jaxb.Researcher;
 import edu.hawaii.myisern.researchers.jaxb.Researchers;
 
-//import com.meterware.httpunit.WebConversation;
-//import com.meterware.httpunit.WebLink;
-//import com.meterware.httpunit.WebResponse;
-
 /**
  * Provides information on the organizations, collaborations, and researchers of the ISERN
  * community.
@@ -76,18 +72,15 @@ public class MyIsern {
   /**
    * Initializes command line options.
    * 
-   * @param args Command line arguments.
-   * @throws Exception 
    * @throws Exception thrown if error is encountered.
    */
-  MyIsern(String[] args) throws Exception {
-    this.commandLineArgs = args;
+  public MyIsern() throws Exception {
     this.mixl = new MyIsernXmlLoader();
     this.mixs = new MyIsernXmlSaver();
-      this.oList = this.mixl.getOrganizations();
-      this.cList = this.mixl.getCollaborations();
-      this.rList = this.mixl.getResearchers();
-      this.collabList = this.cList.getCollaboration();
+    this.oList = this.mixl.getOrganizations();
+    this.cList = this.mixl.getCollaborations();
+    this.rList = this.mixl.getResearchers();
+    this.collabList = this.cList.getCollaboration();
     this.newcExists = false;
     this.newoExists = false;
     this.newrExists = false;
@@ -100,8 +93,7 @@ public class MyIsern {
    * @throws Exception if there is an exception
    */
   public static void main(String[] args) throws Exception {
-
-    MyIsern myIsern = new MyIsern(args);
+    MyIsern myIsern = new MyIsern();
     myIsern.parseCommandLine();
   }
 
@@ -192,11 +184,6 @@ public class MyIsern {
         else if ("-listOrganizations".equals(arg0) && 
             "-collaborationLevelGreaterThan".equals(arg1)) {
           this.listOrganizationsGreaterThan(Integer.parseInt(arg2));
-        }
-        else if ("-showGui".equals(arg0)) {
-          MyIsernGui mig = new MyIsernGui(this.mixl.collaborations, this.mixl.organizations,
-              this.mixl.researchers);
-          mig.createGui();
         }
         else if ("-input".equals(arg0)) {
           this.addToIsern();
@@ -946,7 +933,7 @@ public class MyIsern {
    * 
    * @throws IOException when I/O error occurs.
    */
-  /*public void addResearcher() throws IOException {
+  public void addResearcher() throws IOException {
     String rName, rBio, rEmail, rOrg, rPictureLink;
     boolean userIsDone = false;
 
@@ -1028,92 +1015,7 @@ public class MyIsern {
         }
       }
     } // while loop for researcher input
-  }*/
-
-  public void addResearcher(String newData) throws IOException {
-	    String rName, rBio, rEmail, rOrg, rPictureLink;
-	    boolean userIsDone = false;
-
-	    while (!userIsDone) {
-	    	//implement stringtokenizer here
-	      Researcher newR = new Researcher();
-	      boolean userWantsToEdit = false;
-
-	      /*System.out.println(enterPrompt);
-	      System.out.print("Enter Researcher Name: ");*/
-	      // checks user input if its a unique id
-	      rName = userInput();
-
-	      //if (this.mixl.containsUniqueId(rName.replace(' ', '_'))) {
-	        System.out.println("This Researcher already exists");//possibly to be implemented in MyIsernActionBean
-	        /*System.out.print("Would you like to edit existing Researcher?(Y/N) ");
-
-	        if (userEntersYes()) {
-	          editResearcher(rName);
-	        }
-	        else {
-	          System.out.println("You chose not to edit");
-	        }
-	        // Need to add for editing
-	      }
-	      else {*/
-	        newR.setName(rName);
-
-	        //System.out.print("\n Enter the researcher's organization: ");
-	        rOrg = (userInput());
-	        newR.setOrganization(rOrg);
-
-	        //System.out.print("\n Enter the researcher's e-mail address: ");
-	        rEmail = (userInput());
-	        newR.setEmail(rEmail);
-
-	        //System.out.print("\n Enter the researcher's picture link: ");
-	        rPictureLink = (userInput());
-	        newR.setPictureLink(rPictureLink);
-
-	        //System.out.print("\n Enter the researcher's bio-statement: ");
-	        rBio = (userInput());
-	        newR.setBioStatement(rBio);
-
-	        // Show the information entered. passing in a long string???
-	        /*System.out.println("You Entered:");
-	        System.out.println("Name: " + rName);
-	        System.out.println("Organization: " + rOrg);
-	        System.out.println("E-mail Address: " + rEmail);
-	        System.out.println("Picture Link: " + rPictureLink);
-	        System.out.println("Bio-Statement: " + rBio);
-
-	        System.out.print("Is the information you entered correct?(Y/N) ");
-
-	        if (userEntersYes()) {
-	          System.out.println(reminderToSave);
-	          this.rList.getResearcher().add(newR);
-	          this.mixl.addUniqueId(rName);
-	          this.newrExists = true;
-	          newOrganization(rName, rOrg);
-	          userWantsToEdit = false;
-	        }
-	        else {
-	          System.out.println(reenterMessage);
-	          userWantsToEdit = true;
-	        }
-	      //} // Else for if researcher does not exist
-	      if (userWantsToEdit) {
-	        userIsDone = false;
-	      }
-	      else {
-	        System.out.print("Would you like to add another researcher?(Y/N) ");
-	        if (userEntersYes()) {
-	          userIsDone = false;
-	          System.out.println("Adding more Researchers");
-	        }
-	        else {
-	          System.out.println("Exiting to the Main Menu...");
-	          userIsDone = true;
-	        }
-	      }
-	    } // while loop for researcher input*/
-	  }
+  }
 
   /**
    * Edits an existing researcher with the name rName.
@@ -1217,7 +1119,7 @@ public class MyIsern {
    * @throws IOException when I/O error occurs.
    * 
    */
-  /*public void addOrganization() throws IOException {
+  public void addOrganization() throws IOException {
     String oName, oType, oContact, oCountry, oResearcherDescription, oHomepage;
     boolean userIsDone = false;
     boolean innerLoopIsDone = false;
@@ -1365,161 +1267,7 @@ public class MyIsern {
 
     } // Main while loop for entering organization info
 
-  }*/
-  
-  public void addOrganization(String newData) throws IOException {
-	    String oName, oType, oContact, oCountry, oResearcherDescription, oHomepage;
-	    boolean userIsDone = false;
-	    boolean innerLoopIsDone = false;
-
-	    while (!userIsDone) {
-	    	//implement stringtokenizer here
-	      Organization newOrg = new Organization();
-	      List<String> oAffilResearchers = new ArrayList<String>();
-	      List<String> oResearchKeywords = new ArrayList<String>();
-	      boolean userWantsToEdit = false;
-
-	      /*System.out.println(enterPrompt);
-	      System.out.print("Enter Organization Name: ");*/
-	      // checks user input if its a unique id
-	      oName = userInput();
-
-	      /*if (this.mixl.containsUniqueId(oName.replace(' ', '_'))) {
-	        System.out.println("This Organization already exists");
-	        System.out.println("Would you like to edit this Organization? (Y/N) ");
-	        if (userEntersYes()) {
-	          System.out.println("You chose to edit");
-	          editOrganization(oName);
-	        }
-	        else {
-	          System.out.println("You chose not to edit...");
-	        }
-	        // Need to add for editing
-	      }
-	      else {*/
-
-	        newOrg.setName(oName);
-
-	        //System.out.print("Enter Type of Organization: ");
-	        oType = userInput();
-
-	        newOrg.setType(oType);
-
-	        //System.out.print("Enter Contact: ");
-	        oContact = userInput();
-
-	        newOrg.setContact(oContact);
-
-	        //System.out.print("Enter an Affiliated Researcher: ");
-	        innerLoopIsDone = false;
-
-	        /*while (!innerLoopIsDone) {
-	          oAffilResearchers.add(userInput());
-	          System.out.print("Would you like to add another Affiliated Researcher?(Y/N) ");
-
-	          if (userEntersYes()) {
-	            innerLoopIsDone = false;
-	            System.out.print("Enter another affiliated Researcher: ");
-	          }
-	          else {
-	            innerLoopIsDone = true;
-	          }
-
-	        } // While loop for adding affiliated researchers*/
-
-	        AffiliatedResearchers ar = new AffiliatedResearchers();
-	        newOrg.setAffiliatedResearchers(ar);
-
-	        for (String current : oAffilResearchers) {
-	          newOrg.getAffiliatedResearchers().getAffiliatedResearcher().add(current);
-
-	        }
-
-	        //System.out.print("Enter Country: ");
-	        oCountry = userInput();
-	        newOrg.setCountry(oCountry);
-
-	        //System.out.print("Enter a Research Keyword: ");
-	        innerLoopIsDone = false;
-	        /*while (!innerLoopIsDone) {
-	          oResearchKeywords.add(userInput());
-	          System.out.print("Would you like to add another research keyword?(Y/N) ");
-	          if (userEntersYes()) {
-	            innerLoopIsDone = false;
-	            System.out.print("Please enter another research keyword: ");
-	          }
-	          else {
-	            innerLoopIsDone = true;
-	          }
-	        } // while for research keyword inner Loop*/
-
-	        ResearchKeywords rk = new ResearchKeywords();
-	        newOrg.setResearchKeywords(rk);
-	        for (String current : oResearchKeywords) {
-	          newOrg.getResearchKeywords().getResearchKeyword().add(current);
-	        }
-
-	        //System.out.print("Enter Research Description:\n\t");
-	        oResearcherDescription = userInput();
-
-	        newOrg.setResearchDescription(oResearcherDescription);
-
-	        //System.out.print("Enter Organization homepage: ");
-	        oHomepage = userInput();
-
-	        newOrg.setHomePage(oHomepage);
-
-	        /*System.out.println("--- You Entered:");
-	        System.out.println("Organization:" + oName);
-	        System.out.println("Type:" + oType);
-	        System.out.println("Contact: " + oContact);
-	        System.out.println("Affiliated Researchers");
-	        for (String curr : oAffilResearchers) {
-	          System.out.println(curr);
-	        }
-	        System.out.println("Country: " + oCountry);
-	        System.out.println("Research Keywords: ");
-	        for (String curr : oResearchKeywords) {
-	          System.out.println(curr);
-	        }
-	        System.out.println("Homepage: " + oHomepage);
-
-	        System.out.print("\nIs the information provided correct?(Y/N) ");
-
-	        if (userEntersYes()) {
-	          System.out.println(reminderToSave);
-	          this.oList.getOrganization().add(newOrg);
-	          this.mixl.addUniqueId(oName);
-	          this.newoExists = true;
-	          newResearcher(oContact, oName);
-	          userWantsToEdit = false;
-	        }
-	        else {
-	          System.out.println(reenterMessage);
-	          userWantsToEdit = true;
-	        }
-
-	      //} // else if Organization entered is unique
-
-	      if (userWantsToEdit) {
-	        userIsDone = false;
-	      }
-	      else {
-	        System.out.print("Would you like to add another organization?(Y/N) ");
-	        if (userEntersYes()) {
-	          System.out.println("Adding more Organizations");
-	          userIsDone = false;
-	        }
-	        else {
-	          System.out.println("Exiting to the Main Menu...");
-	          userIsDone = true;
-	        }
-	      }*/
-
-	    } // Main while loop for entering organization info
-
-	  }
-
+  }
 
   /**
    * Edits an existing organization with the name oName.
@@ -1677,7 +1425,7 @@ public class MyIsern {
    * @throws NumberFormatException If problems occur.
    */
 
-  public void addCollaboration(String newData) throws NumberFormatException, Exception {
+  public void addCollaboration() throws NumberFormatException, Exception {
     Collaboration newCollab = new Collaboration();
     String collabName, collabDescription;
     String tab = "\t";
@@ -1685,7 +1433,6 @@ public class MyIsern {
     boolean innerLoopIsDone = false;
 
     while (!userIsDone) {
-    	//implement stringtokenizer here
       List<String> collabOrganizations = new ArrayList<String>();
       List<String> collabTypes = new ArrayList<String>();
       List<String> collabYears = new ArrayList<String>();

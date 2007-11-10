@@ -4,27 +4,31 @@
   </description>
 
   <import file="build.xml"/>
+  <import file="tomcat.build.xml"/>  
   <property environment="env"/>
   <property name="emma.dir" location="${build.dir}/emma" />
   <property name="junit.dir" location="${build.dir}/junit" />
+  <property name="coverage.dir" location="${env.CATALINA_HOME}/bin" />
+  
+  <!-- Make sure emma is installed. We need version 2.0.5312. -->
+  <available file="${env.EMMA_HOME}/lib/emma.jar" property="emma.available"/>
+  <fail unless="emma.available"  
+    message="Error: EMMA_HOME not set or emma.jar not found, indicating Emma is not installed."/>
 
-  <target name="emma" depends="emma.tool" 
-    description="Runs Emma."/>
+  <!-- Define the path and taskdef containing the emma binaries. -->
+  <property name="emma.lib.dir" value="${env.EMMA_HOME}/lib" />
+  <path id="emma.lib.dir" >
+    <pathelement location="${emma.lib.dir}/emma.jar" />
+    <pathelement location="${emma.lib.dir}/emma_ant.jar" />
+  </path>
+  <taskdef resource="emma_ant.properties" classpathref="emma.lib.dir" />
+  
+  <target name="emma" depends="emma.tool, emma.report, emma.echo" description="Runs Emma and the report."/>
 
-  <target name="emma.tool" depends="clean, compile" 
-    description="Cleans, compiles, instruments byte codes, runs unit tests, generates Emma report.">
-    <!-- Verify that Emma is installed. -->
-    <available file="${env.EMMA_HOME}/lib/emma.jar" property="emma.available"/>
-    <fail unless="emma.available"  message="Error: EMMA_HOME not set or ${env.EMMA_HOME}/lib/emma.jar not found, indicating Emma is not installed."/>
-    
-    <!-- Define the path and taskdef containing the emma binaries. -->
-    <property name="emma.lib.dir" value="${env.EMMA_HOME}/lib" />
-    <path id="emma.lib.dir" >
-      <pathelement location="${emma.lib.dir}/emma.jar" />
-      <pathelement location="${emma.lib.dir}/emma_ant.jar" />
-    </path>
-    <taskdef resource="emma_ant.properties" classpathref="emma.lib.dir" />
+  <target name="emma.tool" depends="clean, compile, emma.instrument, tomcat.deploy, emma.junit, emma.dump" 
+    description="Cleans, compiles, instruments byte codes, runs unit tests, generates Emma report."/>
 
+  <target name="emma.instrument" description="Instruments the class files in the war/WEB-INF/classes directory, and adds emma.jar to WEB-INF/lib">
     <!-- Instrument the .class files. -->     
     <mkdir dir="${emma.dir}" />
     <emma enabled="true" >
@@ -36,16 +40,24 @@
         <filter excludes="edu.hawaii.*.jaxb.*"/>
       </instr>
     </emma>
-    
+  </target>
+
+  <target name="emma.junit" description="Runs JUnit with additional Emma jars and properties.">
     <!-- Run JUnit with the instrumented class files. --> 
     <mkdir dir="${junit.dir}" />
     <junit printsummary="withOutAndErr" fork="yes">
       <classpath path="${build.dir}/classes;${java.class.path}">
+        <pathelement location="${build.war.web.inf.classes.dir}" />
+        <path refid="compile.classpath"/>
+        <pathelement location="${env.HTTPUNIT_HOME}/jars/Tidy.jar"/>        
+        <pathelement location="${env.HTTPUNIT_HOME}/jars/js.jar"/>        
         <path refid="emma.lib.dir" />
-        <path refid="compile.classpath"/>           
+        <pathelement location="${java.class.path}" />      
       </classpath>
-      <sysproperty key="emma.coverage.out.file" value="${build.dir}/emma/coverage.emma" />
+      <sysproperty key="test.host" value="${test.host}"/>      
+      <sysproperty key="emma.coverage.out.file" value="${emma.dir}/client.emma" />
       <sysproperty key="emma.coverage.out.merge" value="true" />
+      <sysproperty key="emma.rt.control" value="false" />
       <formatter type="xml" />
       <batchtest todir="${junit.dir}">
         <fileset dir="${src.dir}">
@@ -53,7 +65,28 @@
         </fileset>
       </batchtest>
     </junit>
+  </target>
     
+  <target name="emma.dump" description="Stops the server in order to get the coverage data from Tomcat.">
+    <!-- Windows specific implementation. --> 
+    <exec executable="cmd.exe" spawn="false" osfamily="windows">
+      <arg line="/c shutdown.bat"/>
+    </exec>
+    
+    <!-- Unix specific implementation. --> 
+    <exec executable="catalina.sh" spawn="false" osfamily="unix">
+       <arg value="stop"/>
+    </exec>
+    
+    <echo message="Wait for coverage.ec (maximum of 10 seconds)."/>
+    <waitfor maxwait="10" maxwaitunit="second">
+      <available file="${coverage.dir}/coverage.ec"/>
+    </waitfor>
+    <copy file="${coverage.dir}/coverage.ec" tofile="${emma.dir}/server.ec" />
+    <delete file="${coverage.dir}/coverage.ec" />
+  </target>
+
+  <target name="emma.report" description="Generate the emma report.">
     <!-- Generate Emma reports. -->
     <emma enabled="true" >
       <report sourcepath="${src.dir}"
@@ -61,6 +94,7 @@
               metrics="method:70,block:80,line:80,class:100">
         <fileset dir="${emma.dir}" >
           <include name="*.emma" />
+          <include name="*.ec" />
         </fileset>
         <xml outfile="${emma.dir}/coverage.xml" depth="method" />
         <txt outfile="${emma.dir}/coverage.txt" depth="class" />
@@ -97,8 +131,4 @@
       <fileset dir="${src.dir}" includes="**/*.java" />
     </hacky-emma>
   </target>
-  
 </project>
-
-
-
