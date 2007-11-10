@@ -28,13 +28,10 @@
   <available file="${junit.jar}" type="file" property="junit.available"/>
   <fail message="This package requires JUNIT_HOME to be defined and ${junit.jar} available" unless="junit.available"/>
  
-  <!-- Make sure that a compatible version of HttpUnit is installed. -->
-  <property name="httpunit.version" value="1.6.2" />
-  <property name="httpunit.jar"
-            location="${env.HTTPUNIT_HOME}/lib/httpunit.jar" />
-  <available file="${httpunit.jar}" type="file" property="httpunit.available" />
-  <fail message="This package requires HTTPUNIT_HOME to be defined and ${httpunit.jar} available"
-        unless="httpunit.available" />
+  <!-- Make sure that HTTPUnit is installed. --> 
+  <property name="httpunit.jar" location="${env.HTTPUNIT_HOME}/lib/httpunit.jar"/>
+  <available file="${httpunit.jar}" type="file" property="httpunit.available"/>
+  <fail message="Missing ${httpunit.jar}. This package requires HTTPUNIT_HOME to be defined and ${httpunit.jar} available" unless="httpunit.available"/>
    
   <!-- Make sure that the JAXB library is available (by default in Java 6, through manual installation in Java 5. --> 
   <available classname="javax.xml.bind.JAXBContext" property="jaxb.available"/>
@@ -48,12 +45,14 @@
     <format property="DAYSTAMP" pattern="Mdd" />
   </tstamp>
   <property name="version" value="${majorVersionNumber}.${minorVersionNumber}.${DAYSTAMP}" />
-
+  
+  <!-- Needed by junit.build.xml and emma.build.xml -->
+  <property name="test.host" value="http://localhost:8080/"/>  
 
   <!-- Basic directory structure. --> 
   <property name="src.dir" location="${basedir}/src" />
   <property name="lib.dir" location="${basedir}/lib" />
-  <property name="build.dir" location="${basedir}/build" />
+  <property name="build.dir" location="${basedir}/build" />  
   <property name="build.war.dir" value="${build.dir}/war"/>
   <property name="build.war.web.inf.dir" value="${build.war.dir}/WEB-INF"/>
   <property name="build.war.web.inf.classes.dir" value="${build.war.web.inf.dir}/classes"/>
@@ -65,7 +64,7 @@
     <fileset dir="${basedir}/web/WEB-INF/lib">
       <include name="**/*.jar"/>
     </fileset>
-  </path> 
+  </path>
 
   <target name="compile" description="Compiles the code.">
     <!-- Now compile the code into build/classes -->   
@@ -94,8 +93,3 @@
     </war>
    </target> 
 </project>
-
-
-
-
-

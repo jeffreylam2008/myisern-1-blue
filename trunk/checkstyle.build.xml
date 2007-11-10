@@ -57,8 +57,4 @@
       <fileset file="${checkstyle.dir}/checkstyle.xml"/>
     </hacky-checkstyle>
   </target>
-  
-
 </project>
-
-

@@ -3,23 +3,26 @@
   Provides the JUnit tool and the Hackystat JUnit sensor.
   </description>
 
-  <import file="build.xml"/>
+  <import file="tomcat.build.xml"/>
   <property name="junit.dir" location="${build.dir}/junit" />
 
   <target name="junit" depends="junit.tool, junit.report" description="Runs JUnit, JunitReport">
      <fail if="junit.failed">JUnit test case(s) failed.</fail>
   </target>   
 
-  <target name="junit.tool" depends="compile" description="Run JUnit tests.">
+  <target name="junit.tool" depends="tomcat.deploy" description="Run JUnit tests.">
     <mkdir dir="${junit.dir}" />
     <!-- Run the tests, which are all classes whose name starts with 'Test'. -->
     <!-- Fork is on until I can figure out how to stop the sensorbase and unbind the port. -->
     <!-- Note that emma is forking in its JUnit as well. --> 
     <junit printsummary="withOutAndErr" haltonfailure="${junit.haltonfailure}" fork="yes" failureproperty="junit.failed">
       <classpath>
-        <pathelement location="${build.dir}/classes" />
+        <pathelement location="${build.war.web.inf.classes.dir}" />
         <path refid="compile.classpath"/>
+        <pathelement location="${env.HTTPUNIT_HOME}/jars/Tidy.jar"/>        
+        <pathelement location="${env.HTTPUNIT_HOME}/jars/js.jar"/>  
       </classpath>
+      <sysproperty key="test.host" value="${test.host}"/>  
       <formatter type="xml" />
       <batchtest todir="${junit.dir}">
         <fileset dir="${src.dir}" includes="**/Test*.java"/>
@@ -48,6 +51,3 @@
     </hacky-junit>
   </target>
 </project>
-
-
-
