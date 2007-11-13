@@ -5,7 +5,23 @@
 <html>
   <head><title>MyIsern (version 1.3)</title></head>
 <body>
-Main.jsp
+
+<table>
+	<tr>
+		<td><u><b>Add</b></u></td>
+	</tr>
+	<tr>
+		<td>
+		<stripes:form id="TypeForm" action="/MyIsern.action">
+		  <stripes:select size="1" name="type">
+            <stripes:option value="1">Collaboration</stripes:option>
+            <stripes:option value="2">Organization</stripes:option>
+            <stripes:option value="3">Researcher</stripes:option>
+          </stripes:select>
+          <stripes:submit value="Add" name="addType"/>
+		</stripes:form>	
+		</td>
+	<tr>
 </table>
 
 </body>
