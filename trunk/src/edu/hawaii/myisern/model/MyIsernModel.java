@@ -25,7 +25,7 @@ public class MyIsernModel {
   private boolean validUsername = false;
   private boolean validPassword = false;
   private boolean allowLogin = false;
-
+  
   /**
    * Private constructor used to create a single instance of stack.
    */
@@ -64,7 +64,22 @@ public class MyIsernModel {
     if (validUsername && validPassword ) {
       this.allowLogin = true;
     }
-
     return this.allowLogin;
+  }
+  
+  /**
+   * Action to add collaboration.
+   */
+  public synchronized int addNew(String type) {
+  	if (type.equals("1")) {
+  		return 1;
+  	}
+  	if (type.equals("2")) {
+  		return 2;
+  	}
+  	if (type.equals("3")) {
+  		return 3;
+  	}
+  	return 0;
   }
 }

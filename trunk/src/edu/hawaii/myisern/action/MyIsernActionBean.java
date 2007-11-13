@@ -1,10 +1,10 @@
 package edu.hawaii.myisern.action;
 
 import edu.hawaii.myisern.model.MyIsernModel;
+import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
-import net.sourceforge.stripes.action.ForwardResolution;
-import net.sourceforge.stripes.action.Resolution;
 
 /**
  * Provides a web interface for viewing, editing, and adding researchers, organizations, and
@@ -13,32 +13,18 @@ import net.sourceforge.stripes.action.Resolution;
  * @author Marcius Bagwan
  */
 public class MyIsernActionBean implements ActionBean {
-
-  /**
-   * Required by the ActionBean interface.
-   */
+	/** Required by the ActionBean interface. */
   private ActionBeanContext context;
-
-  /**
-   * Our single MyIsern instance manipulated by all webapp users.
-   */
+  /** Our single MyIsern instance manipulated by all webapp users. */
   private MyIsernModel myIsernModel = MyIsernModel.getInstance();
-
-  /** 
-   * An error string, always displayed, but invisible if empty.
-   */
+  /** An error string, always displayed, but invisible if empty. */
   private String errorMessage = "";
-
-  /** 
-   * The username inputted by the user.
-   */
+  /** The username inputted by the user. */
   private String username;
-
-  /**
-   * The password inputted by the user.
-   */
+  /** The password inputted by the user. */
   private String password;
-
+  /** The type selected by user. */
+  private String type;
   /**
    * Returns the context. Required by the interface.
    * 
@@ -84,7 +70,16 @@ public class MyIsernActionBean implements ActionBean {
   public void setPassword(String password) {
     this.password = password;
   }
-
+  
+  /**
+   * Invoked by the page to indicate the type selected.
+   * 
+   * @param type The type to verify.
+   */
+  public void setType(String type) {
+    this.type = type;
+  }
+  
   /**
    * A handler that performs an action when the 'login' button is pressed.
    * 
@@ -100,5 +95,26 @@ public class MyIsernActionBean implements ActionBean {
       this.errorMessage = "Error: Incorrect username or password entered.";
       return new ForwardResolution("/index.jsp");
     }
+  }
+  
+  /**
+   * A handler that performs an action when the 'addType' button is pressed.
+   * 
+   * @return A Resolution to go to add collaboration page.
+   */
+  public Resolution addType() {
+  	int typeNum = myIsernModel.addNew(this.type);
+  	if (typeNum == 1) {
+  		return new ForwardResolution("/add_collaboration.jsp");
+  	}
+  	else if (typeNum == 2) {
+  		return new ForwardResolution("/add_organization.jsp");
+  	}
+  	else if (typeNum == 3) {
+  		return new ForwardResolution("/add_researcher.jsp");
+  	}
+  	else {
+  		return new ForwardResolution("/index.jsp");
+  	}
   }
 }
