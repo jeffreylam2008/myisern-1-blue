@@ -115,8 +115,8 @@ public class MyIsern {
    * @param id The id of the researcher to be printed.
    * @return A list of a list of objects containing the specified researcher's data.
    */
-  public Iterator<Object> printResearcher(String id) {
-    List<Object> researcherData = new ArrayList<Object>();
+  public List<String> printResearcher(String id) {
+    List<String> researcherData = new ArrayList<String>();
     for (Researcher currentResearcher : this.mixl.getResearchers().getResearcher()) {
       if (currentResearcher.getName().replace(' ', '_').equals(id)) {
         
@@ -133,6 +133,59 @@ public class MyIsern {
         break;
       }
     }
-    return researcherData.iterator();
+    return researcherData;
+  }
+  
+  public List<String> printOrganization(String id) {
+    List<String> organizationData = new ArrayList<String>();
+    
+    for (Organization current : this.mixl.getOrganizations().getOrganization()) {
+      if (current.getName().replace(' ', '_').equals(id)) {
+        List<String> stringList;
+        String concatenationString;
+        String commaSpace = ", ";
+
+        organizationData.add(current.getName());
+
+        organizationData.add(current.getType());
+
+        organizationData.add(current.getContact());
+
+        AffiliatedResearchers affiliatedResearchers;
+        affiliatedResearchers = current.getAffiliatedResearchers();
+        stringList = affiliatedResearchers.getAffiliatedResearcher();
+        concatenationString = "";
+
+        for (String currentString : stringList) {
+          concatenationString.concat(currentString);
+          concatenationString.concat(commaSpace);
+        }
+        organizationData.add(concatenationString);
+
+        organizationData.add(current.getCountry());
+
+        // Prints Research Keywords for organization
+        ResearchKeywords researchKeywords;
+        researchKeywords = current.getResearchKeywords();
+        stringList = researchKeywords.getResearchKeyword();
+        concatenationString = "";
+
+        for (String currentString : stringList) {
+          concatenationString.concat(currentString);
+          concatenationString.concat(commaSpace);
+        }
+        organizationData.add(concatenationString);
+
+        organizationData.add(current.getResearchDescription());
+
+        organizationData.add(current.getHomePage());
+      }
+    }
+    return organizationData;
+  }
+  
+  public List<String> printCollaboration(String id) {
+    List<String> collaborationData = new ArrayList<String>();
+    return collaborationData;
   }
 }
