@@ -213,16 +213,19 @@ public class MyIsernActionBean implements ActionBean {
     
     if (idExists) {
       myIsernModel.getResearcher(this.researcherName);
+      return new ForwardResolution("/edit_researcher.jsp");
+    }
+    else {
+    	return new ForwardResolution("/view_researcher.jsp");
     }
     
-    return new ForwardResolution("/add_researcher.jsp");
   }
   
   public Resolution findOrganization() {
-    return new ForwardResolution("/add_organizaiton.jsp");
+    return new ForwardResolution("/edit_organization.jsp");
   }
   
   public Resolution findCollaboration() {
-    return new ForwardResolution("/add_collaboration.jsp");
+    return new ForwardResolution("/edit_collaboration.jsp");
   }
 }

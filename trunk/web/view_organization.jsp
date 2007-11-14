@@ -10,7 +10,7 @@
 <table align="center">
 	<tr>
 		<stripes:form id="TypeForm" action="/MyIsern.action">
-		<td width="200"><u><b>Add New Entry</b></u></td>
+		<td width="150"><u><b>Add New Entry</b></u></td>
 		<td>
 		  <stripes:select size="1" name="type">
             <stripes:option value="1">Collaboration</stripes:option>
@@ -23,9 +23,10 @@
 	</tr>
 	<tr>
 		<stripes:form action="/MyIsern.action">
-		<td width="200"><u><b>Search</b></u></td>
+		<td width="150"><u><b>Search</b></u></td>
 		<td><stripes:text name="orgSearchField"/></td>
-		<td><stripes:submit value="Search" name="findOrganization"/></td></stripes:form>
+		<td><stripes:submit value="Search" name="findOrganization"/></td>
+		</stripes:form>
 	<tr>
 </table>
 
@@ -57,5 +58,10 @@
    </td>
   </tr>
 </table>
+<p>
+<table align="center" id="ErrorMessageTable">
+  <tr><td><font color="red">${actionBean.errorMessage}</font></td></tr>
+</table>
+
 </body>
 </html>
