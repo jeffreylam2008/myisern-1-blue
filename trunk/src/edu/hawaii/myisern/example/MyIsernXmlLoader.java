@@ -58,6 +58,7 @@ public class MyIsernXmlLoader {
   public Organizations organizations;
   /** set to public to allow outside access for testing */
   public Researchers researchers;
+  
   private Set<String> uniqueIdList;
 
   /**
