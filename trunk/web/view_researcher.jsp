@@ -8,20 +8,25 @@
 <body>
 
 <table align="center">
-	<tr align="center">
-		<td><u><b>Add New Entry</b></u></td>
-	</tr>
 	<tr>
-		<td>
 		<stripes:form id="TypeForm" action="/MyIsern.action">
+		<td width="200"><u><b>Add New Entry</b></u></td>
+		<td>
 		  <stripes:select size="1" name="type">
             <stripes:option value="1">Collaboration</stripes:option>
             <stripes:option value="2">Organization</stripes:option>
             <stripes:option value="3">Researcher</stripes:option>
           </stripes:select>
           <stripes:submit value="GO!" name="addType"/>
-		</stripes:form>	
 		</td>
+		</stripes:form>
+	</tr>
+	<tr>
+		<stripes:form action="/MyIsern.action">
+		<td width="200"><u><b>Search</b></u></td>
+		<td><stripes:text name="resSearchField"/></td>
+		<td><stripes:submit name="findResearcher" value="Search"/></td>
+		</stripes:form>
 	<tr>
 </table>
 <hr align="center" width="300">
