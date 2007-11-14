@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="stripes" uri="http://stripes.sourceforge.net/stripes.tld"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
@@ -29,21 +30,25 @@
    <td>
     <table align="center">
       <tr>
-        <td bgcolor="#6699FF" width="40"><h4><b>Collaboration</b></h4></td>
-        <td bgcolor="#666699" width="50"><stripes:link href="/view_organization.jsp"><h4><font color="#FFFFFF">Organization</font></h4></stripes:link></td>
-        <td bgcolor="#666699" width="50"><stripes:link href="/view_researcher.jsp"><h4><font color="#FFFFFF">Researcher</font></h4></stripes:link></td>
+        <stripes:form action="/MyIsern.action">
+           <td bgcolor="#666699" width="40"><stripes:submit name="collabLink" value="Collaboration"/></td>
+        </stripes:form> 
+        <stripes:form action="/MyIsern.action">
+           <td bgcolor="#666699" width="40"><stripes:submit name="orgLink" value="Organization"/></td>
+        </stripes:form> 
+        <stripes:form action="/MyIsern.action">
+           <td bgcolor="#666699" width="40"><stripes:submit name="resLink" value="Researcher"/></td>
+        </stripes:form>
       </tr>
     </table>
     <table align="center" border="1">
       <tr>
-        <td bgcolor="#99CCFF">Name</td>
-        <td>Collaborating-Organizations</td>
-        <td bgcolor="#99CCFF">Collaboration-Type</td>
-        <td>Years</td>
-        <td bgcolor="#99CCFF">Outcome-Types</td>
-        <td>Description</td>
-      </tr>
-    </table>
+        <td bgcolor="#99CCFF">Collaboration Name</td>  
+      </tr> 
+      <c:forEach var="element" items="${actionBean.collaborations}">
+     <tr><td>${element}</td></tr>
+   </c:forEach>
+      </table>
    </td>
   </tr>
 </table>
