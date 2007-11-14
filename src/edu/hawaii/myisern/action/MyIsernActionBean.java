@@ -1,5 +1,6 @@
 package edu.hawaii.myisern.action;
 
+import java.util.Iterator;
 import edu.hawaii.myisern.model.MyIsernModel;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -15,16 +16,32 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 public class MyIsernActionBean implements ActionBean {
 	/** Required by the ActionBean interface. */
   private ActionBeanContext context;
-  /** Our single MyIsern instance manipulated by all webapp users. */
+  /**
+   * Our single MyIsern instance manipulated by all webapp users.
+   */
   private MyIsernModel myIsernModel = MyIsernModel.getInstance();
-  /** An error string, always displayed, but invisible if empty. */
+  /** 
+   * An error string, always displayed, but invisible if empty.
+   */
   private String errorMessage = "";
-  /** The username inputted by the user. */
+  /** 
+   * The username inputted by the user.
+   */
   private String username;
-  /** The password inputted by the user. */
+  /**
+   * The password inputted by the user.
+   */
   private String password;
-  /** The type selected by user. */
+  /** 
+   * The type selected by user. 
+   */
   private String type;
+  
+  /**
+   * The name of a researcher, organization, or collaboration.
+   */
+  //private String name;
+  
   /**
    * Returns the context. Required by the interface.
    * 
@@ -95,6 +112,33 @@ public class MyIsernActionBean implements ActionBean {
       this.errorMessage = "Error: Incorrect username or password entered.";
       return new ForwardResolution("/index.jsp");
     }
+  }
+  
+  /**
+   * Provides an iterator over a researcher list to the page.
+   * 
+   * @return A researchers list iterator.
+   */
+  public Iterator<Object> getResearchersIterator() {
+    return myIsernModel.researchersIterator();
+  }
+  
+  /**
+   * Provides an iterator over an organization list to the page.
+   * 
+   * @return An organizations list iterator.
+   */
+  public Iterator<Object> getOrganizationsIterator() {
+    return myIsernModel.organizationsIterator();
+  }
+  
+  /**
+   * Provides an iterator over a collaborations list to the page.
+   * 
+   * @return A collaborations list iterator.
+   */
+  public Iterator<Object> getCollaborationsIterator() {
+    return myIsernModel.collaborationsIterator();
   }
   
   /**

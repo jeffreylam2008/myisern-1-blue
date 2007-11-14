@@ -1,5 +1,7 @@
 package edu.hawaii.myisern.model;
 
+import java.util.Iterator;
+import java.util.List;
 import edu.hawaii.myisern.example.MyIsern;
 
 /**
@@ -25,16 +27,17 @@ public class MyIsernModel {
   private boolean validUsername = false;
   private boolean validPassword = false;
   private boolean allowLogin = false;
-  
+  private String exceptionPlaceholder = "";
+
   /**
-   * Private constructor used to create a single instance of stack.
+   * Private constructor used to create a single instance of MyIsern.
    */
   private MyIsernModel() {
     try {
       this.myIsern = new MyIsern();
     }
     catch (Exception e) {
-      String exceptionHandler = e.toString();
+      this.exceptionPlaceholder = e.toString();
     }
   }
 
@@ -81,5 +84,36 @@ public class MyIsernModel {
   		return 3;
   	}
   	return 0;
+  }
+
+  /**
+   * Gets the researcher iterator attribute of the MyIsernModel object.
+   *
+   * @return The iterator value.
+   */
+  public synchronized Iterator<Object> researchersIterator() {
+    return this.myIsern.printResearchers();
+  }
+
+  /**
+   * Gets the organization iterator attribute of the MyIsernModel object.
+   *
+   * @return The iterator value.
+   */
+  public synchronized Iterator<Object> organizationsIterator() {
+    return this.myIsern.printOrganizations();
+  }
+
+  /**
+   * Gets the collaboration iterator attribute of the MyIsernModel object.
+   *
+   * @return The iterator value.
+   */
+  public synchronized Iterator<Object> collaborationsIterator() {
+    return this.myIsern.printCollaborations();
+  }
+  
+  public synchronized List<List<Object>> getResearcher(String id) {
+    return this.myIsern.printResearcher(id);
   }
 }
