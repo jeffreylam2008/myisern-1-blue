@@ -38,6 +38,12 @@ public class MyIsernActionBean implements ActionBean {
    */
   private String type;
   
+  private String researcherName;
+  
+  private String organizationName;
+  
+  private String collaborationName;
+  
   /**
    * The name of a researcher, organization, or collaboration.
    */
@@ -96,6 +102,18 @@ public class MyIsernActionBean implements ActionBean {
    */
   public void setType(String type) {
     this.type = type;
+  }
+  
+  public void setResSearchField(String researcherName) {
+    this.researcherName = researcherName;
+  }
+  
+  public void setOrgSearchField(String orgName) {
+    this.organizationName = orgName;
+  }
+  
+  public void setCollabSearchField(String collabName) {
+    this.collaborationName = collabName;
   }
   
   /**
@@ -188,5 +206,23 @@ public class MyIsernActionBean implements ActionBean {
    */
   public Resolution resLink() {
       return new ForwardResolution("/view_researcher.jsp");
+  }
+
+  public Resolution findResearcher() {
+    boolean idExists = myIsernModel.findId(this.researcherName);
+    
+    if (idExists) {
+      myIsernModel.getResearcher(this.researcherName);
+    }
+    
+    return new ForwardResolution("/add_researcher.jsp");
+  }
+  
+  public Resolution findOrganization() {
+    return new ForwardResolution("/add_organizaiton.jsp");
+  }
+  
+  public Resolution findCollaboration() {
+    return new ForwardResolution("/add_collaboration.jsp");
   }
 }

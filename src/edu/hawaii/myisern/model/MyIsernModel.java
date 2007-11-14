@@ -114,22 +114,27 @@ public class MyIsernModel {
     return this.myIsern.printCollaborations();
   }
   
-  public synchronized Iterator<Object> getResearcher(String id) {
+  public synchronized List<String> getResearcher(String id) {
+    return this.myIsern.printResearcher(id);
+  }
+  
+  /**
+   * Searches for the ID being searched for.
+   * 
+   * @param id The ID being searched for.
+   * @return True if the ID exists.
+   */
+  public synchronized boolean findId (String id) {
     boolean isIdValid = false;
-    Iterator<Object> emptyIterator = null;
     Set<String> idList = this.myIsern.mixl.getUniqueIds();
     
-    for (String collaborationId : idList) {
-      if (id.replace(' ', '_').equals(collaborationId)) {
+    for (String existingId : idList) {
+      if (id.replace(' ', '_').equals(existingId)) {
         isIdValid = true;
         break;
       }
     }
-    if (isIdValid) {
-      return this.myIsern.printResearcher(id);
-    }
-    else {
-      return emptyIterator;
-    }
+    
+    return isIdValid;
   }
 }
