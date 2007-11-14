@@ -43,6 +43,12 @@
    </tr>
 </table>
 </stripes:form>
+<p>
+<table id="ErrorMessageTable">
+  <tr><td><font color="red">${actionBean.errorMessage}</font></td></tr>
+</table>
+
+
 </body>
 </html>
 

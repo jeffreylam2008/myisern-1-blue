@@ -106,7 +106,7 @@ public class MyIsernActionBean implements ActionBean {
     boolean loginUser = myIsernModel.login(this.username, this.password);
 
     if (loginUser) {
-      return new ForwardResolution("/main.jsp");
+      return new ForwardResolution("/view_collaboration.jsp");
     }
     else {
       this.errorMessage = "Error: Incorrect username or password entered.";
