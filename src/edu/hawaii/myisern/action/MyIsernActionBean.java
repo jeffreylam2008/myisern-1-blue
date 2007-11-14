@@ -1,6 +1,7 @@
 package edu.hawaii.myisern.action;
 
 import java.util.Iterator;
+import java.util.List;
 import edu.hawaii.myisern.model.MyIsernModel;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -106,7 +107,7 @@ public class MyIsernActionBean implements ActionBean {
     boolean loginUser = myIsernModel.login(this.username, this.password);
 
     if (loginUser) {
-      return new ForwardResolution("/view_collaboration.jsp");
+      return new ForwardResolution("/view_researcher.jsp");
     }
     else {
       this.errorMessage = "Error: Incorrect username or password entered.";
@@ -119,8 +120,8 @@ public class MyIsernActionBean implements ActionBean {
    * 
    * @return A researchers list iterator.
    */
-  public Iterator<Object> getResearchersIterator() {
-    return myIsernModel.researchersIterator();
+  public List<String> getResearchers() {
+    return myIsernModel.researchersList();
   }
   
   /**
@@ -128,8 +129,8 @@ public class MyIsernActionBean implements ActionBean {
    * 
    * @return An organizations list iterator.
    */
-  public Iterator<Object> getOrganizationsIterator() {
-    return myIsernModel.organizationsIterator();
+  public List<String> getOrganizations() {
+    return myIsernModel.organizationsList();
   }
   
   /**
@@ -137,8 +138,8 @@ public class MyIsernActionBean implements ActionBean {
    * 
    * @return A collaborations list iterator.
    */
-  public Iterator<Object> getCollaborationsIterator() {
-    return myIsernModel.collaborationsIterator();
+  public List<String> getCollaborations() {
+    return myIsernModel.collaborationsList();
   }
   
   /**
@@ -160,5 +161,32 @@ public class MyIsernActionBean implements ActionBean {
   	else {
   		return new ForwardResolution("/index.jsp");
   	}
+  }
+  
+  /**
+   * A handler that performs an action when the 'login' button is pressed.
+   * 
+   * @return A Resolution to display the main page when the login information is correct.
+   */
+  public Resolution collabLink() {
+      return new ForwardResolution("/view_collaboration.jsp");
+  }
+  
+  /**
+   * A handler that performs an action when the 'login' button is pressed.
+   * 
+   * @return A Resolution to display the main page when the login information is correct.
+   */
+  public Resolution orgLink() {
+      return new ForwardResolution("/view_organization.jsp");
+  }
+  
+  /**
+   * A handler that performs an action when the 'login' button is pressed.
+   * 
+   * @return A Resolution to display the main page when the login information is correct.
+   */
+  public Resolution resLink() {
+      return new ForwardResolution("/view_researcher.jsp");
   }
 }

@@ -13,9 +13,15 @@
 </table align="center">
 <table align="center">
   <tr>
- 	<td><stripes:link href="/view_collaboration.jsp"><h4>Collaboration</h4></stripes:link></td>
-    <td><stripes:link href="/view_organization.jsp"><h4>Organization</h4></stripes:link></td>
-    <td><stripes:link href="/view_researcher.jsp"><h4>Researcher</h4></stripes:link></td>
+    <stripes:form action="/MyIsern.action">
+       <td bgcolor="#666699" width="40"><stripes:submit name="collabLink" value="Collaboration"/></td>
+    </stripes:form> 
+    <stripes:form action="/MyIsern.action">
+       <td bgcolor="#666699" width="40"><stripes:submit name="orgLink" value="Organization"/></td>
+    </stripes:form> 
+    <stripes:form action="/MyIsern.action">
+       <td bgcolor="#666699" width="40"><stripes:submit name="resLink" value="Researcher"/></td>
+    </stripes:form>
   </tr>
 </table>
 <stripes:form id="OrgAddForm" action="/MyIsern.action">

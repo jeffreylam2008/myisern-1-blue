@@ -2,6 +2,7 @@ package edu.hawaii.myisern.model;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import edu.hawaii.myisern.example.MyIsern;
 
 /**
@@ -91,7 +92,7 @@ public class MyIsernModel {
    *
    * @return The iterator value.
    */
-  public synchronized Iterator<Object> researchersIterator() {
+  public synchronized List<String> researchersList() {
     return this.myIsern.printResearchers();
   }
 
@@ -100,7 +101,7 @@ public class MyIsernModel {
    *
    * @return The iterator value.
    */
-  public synchronized Iterator<Object> organizationsIterator() {
+  public synchronized List<String> organizationsList() {
     return this.myIsern.printOrganizations();
   }
 
@@ -109,11 +110,26 @@ public class MyIsernModel {
    *
    * @return The iterator value.
    */
-  public synchronized Iterator<Object> collaborationsIterator() {
+  public synchronized List<String> collaborationsList() {
     return this.myIsern.printCollaborations();
   }
   
-  public synchronized List<List<Object>> getResearcher(String id) {
-    return this.myIsern.printResearcher(id);
+  public synchronized Iterator<Object> getResearcher(String id) {
+    boolean isIdValid = false;
+    Iterator<Object> emptyIterator = null;
+    Set<String> idList = this.myIsern.mixl.getUniqueIds();
+    
+    for (String collaborationId : idList) {
+      if (id.replace(' ', '_').equals(collaborationId)) {
+        isIdValid = true;
+        break;
+      }
+    }
+    if (isIdValid) {
+      return this.myIsern.printResearcher(id);
+    }
+    else {
+      return emptyIterator;
+    }
   }
 }
