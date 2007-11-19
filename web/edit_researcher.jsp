@@ -6,7 +6,6 @@
 <html>
   <head><title>Edit Researcher</title></head>
 <body style="margin:0px;background:#ffffff">
-
 <table align="center">
   <tr>
 	<td><u><b>Edit Researcher</b></u></td>
@@ -27,30 +26,33 @@
 </table>
 <stripes:form id="ResEditForm" action="/MyIsern.action">
   <table align="center">
-<c:forEach var="element" items="${actionBean.researcher}">
   <tr>
-    <td><stripes:text name="rname" value="${element}"/></td>
+    
   </tr>
-  </c:forEach>
 	<tr bgcolor="#99CCFF">
 		<td>Name : </td>
+		<td><stripes:text name="researcherName" value="${actionBean.researcherName}"/></td>
 	</tr>
 	<tr>
-		<td>Organization : </td>
+		<td>Organization : </td> 
+		<td><stripes:text name="researcherOrg" value="${actionBean.researcherOrg}"/></td>
 	</tr>
 	<tr bgcolor="#99CCFF">
 		<td>Email : </td>
+		<td><stripes:text name="researcherEmail" value="${actionBean.researcherEmail}"/></td>
 	</tr>
 	<tr>
 		<td>Picture-Link : </td>
+		<td><stripes:text name="researcherPicLink" value="${actionBean.researcherPicLink}"/></td>
 	</tr>
 	<tr bgcolor="#99CCFF">
 		<td>Bio-Statement : </td>
+		<td><stripes:textarea name="researcherBio" value="${actionBean.researcherBio}"/></td>
 	</tr>
   </table>
   <table align="center">
     <tr align="center">
-	  <td><stripes:submit value="Edit" name="resEdit"/>&nbsp;&nbsp;<stripes:reset value="Reset" name="reset"/></td>
+	  <td><stripes:submit value="Edit" name="resEdit"/></td>
     </tr>
   </table>
 </stripes:form>

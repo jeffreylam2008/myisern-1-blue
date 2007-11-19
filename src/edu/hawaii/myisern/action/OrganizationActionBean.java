@@ -14,7 +14,6 @@ public class OrganizationActionBean implements ActionBean {
   private MyIsernModel myIsernModel = MyIsernModel.getInstance();
   /** An error string, always displayed, but invisible if empty. */
   private String errorMessage = "";
-  private String organizationName;
   
   /**
    * Returns the context. Required by the interface.
@@ -42,41 +41,5 @@ public class OrganizationActionBean implements ActionBean {
    */
   public String getErrorMessage() {
     return this.errorMessage;
-  }
-  
-  /**
-   * Invoked by the page to indicate the organization being searched for.
-   * 
-   * @param orgName The name of the organization being searched for.
-   */
-  public void setOrgSearchField(String orgName) {
-    this.organizationName = orgName;
-  }
-  
-  /**
-   * Gets a list of organization names.
-   * 
-   * @return A list of organization names.
-   */
-  public List<String> getOrganizations() {
-    return myIsernModel.organizationsList();
-  }
-  
-  /**
-   * A handler that performs an action when the 'login' button is pressed.
-   * 
-   * @return A Resolution to display the main page when the login information is correct.
-   */
-  public Resolution orgLink() {
-      return new ForwardResolution("/view_organization.jsp");
-  }
-  
-  /**
-   * A handler that performs an action when the 'Search' button in view_organization.jsp is pressed.
-   *  
-   * @return A resolution to display the edit_organization.jsp page if the organization exists.
-   */
-  public Resolution findOrganization() {
-    return new ForwardResolution("/edit_organization.jsp");
   }
 }

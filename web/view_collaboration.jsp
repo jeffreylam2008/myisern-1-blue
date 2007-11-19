@@ -12,9 +12,9 @@
 		<td width="150"><u><b>Add New Entry</b></u></td>
 		<td>
 		  <stripes:select size="1" name="type">
-            <stripes:option value="1">Collaboration</stripes:option>
-            <stripes:option value="2">Organization</stripes:option>
-            <stripes:option value="3">Researcher</stripes:option>
+            <stripes:option value="Collaboration">Collaboration</stripes:option>
+            <stripes:option value="Organization">Organization</stripes:option>
+            <stripes:option value="Researcher">Researcher</stripes:option>
           </stripes:select>         
 		</td>
 		<td><stripes:submit value="GO!" name="addType"/></td>
