@@ -28,7 +28,7 @@ public class MyIsern {
   /** MyIsern's own xml loader */
   public MyIsernXmlLoader mixl;
   /** MyIsern's own xml saver */
-  MyIsernXmlSaver mixs;
+  public MyIsernXmlSaver mixs;
   /** Researcher object that will hold all new and old researchers */
   private Researchers rList = new Researchers();
   /** Organization object that will hold all new and old organizations */
@@ -250,4 +250,6 @@ public class MyIsern {
     }
     return collaborationData;
   }
+  
+  
 }

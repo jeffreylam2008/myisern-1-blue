@@ -24,7 +24,6 @@ public class MyIsernActionBean implements ActionBean {
   private String errorMessage = "";
   /** The username inputted by the user. */
   private String username;
-  /** The password inputted by the user. */
   private String password;
   /** The type selected by user. */
   private String type;

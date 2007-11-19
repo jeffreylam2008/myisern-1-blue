@@ -53,5 +53,9 @@
     </tr>
   </table>
 </stripes:form>
+<p>
+<table align="center" id="ErrorMessageTable">
+  <tr><td><font color="red">${actionBean.errorMessage}</font></td></tr>
+</table>
 </body>
 </html>

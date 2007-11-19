@@ -1,8 +1,22 @@
 package edu.hawaii.myisern.model;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import javax.xml.bind.JAXBException;
 import edu.hawaii.myisern.example.MyIsern;
+import edu.hawaii.myisern.example.MyIsernXmlSaver;
+import edu.hawaii.myisern.collaborations.jaxb.Collaboration;
+import edu.hawaii.myisern.collaborations.jaxb.Collaborations;
+import edu.hawaii.myisern.organizations.jaxb.Organization;
+import edu.hawaii.myisern.organizations.jaxb.Organizations;
+import edu.hawaii.myisern.researchers.jaxb.Researcher;
+import edu.hawaii.myisern.researchers.jaxb.Researchers;
+
 
 /**
  * Implements a singleton MyIsern instance. The command classes manipulate this singleton in
@@ -24,7 +38,11 @@ public class MyIsernModel {
    * The internal MyIsern implementation.
    */
   private MyIsern myIsern;
-
+  private MyIsernXmlSaver myIsernXmlSaver;
+  private Researchers researchers = new Researchers();
+  private Organizations organizaitons = new Organizations();
+  private List<Researcher> newResList = new ArrayList<Researcher>();
+  private List<Organization> newOrgList = new ArrayList<Organization>();
   private boolean validUsername = false;
   private boolean validPassword = false;
   private boolean allowLogin = false;
@@ -36,6 +54,9 @@ public class MyIsernModel {
   private MyIsernModel() {
     try {
       this.myIsern = new MyIsern();
+      this.myIsernXmlSaver = new MyIsernXmlSaver();
+      this.newResList = this.researchers.getResearcher();
+      this.newOrgList = this.organizaitons.getOrganization();
     }
     catch (Exception e) {
       this.exceptionPlaceholder = e.toString();
@@ -43,9 +64,9 @@ public class MyIsernModel {
   }
 
   /**
-   * Get the single instance of StackModel object.
+   * Get the single instance of MyIsernModel object.
    * 
-   * @return A StackModel.
+   * @return A MyIsernModel.
    */
   public static synchronized MyIsernModel getInstance() {
     return MyIsernModel.myIsernModelInstance;
@@ -150,6 +171,52 @@ public class MyIsernModel {
   }
   
   /**
+   * Adds a new researcher to the loader.
+   * @param newResearcher containing the new researcher to be added.
+   */
+  public synchronized void addResearcher(Researcher newResearcher) {
+    this.newResList.add(newResearcher);
+  }
+  
+  /**
+   * Adds a new organization to the loader.
+   * @param newOrganization containing the new organization to be added.
+   */
+  public synchronized void addOrganization(Organization newOrganization) {
+    this.newOrgList.add(newOrganization);
+  }
+  
+  /**
+   * Gets a String List of researcher.
+   *
+   * @return A String List of researcher.
+   * @throws JAXBException 
+   * @throws FileNotFoundException 
+   */
+  public synchronized void saveResearcher() throws FileNotFoundException, JAXBException {
+  	Researchers newResearcher = new Researchers();
+    for (Researcher curResList : this.newResList) {
+    	newResearcher.getResearcher().add(curResList);
+    }
+    myIsernXmlSaver.saveResearchersXml(newResearcher);
+  }
+  
+  /**
+   * Gets a String List of organization.
+   *
+   * @return A String List of organization.
+   * @throws JAXBException 
+   * @throws IOException 
+   */
+  public synchronized void saveOrganization() throws JAXBException, IOException {
+  	Organizations newOrganiztion = new Organizations();
+    for (Organization curOrgList : this.newOrgList) {
+    	newOrganiztion.getOrganization().add(curOrgList);
+    }
+    myIsernXmlSaver.saveOrganizationsXml(newOrganiztion);
+  }
+  
+  /**
    * Searches for the ID being searched for.
    * 
    * @param id The ID being searched for.
@@ -168,4 +235,5 @@ public class MyIsernModel {
     
     return isIdValid;
   }
+
 }

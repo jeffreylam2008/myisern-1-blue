@@ -24,7 +24,7 @@
     </stripes:form>
   </tr>
 </table>
-<stripes:form id="OrgAddForm" action="/MyIsern.action">
+<stripes:form id="OrgAddForm" action="/Organization.action">
   <table align="center">
 	<tr bgcolor="#C0C0C0">
 		<td>Name : </td>
@@ -65,5 +65,9 @@
     </tr>
   </table>
 </stripes:form>
+<p>
+<table align="center" id="ErrorMessageTable">
+  <tr><td><font color="red">${actionBean.errorMessage}</font></td></tr>
+</table>
 </body>
 </html>
