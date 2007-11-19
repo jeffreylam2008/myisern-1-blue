@@ -36,13 +36,13 @@
    <td>
     <table align="center">
       <tr>
-        <stripes:form action="/MyIsern.action">
+        <stripes:form id="collabLink" action="/MyIsern.action">
            <td bgcolor="#666699" width="40"><stripes:submit name="collabLink" value="Collaboration"/></td>
         </stripes:form> 
-        <stripes:form action="/MyIsern.action">
+        <stripes:form id="orgLink" action="/MyIsern.action">
            <td bgcolor="#666699" width="40"><stripes:submit name="orgLink" value="Organization"/></td>
         </stripes:form> 
-        <stripes:form action="/MyIsern.action">
+        <stripes:form id="resLink" action="/MyIsern.action">
            <td bgcolor="#666699" width="40"><stripes:submit name="resLink" value="Researcher"/></td>
         </stripes:form>
       </tr>

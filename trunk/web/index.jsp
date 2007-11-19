@@ -13,7 +13,7 @@
    </tr>
    <tr>
     <td>
-   <table border="0" align="center">
+   <table id="loginTable" border="0" align="center">
     <tr align="center">
       <td width="50">
         Username :

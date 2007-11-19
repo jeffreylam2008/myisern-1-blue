@@ -112,7 +112,7 @@ public class MyIsernActionBean implements ActionBean {
   /**
    * Invoked by the page to indicate the organization being searched for.
    * 
-   * @param orgName The name of the organization being searched for.
+   * @param name The name of the organization being searched for.
    */
   public void setOrgSearchField(String name) {
     this.orgSearchField = name;
@@ -166,62 +166,127 @@ public class MyIsernActionBean implements ActionBean {
   }
   
   /**
-   * Gets a list of researcher names.
+   * Gets a list of researcher.
    * 
-   * @return A list of researcher names.
+   * @return A list of researcher.
    */
   public List<String> getResearchers() {
     return myIsernModel.researchersList();
   }
   
+  /**
+   * Gets a list of researcher names.
+   * 
+   * @return A list of researcher names.
+   */
   public String getResearcherName() {
     return this.researcherName;
   }
   
+  /**
+   * Gets a list of researcher organization.
+   * 
+   * @return A list of researcher organization.
+   */
   public String getResearcherOrg() {
     return this.researcherOrg;
   }
   
+  /**
+   * Gets a list of researcher email.
+   * 
+   * @return A list of researcher email.
+   */
   public String getResearcherEmail() {
     return this.researcherEmail;
   }
   
+  /**
+   * Gets a list of researcher picture link.
+   * 
+   * @return A list of researcher picture link.
+   */
   public String getResearcherPicLink() {
     return this.researcherPicLink;
   }
   
+  /**
+   * Gets a list of researcher bio-statement.
+   * 
+   * @return A list of researcher bio-statement.
+   */
   public String getResearcherBio() {
     return this.researcherBio;
   }
   
+  /**
+   * Gets a list of organization name.
+   * 
+   * @return A list of organization name.
+   */
   public String getOrganizationName() {
     return this.organizationName;
   }
 
+  /**
+   * Gets a list of organization type.
+   * 
+   * @return A list of organization type.
+   */
   public String getOrganizationType() {
     return this.organizationType;
   }
 
+  /**
+   * Gets a list of organization contact.
+   * 
+   * @return A list of organization contact.
+   */
   public String getOrganizationContact() {
     return this.organizationContact;
   }
 
+  /**
+   * Gets a list of organization researcher.
+   * 
+   * @return A list of organization researcher.
+   */
   public String getOrganizationResearchers() {
     return this.organizationResearchers;
   }
 
+  /**
+   * Gets a list of organization country.
+   * 
+   * @return A list of organization country.
+   */
   public String getOrganizationCountry() {
     return this.organizationCountry;
   }
 
+  /**
+   * Gets a list of organization keywords.
+   * 
+   * @return A list of organization keywords.
+   */
   public String getOrganizationKeywords() {
     return this.organizationKeywords;
   }
 
+  /**
+   * Gets a list of organization description.
+   * 
+   * @return A list of organization description.
+   */
   public String getOrganizationDescription() {
     return this.organizationDescription;
   }
 
+  /**
+   * Gets a list of organization homepage.
+   * 
+   * @return A list of organization homepage.
+   */
   public String getOrganizationHomepage() {
     return this.organizationHomepage;
   }
@@ -284,7 +349,7 @@ public class MyIsernActionBean implements ActionBean {
   public Resolution findOrganization() {
     boolean idExists = myIsernModel.findId(this.orgSearchField);
     
-    if(idExists) {
+    if (idExists) {
       this.organizationData = myIsernModel.getOrganization(this.orgSearchField);
       this.organizationName = this.organizationData.remove(0);
       this.organizationType = this.organizationData.remove(0);
