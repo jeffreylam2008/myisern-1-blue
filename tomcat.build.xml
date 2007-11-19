@@ -9,7 +9,7 @@
   
   <!-- Default values. Override on command line with -D -->
   <property name="tomcat.admin.user" value="admin"/>
-  <property name="tomcat.admin.password" value="password"/>
+  <property name="tomcat.admin.password" value="changethis"/>
   <property name="test.host" value="http://localhost:8080/"/>
 
   <target name="tomcat.check">

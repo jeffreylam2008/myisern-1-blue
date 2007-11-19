@@ -51,8 +51,8 @@
         <td bgcolor="#99CCFF">Collaboration Name</td>  
       </tr> 
       <c:forEach var="element" items="${actionBean.collaborations}">
-     <tr><td>${element}</td></tr>
-   </c:forEach>
+        <tr><td>${element}</td></tr>
+      </c:forEach>
       </table>
    </td>
   </tr>

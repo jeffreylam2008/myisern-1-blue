@@ -4,7 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="var" path="HTTPUNIT_HOME/lib/httpunit.jar" sourcepath="/HTTPUNIT_HOME/lib/"/>
-	<classpathentry kind="lib" path="C:/svn-google/myisern1.3-blue/web/WEB-INF/lib/stripes.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/stripes.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

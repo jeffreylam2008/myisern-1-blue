@@ -6,6 +6,7 @@
 <html>
   <head><title>Edit Researcher</title></head>
 <body style="margin:0px;background:#ffffff">
+
 <table align="center">
   <tr>
 	<td><u><b>Edit Researcher</b></u></td>
@@ -26,25 +27,25 @@
 </table>
 <stripes:form id="ResEditForm" action="/MyIsern.action">
   <table align="center">
+<c:forEach var="element" items="${actionBean.researcher}">
+  <tr>
+    <td><stripes:text name="rname" value="${element}"/></td>
+  </tr>
+  </c:forEach>
 	<tr bgcolor="#99CCFF">
 		<td>Name : </td>
-		<td><stripes:text name="resName"/></td>
 	</tr>
 	<tr>
 		<td>Organization : </td>
-		<td><stripes:text name="resOrg"/></td>
 	</tr>
 	<tr bgcolor="#99CCFF">
 		<td>Email : </td>
-		<td><stripes:text name="resEmail"/></td>
 	</tr>
 	<tr>
 		<td>Picture-Link : </td>
-		<td><stripes:text value="http://" name="resPicLink"/></td>
 	</tr>
 	<tr bgcolor="#99CCFF">
 		<td>Bio-Statement : </td>
-		<td><stripes:text name="resBio"/></td>
 	</tr>
   </table>
   <table align="center">
