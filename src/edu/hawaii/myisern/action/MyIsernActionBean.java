@@ -22,17 +22,11 @@ public class MyIsernActionBean implements ActionBean {
   private MyIsernModel myIsernModel = MyIsernModel.getInstance();
   /** An error string, always displayed, but invisible if empty. */
   private String errorMessage = "";
-  /** 
-   * The username inputted by the user.
-   */
+  /** The username inputted by the user. */
   private String username;
-  /**
-   * The password inputted by the user.
-   */
+  /** The password inputted by the user. */
   private String password;
-  /** 
-   * The type selected by user. 
-   */
+  /** The type selected by user. */
   private String type;
 
   private List<String> researcherData = new ArrayList<String>();
@@ -52,7 +46,16 @@ public class MyIsernActionBean implements ActionBean {
   private String organizationCountry;
   private String organizationKeywords;
   private String organizationDescription;
-  private String organizationHomepage;  
+  private String organizationHomepage;
+
+  private List<String> collaborationData = new ArrayList<String>();
+  private String collabSearchField;
+  private String collaborationName;
+  private String collaborationOrgs;
+  private String collaborationTypes;
+  private String collaborationYears;
+  private String collaborationOutcomes;
+  private String collaborationDesc;
   
   /**
    * Returns the context. Required by the interface.
@@ -119,6 +122,15 @@ public class MyIsernActionBean implements ActionBean {
   }
   
   /**
+   * Invoked by the page to indicate the collaboration being searched for
+   * 
+   * @param name The name of the collaboration being searched for.
+   */
+  public void setCollabSearchField(String name) {
+    this.collabSearchField = name;
+  }
+  
+  /**
    * Invoked by the page to indicate the type selected.
    * 
    * @param type The type to verify.
@@ -136,7 +148,7 @@ public class MyIsernActionBean implements ActionBean {
     boolean loginUser = myIsernModel.login(this.username, this.password);
 
     if (loginUser) {
-      return new ForwardResolution("/view_organization.jsp");
+      return new ForwardResolution("/view_collaboration.jsp");
     }
     else {
       this.errorMessage = "Error: Incorrect username or password entered.";
@@ -166,137 +178,228 @@ public class MyIsernActionBean implements ActionBean {
   }
   
   /**
-   * Gets a list of researcher.
-   * 
-   * @return A list of researcher.
-   */
-  public List<String> getResearchers() {
-    return myIsernModel.researchersList();
-  }
-  
-  /**
    * Gets a list of researcher names.
    * 
    * @return A list of researcher names.
    */
-  public String getResearcherName() {
-    return this.researcherName;
+  public List<String> getResearchers() {
+    return myIsernModel.researchersList();
+  }
+
+  /**
+   * Gets a list of organization names.
+   * 
+   * @return A list of organization names.
+   */
+  public List<String> getOrganizations() {
+    return myIsernModel.organizationsList();
   }
   
   /**
-   * Gets a list of researcher organization.
+   * Get a list of collaboration names.
    * 
-   * @return A list of researcher organization.
+   * @return A list of collaboration names.
+   */
+  public List<String> getCollaborations() {
+    return myIsernModel.collaborationsList();
+  }
+  
+  /**
+   * Gets the name of the researcher that was found.
+   * 
+   * @return The name of the researcher that was found.
+   */
+  public String getResearcherName() {
+    return this.researcherName;
+  }
+
+  /**
+   * Gets the organization of the researcher that was found.
+   * 
+   * @return The organization of the researcher that was found.
    */
   public String getResearcherOrg() {
     return this.researcherOrg;
   }
-  
+
   /**
-   * Gets a list of researcher email.
+   * Gets the email of the researcher that was found.
    * 
-   * @return A list of researcher email.
+   * @return The email of the researcher that was found.
    */
   public String getResearcherEmail() {
     return this.researcherEmail;
   }
-  
+
   /**
-   * Gets a list of researcher picture link.
+   * Gets the picture link of the researcher that was found.
    * 
-   * @return A list of researcher picture link.
+   * @return The picture link of the researcher that was found.
    */
   public String getResearcherPicLink() {
     return this.researcherPicLink;
   }
-  
+
   /**
-   * Gets a list of researcher bio-statement.
+   * Gets the bio-statement of the researcher that was found.
    * 
-   * @return A list of researcher bio-statement.
+   * @return The bio-statement of the researcher that was found.
    */
   public String getResearcherBio() {
     return this.researcherBio;
   }
   
   /**
-   * Gets a list of organization name.
+   * Gets the name of the organization that was found.
    * 
-   * @return A list of organization name.
+   * @return The name of the organization that was found.
    */
   public String getOrganizationName() {
     return this.organizationName;
   }
 
   /**
-   * Gets a list of organization type.
+   * Gets the type of the organization that was found.
    * 
-   * @return A list of organization type.
+   * @return The type of the organization that was found.
    */
   public String getOrganizationType() {
     return this.organizationType;
   }
 
   /**
-   * Gets a list of organization contact.
+   * Gets the contact person of the organization that was found.
    * 
-   * @return A list of organization contact.
+   * @return The contact person of the organization that was found.
    */
   public String getOrganizationContact() {
     return this.organizationContact;
   }
 
   /**
-   * Gets a list of organization researcher.
+   * Gets the affiliated researchers of the organization that was found.
    * 
-   * @return A list of organization researcher.
+   * @return The affiliated researchers of the organization that was found.
    */
   public String getOrganizationResearchers() {
     return this.organizationResearchers;
   }
 
   /**
-   * Gets a list of organization country.
+   * Gets the country of the organization that was found.
    * 
-   * @return A list of organization country.
+   * @return The country of the organization that was found.
    */
   public String getOrganizationCountry() {
     return this.organizationCountry;
   }
 
   /**
-   * Gets a list of organization keywords.
+   * Gets the research keywords of the organization that was found.
    * 
-   * @return A list of organization keywords.
+   * @return The research keywords of the organization that was found.
    */
   public String getOrganizationKeywords() {
     return this.organizationKeywords;
   }
 
   /**
-   * Gets a list of organization description.
+   * Gets the description of the organization that was found.
    * 
-   * @return A list of organization description.
+   * @return The description of the organization that was found.
    */
   public String getOrganizationDescription() {
     return this.organizationDescription;
   }
 
   /**
-   * Gets a list of organization homepage.
+   * Gets the homepage of the organization that was found.
    * 
-   * @return A list of organization homepage.
+   * @return The homepage of the organization that was found.
    */
   public String getOrganizationHomepage() {
     return this.organizationHomepage;
   }
+
   /**
-   * A handler that performs an action when the 'login' button is pressed.
+   * Gets the name of the collaboration that was found.
    * 
-   * @return A Resolution to display the main page when the login information is correct.
+   * @return The name of the collaboration that was found.
+   */
+  public String getCollaborationName() {
+    return this.collaborationName;
+  }
+
+  /**
+   * Gets the collaborating-organizations of the collaboration that was found.
+   * 
+   * @return The collaborating-organizations of the collaboration that was found.
+   */
+  public String getCollaborationOrgs() {
+    return this.collaborationOrgs;
+  }
+
+  /**
+   * Gets the types of the collaboration that was found.
+   * 
+   * @return The types of the collaboration that was found.
+   */
+  public String getCollaborationTypes() {
+    return this.collaborationTypes;
+  }
+
+  /**
+   * Gets the years of the collaboration that was found.
+   * 
+   * @return The years of the collaboration that was found.
+   */
+  public String getCollaborationYears() {
+    return this.collaborationYears;
+  }
+
+  /**
+   * Gets the outcomes of the collaboration that was found.
+   * 
+   * @return The outcomes of the collaboration that was found.
+   */
+  public String getCollaborationOutcomes() {
+    return this.collaborationOutcomes;
+  }
+
+  /**
+   * Gets the description of the collaboration that was found.
+   * 
+   * @return The description of the collaboration that was found.
+   */
+  public String getCollaborationDesc() {
+    return this.collaborationDesc;
+  }
+  
+  /**
+   * A handler that performs an action when the 'Researcher' button is pressed.
+   * 
+   * @return A Resolution to display the researchers list page.
    */
   public Resolution resLink() {
       return new ForwardResolution("/view_researcher.jsp");
+  }
+
+  /**
+   * A handler that performs an action when the 'Organization' button is pressed.
+   * 
+   * @return A Resolution to display the organizations list page.
+   */
+  public Resolution orgLink() {
+      return new ForwardResolution("/view_organization.jsp");
+  }
+
+  /**
+   * A handler that performs an action when the 'Collaboration' button is pressed.
+   * 
+   * @return A Resolution to display the collaborations list page.
+   */
+  public Resolution collabLink() {
+    return new ForwardResolution( "/view_collaboration.jsp");
   }
 
   /**
@@ -324,24 +427,6 @@ public class MyIsernActionBean implements ActionBean {
   }
   
   /**
-   * Gets a list of organization names.
-   * 
-   * @return A list of organization names.
-   */
-  public List<String> getOrganizations() {
-    return myIsernModel.organizationsList();
-  }
-  
-  /**
-   * A handler that performs an action when the 'login' button is pressed.
-   * 
-   * @return A Resolution to display the main page when the login information is correct.
-   */
-  public Resolution orgLink() {
-      return new ForwardResolution("/view_organization.jsp");
-  }
-  
-  /**
    * A handler that performs an action when the 'Search' button in view_organization.jsp is pressed.
    *  
    * @return A resolution to display the edit_organization.jsp page if the organization exists.
@@ -364,6 +449,31 @@ public class MyIsernActionBean implements ActionBean {
     }
     else {
       return new ForwardResolution("/view_organization.jsp");
+    }
+  }
+  
+  /**
+   * A handler that performs an action when the 'Search' button in view_collaboration.jsp is 
+   * pressed.
+   * 
+   * @return A resolution to display the edit_collaboration.jsp page if the collaboration exists.
+   */
+  public Resolution findCollaboration() {
+    boolean idExists = myIsernModel.findId(this.collabSearchField);
+    
+    if (idExists) {
+      this.collaborationData = myIsernModel.getCollaboration(this.collabSearchField);
+      this.collaborationName = this.collaborationData.remove(0);
+      this.collaborationOrgs = this.collaborationData.remove(0);
+      this.collaborationTypes = this.collaborationData.remove(0);
+      this.collaborationYears = this.collaborationData.remove(0);
+      this.collaborationOutcomes = this.collaborationData.remove(0);
+      this.collaborationDesc = this.collaborationData.remove(0);
+      
+      return new ForwardResolution("/edit_collaboration.jsp");
+    }
+    else {
+      return new ForwardResolution("/view_collaboration.jsp");
     }
   }
 }

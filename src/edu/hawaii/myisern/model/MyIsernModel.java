@@ -140,6 +140,16 @@ public class MyIsernModel {
   }
   
   /**
+   * Gets the collaboration being searched for.
+   * 
+   * @param id The ID being searched for.
+   * @return A String List of the data of the collaboration.
+   */
+  public synchronized List<String> getCollaboration(String id) {
+    return this.myIsern.printCollaboration(id);
+  }
+  
+  /**
    * Searches for the ID being searched for.
    * 
    * @param id The ID being searched for.

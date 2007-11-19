@@ -83,8 +83,7 @@
     </waitfor>
     <copy file="${basedir}/coverage.ec" tofile="${emma.dir}/server.ec" />
     <delete file="${basedir}/coverage.ec" />
-  </target>
-    
+  </target>    
 
   <target name="emma.report"
     description="Generate the emma report.">

@@ -28,27 +28,27 @@
   <table align="center">
 	<tr bgcolor="#99CCFF">
 		<td>Name : </td>
-		<td><stripes:text name="collabName"/></td>
+    <td><stripes:text name="collaborationName" value="${actionBean.collaborationName}"/></td>
 	</tr>
 	<tr>
 		<td>Collaborating-Organizations : </td>
-		<td><stripes:text name="collabOrganizations"/></td>
+    <td><stripes:text name="collaborationOrgs" value="${actionBean.collaborationOrgs}"/></td>
 	</tr>
 	<tr bgcolor="#99CCFF">
 		<td>Collaboration-Type : </td>
-		<td><stripes:text name="collabType"/></td>
+    <td><stripes:text name="collaborationTypes" value="${actionBean.collaborationTypes}"/></td>
 	</tr>
 	<tr>
 		<td>Years : </td>
-		<td><stripes:text name="collabYears"/></td>
+    <td><stripes:text name="collaborationYears" value="${actionBean.collaborationYears}"/></td>
 	</tr>
 	<tr bgcolor="#99CCFF">
 		<td>Outcome-Types : </td>
-		<td><stripes:text name="collabOutcomeTypes"/></td>
+    <td><stripes:text name="collaborationOutcomes" value="${actionBean.collaborationOutcomes}"/></td>
 	</tr>
 	<tr>
 		<td>Description : </td>
-		<td><stripes:textarea name="collabDescription"/></td>
+    <td><stripes:text name="collaborationDesc" value="${actionBean.collaborationDesc}"/></td>
 	</tr>
   </table>
   <table align="center">
