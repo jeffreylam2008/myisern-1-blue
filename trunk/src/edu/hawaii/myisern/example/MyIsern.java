@@ -1,9 +1,14 @@
 package edu.hawaii.myisern.example;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.ArrayList;
+import edu.hawaii.myisern.collaborations.jaxb.CollaboratingOrganizations;
 import edu.hawaii.myisern.collaborations.jaxb.Collaboration;
+import edu.hawaii.myisern.collaborations.jaxb.CollaborationTypes;
 import edu.hawaii.myisern.collaborations.jaxb.Collaborations;
+import edu.hawaii.myisern.collaborations.jaxb.OutcomeTypes;
+import edu.hawaii.myisern.collaborations.jaxb.Years;
 import edu.hawaii.myisern.organizations.jaxb.AffiliatedResearchers;
 import edu.hawaii.myisern.organizations.jaxb.Organization;
 import edu.hawaii.myisern.organizations.jaxb.Organizations;
@@ -138,8 +143,7 @@ public class MyIsern {
     for (Organization current : this.mixl.getOrganizations().getOrganization()) {
       if (current.getName().replace('_', ' ').equals(id)) {
         List<String> stringList;
-        String concatenationString;
-        String commaSpace = ", ";
+        String concatenationString = "";
 
         organizationData.add(current.getName());
 
@@ -150,16 +154,11 @@ public class MyIsern {
         AffiliatedResearchers affiliatedResearchers;
         affiliatedResearchers = current.getAffiliatedResearchers();
         stringList = affiliatedResearchers.getAffiliatedResearcher();
-        StringBuffer sb = new StringBuffer(500);
-        concatenationString = "";
 
         for (String currentString : stringList) {
-          sb.append(currentString);
-          sb.append(commaSpace);
-          //concatenationString.concat(currentString);
-          //concatenationString.concat(commaSpace);
+          concatenationString = concatenationString + currentString + ", ";
         }
-        organizationData.add(sb.toString());
+        organizationData.add(concatenationString);
 
         organizationData.add(current.getCountry());
 
@@ -170,14 +169,15 @@ public class MyIsern {
         concatenationString = "";
 
         for (String currentString : stringList) {
-          concatenationString.concat(currentString);
-          concatenationString.concat(commaSpace);
+          concatenationString = concatenationString + currentString + ", ";
         }
         organizationData.add(concatenationString);
 
         organizationData.add(current.getResearchDescription());
 
         organizationData.add(current.getHomePage());
+        
+        break;
       }
     }
     return organizationData;
@@ -191,6 +191,63 @@ public class MyIsern {
    */
   public List<String> printCollaboration(String id) {
     List<String> collaborationData = new ArrayList<String>();
+
+    for (Collaboration current : this.mixl.getCollaborations().getCollaboration()) {
+      if (current.getName().replace('_', ' ').equals(id)) {
+        List<String> stringList;
+        List<BigInteger> bigIntList;
+        String concatString = "";
+
+        collaborationData.add(current.getName());
+
+        // Prints Organizations part of Collaboration
+        CollaboratingOrganizations collaboratingOrganizations;
+        collaboratingOrganizations = current.getCollaboratingOrganizations();
+        stringList = collaboratingOrganizations.getCollaboratingOrganization();
+
+        for (String currentOrg : stringList) {
+          concatString = concatString + currentOrg + ", ";
+        }
+        collaborationData.add(concatString);
+
+        // Prints type of collaboration
+        CollaborationTypes collaborationTypes;
+        collaborationTypes = current.getCollaborationTypes();
+        stringList = collaborationTypes.getCollaborationType();
+        concatString = "";
+
+        for (String currentCollabType : stringList) {
+          concatString = concatString + currentCollabType + ", ";
+        }
+        collaborationData.add(concatString);
+
+        // Prints all Years that Organizations were in Collaboration
+        Years years;
+        years = current.getYears();
+        bigIntList = years.getYear();
+        concatString = "";
+
+        for (BigInteger currentYears : bigIntList) {
+          concatString = concatString + currentYears.toString() + ", ";
+        }
+        collaborationData.add(concatString);
+        
+        // Prints all Outcome types
+        OutcomeTypes outcomeTypes;
+        outcomeTypes = current.getOutcomeTypes();
+        stringList = outcomeTypes.getOutcomeType();
+        concatString = "";
+
+        for (String currentOutcomeType : stringList) {
+          concatString = concatString + currentOutcomeType + ", ";
+        }
+        collaborationData.add(concatString);
+
+        collaborationData.add(current.getDescription());
+        
+        break;
+      }
+    }
     return collaborationData;
   }
 }
