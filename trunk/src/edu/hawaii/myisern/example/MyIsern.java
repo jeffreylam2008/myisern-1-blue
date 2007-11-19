@@ -1,20 +1,9 @@
 package edu.hawaii.myisern.example;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.math.BigInteger;
-import javax.xml.bind.JAXBException;
-import edu.hawaii.myisern.collaborations.jaxb.CollaboratingOrganizations;
+import java.util.ArrayList;
 import edu.hawaii.myisern.collaborations.jaxb.Collaboration;
-import edu.hawaii.myisern.collaborations.jaxb.CollaborationTypes;
 import edu.hawaii.myisern.collaborations.jaxb.Collaborations;
-import edu.hawaii.myisern.collaborations.jaxb.OutcomeTypes;
-import edu.hawaii.myisern.collaborations.jaxb.Years;
 import edu.hawaii.myisern.organizations.jaxb.AffiliatedResearchers;
 import edu.hawaii.myisern.organizations.jaxb.Organization;
 import edu.hawaii.myisern.organizations.jaxb.Organizations;
@@ -136,6 +125,12 @@ public class MyIsern {
     return researcherData;
   }
   
+  /**
+   * Searches for an organization and stores all data into a String List.
+   * 
+   * @param id The id of the organization being searched for.
+   * @return A String List containing all data of the organization.
+   */
   public List<String> printOrganization(String id) {
     List<String> organizationData = new ArrayList<String>();
     
@@ -184,6 +179,12 @@ public class MyIsern {
     return organizationData;
   }
   
+  /**
+   * Searches for a collaboration and stores all data into a String List.
+   * 
+   * @param id The id of the collaboration being searched for.
+   * @return A String List containing all data of the collaboration.
+   */
   public List<String> printCollaboration(String id) {
     List<String> collaborationData = new ArrayList<String>();
     return collaborationData;

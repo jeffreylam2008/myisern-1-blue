@@ -1,6 +1,6 @@
 package edu.hawaii.myisern.action;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 import edu.hawaii.myisern.model.MyIsernModel;
 import net.sourceforge.stripes.action.Resolution;
@@ -13,17 +13,14 @@ import net.sourceforge.stripes.action.ActionBeanContext;
  * collaborations in MyIsern.
  * 
  * @author Marcius Bagwan
+ * @author Jeffrey Lam
  */
 public class MyIsernActionBean implements ActionBean {
 	/** Required by the ActionBean interface. */
   private ActionBeanContext context;
-  /**
-   * Our single MyIsern instance manipulated by all webapp users.
-   */
+  /** Our single MyIsern instance manipulated by all webapp users. */
   private MyIsernModel myIsernModel = MyIsernModel.getInstance();
-  /** 
-   * An error string, always displayed, but invisible if empty.
-   */
+  /** An error string, always displayed, but invisible if empty. */
   private String errorMessage = "";
   /** 
    * The username inputted by the user.
@@ -38,16 +35,7 @@ public class MyIsernActionBean implements ActionBean {
    */
   private String type;
   
-  private String researcherName;
   
-  private String organizationName;
-  
-  private String collaborationName;
-  
-  /**
-   * The name of a researcher, organization, or collaboration.
-   */
-  //private String name;
   
   /**
    * Returns the context. Required by the interface.
@@ -104,18 +92,6 @@ public class MyIsernActionBean implements ActionBean {
     this.type = type;
   }
   
-  public void setResSearchField(String researcherName) {
-    this.researcherName = researcherName;
-  }
-  
-  public void setOrgSearchField(String orgName) {
-    this.organizationName = orgName;
-  }
-  
-  public void setCollabSearchField(String collabName) {
-    this.collaborationName = collabName;
-  }
-  
   /**
    * A handler that performs an action when the 'login' button is pressed.
    * 
@@ -134,98 +110,23 @@ public class MyIsernActionBean implements ActionBean {
   }
   
   /**
-   * Provides an iterator over a researcher list to the page.
-   * 
-   * @return A researchers list iterator.
-   */
-  public List<String> getResearchers() {
-    return myIsernModel.researchersList();
-  }
-  
-  /**
-   * Provides an iterator over an organization list to the page.
-   * 
-   * @return An organizations list iterator.
-   */
-  public List<String> getOrganizations() {
-    return myIsernModel.organizationsList();
-  }
-  
-  /**
-   * Provides an iterator over a collaborations list to the page.
-   * 
-   * @return A collaborations list iterator.
-   */
-  public List<String> getCollaborations() {
-    return myIsernModel.collaborationsList();
-  }
-  
-  /**
    * A handler that performs an action when the 'addType' button is pressed.
    * 
    * @return A Resolution to go to add collaboration page.
    */
   public Resolution addType() {
-  	int typeNum = myIsernModel.addNew(this.type);
-  	if (typeNum == 1) {
+  	String dataType = myIsernModel.addNew(this.type);
+  	if (dataType.contains("Collaboration")) {
   		return new ForwardResolution("/add_collaboration.jsp");
   	}
-  	else if (typeNum == 2) {
+  	else if (dataType.contains("Organization")) {
   		return new ForwardResolution("/add_organization.jsp");
   	}
-  	else if (typeNum == 3) {
+  	else if (dataType.contains("Researcher")) {
   		return new ForwardResolution("/add_researcher.jsp");
   	}
   	else {
   		return new ForwardResolution("/index.jsp");
   	}
-  }
-  
-  /**
-   * A handler that performs an action when the 'login' button is pressed.
-   * 
-   * @return A Resolution to display the main page when the login information is correct.
-   */
-  public Resolution collabLink() {
-      return new ForwardResolution("/view_collaboration.jsp");
-  }
-  
-  /**
-   * A handler that performs an action when the 'login' button is pressed.
-   * 
-   * @return A Resolution to display the main page when the login information is correct.
-   */
-  public Resolution orgLink() {
-      return new ForwardResolution("/view_organization.jsp");
-  }
-  
-  /**
-   * A handler that performs an action when the 'login' button is pressed.
-   * 
-   * @return A Resolution to display the main page when the login information is correct.
-   */
-  public Resolution resLink() {
-      return new ForwardResolution("/view_researcher.jsp");
-  }
-
-  public Resolution findResearcher() {
-    boolean idExists = myIsernModel.findId(this.researcherName);
-    
-    if (idExists) {
-      myIsernModel.getResearcher(this.researcherName);
-      return new ForwardResolution("/edit_researcher.jsp");
-    }
-    else {
-    	return new ForwardResolution("/view_researcher.jsp");
-    }
-    
-  }
-  
-  public Resolution findOrganization() {
-    return new ForwardResolution("/edit_organization.jsp");
-  }
-  
-  public Resolution findCollaboration() {
-    return new ForwardResolution("/edit_collaboration.jsp");
   }
 }

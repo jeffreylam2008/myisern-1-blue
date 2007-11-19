@@ -1,6 +1,5 @@
 package edu.hawaii.myisern.model;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import edu.hawaii.myisern.example.MyIsern;
@@ -12,6 +11,7 @@ import edu.hawaii.myisern.example.MyIsern;
  * StackModel instance are synchronized.
  * 
  * @author Marcius Bagwan
+ * @author Jeffrey Lam
  */
 public class MyIsernModel {
 
@@ -59,10 +59,10 @@ public class MyIsernModel {
    * @return True if the login information is correct.
    */
   public synchronized boolean login(String username, String password) {
-    if (username.equals("myisern")) {
+    if ("myisern".equals(username)) {
       this.validUsername = true;
     }
-    if (password.equals("password")) {
+    if ("password".equals(password)) {
       this.validPassword = true;
     }
     if (validUsername && validPassword ) {
@@ -72,48 +72,59 @@ public class MyIsernModel {
   }
   
   /**
-   * Action to add collaboration.
+   * Determines whether a researcher, organization,or collaboration is what the user wants to add.
+   * 
+   * @param type The type of data the user wants to add.
+   * @return An integer representation of the type.
    */
-  public synchronized int addNew(String type) {
-  	if (type.equals("1")) {
-  		return 1;
+  public synchronized String addNew(String type) {
+  	if (type.contains("Collaboration")) {
+  		return "Collaboration";
   	}
-  	if (type.equals("2")) {
-  		return 2;
+  	if (type.contains("Organization")) {
+  		return "Organization";
   	}
-  	if (type.equals("3")) {
-  		return 3;
+  	if (type.contains("Researcher")) {
+  		return "Researcher";
   	}
-  	return 0;
+  	else {
+  	  return "";
+  	}
   }
 
   /**
-   * Gets the researcher iterator attribute of the MyIsernModel object.
+   * Gets a String List of researcher names.
    *
-   * @return The iterator value.
+   * @return A String List of researcher names.
    */
   public synchronized List<String> researchersList() {
     return this.myIsern.printResearchers();
   }
 
   /**
-   * Gets the organization iterator attribute of the MyIsernModel object.
+   * Gets a String List of organization names.
    *
-   * @return The iterator value.
+   * @return A String List of organization names..
    */
   public synchronized List<String> organizationsList() {
     return this.myIsern.printOrganizations();
   }
 
   /**
-   * Gets the collaboration iterator attribute of the MyIsernModel object.
+   * Gets a String List of collaboration names.
    *
-   * @return The iterator value.
+   * @return A String List of collaboration names.
    */
   public synchronized List<String> collaborationsList() {
     return this.myIsern.printCollaborations();
   }
   
+  /**
+   * Gets the researcher being searched for.
+   * 
+   * @param id The ID being searched for.
+   * @return A String List of the data of the researcher.
+   */
   public synchronized List<String> getResearcher(String id) {
     return this.myIsern.printResearcher(id);
   }
