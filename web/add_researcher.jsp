@@ -24,7 +24,7 @@
     </stripes:form>
   </tr>
 </table>
-<stripes:form id="ResAddForm" action="/MyIsern.action">
+<stripes:form id="ResAddForm" action="/Researcher.action">
   <table align="center">
 	<tr bgcolor="#C0C0C0">
 		<td>Name : </td>
