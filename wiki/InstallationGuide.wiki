@@ -1,0 +1,12 @@
+#summary Instructions for installing the myisern-blue-1.3.1119 release
+
+*Steps to installing the MyISERN system:*
+  # Download the latest version of MyIsern.
+  # Extract the "myisern-blue-1.3.1119" folder with the files into a directory of your choice.
+  # Open that folder and copy a folder called ".myisern" into your home directory.  For   WindowsXP users, the home directory will be "documents and settings\username" and for Mac users, you're on your own trying to find it.
+  # Open tomcat-users.xml, which is located in the "conf" folder of your tomcat installation folder, and change the username to 'admin' and the password to 'changethis'
+  # Open a Commandline window pointing to the "myisern-blue-1.3.1119" folder and start up tomcat with the command: "catalina start"
+  # After tomcat has finished loading, deploy the myisern program with the command: "ant -f tomcat.build.xml"
+  # Open your web browser and go to the URL http://localhost:8080/myisern-blue.
+  # The username is "myisern" and the password is "password"
+  # When you have successfully logged in, you will be able to use all implemented features.
