@@ -41,8 +41,10 @@ public class MyIsernModel {
   private MyIsernXmlSaver myIsernXmlSaver;
   private Researchers researchers = new Researchers();
   private Organizations organizaitons = new Organizations();
+  private Collaborations collaborations = new Collaborations();
   private List<Researcher> newResList = new ArrayList<Researcher>();
   private List<Organization> newOrgList = new ArrayList<Organization>();
+  private List<Collaboration> newCollabList = new ArrayList<Collaboration>();
   private boolean validUsername = false;
   private boolean validPassword = false;
   private boolean allowLogin = false;
@@ -57,6 +59,7 @@ public class MyIsernModel {
       this.myIsernXmlSaver = new MyIsernXmlSaver();
       this.newResList = this.researchers.getResearcher();
       this.newOrgList = this.organizaitons.getOrganization();
+      this.newCollabList = this.collaborations.getCollaboration();
     }
     catch (Exception e) {
       this.exceptionPlaceholder = e.toString();
@@ -187,6 +190,14 @@ public class MyIsernModel {
   }
   
   /**
+   * Adds a new collaboration to the loader.
+   * @param newCollaboration containing the new collaboration to be added.
+   */
+  public synchronized void addCollaboration(Collaboration newCollaboration) {
+    this.newCollabList.add(newCollaboration);
+  }
+  
+  /**
    * Gets a String List of researcher.
    *
    * @return A String List of researcher.
@@ -214,6 +225,21 @@ public class MyIsernModel {
     	newOrganiztion.getOrganization().add(curOrgList);
     }
     myIsernXmlSaver.saveOrganizationsXml(newOrganiztion);
+  }
+  
+  /**
+   * Gets a String List of collaboration.
+   *
+   * @return A String List of collaboration.
+   * @throws JAXBException 
+   * @throws IOException 
+   */
+  public synchronized void saveCollaboration() throws JAXBException, IOException {
+  	Collaborations newCollaboration = new Collaborations();
+    for (Collaboration curCollabList : this.newCollabList) {
+    	newCollaboration.getCollaboration().add(curCollabList);
+    }
+    myIsernXmlSaver.saveCollaboratotionsXml(newCollaboration);
   }
   
   /**
