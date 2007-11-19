@@ -129,6 +129,12 @@ public class MyIsernModel {
     return this.myIsern.printResearcher(id);
   }
   
+  /**
+   * Gets the organization being searched for.
+   * 
+   * @param id The ID being searched for.
+   * @return A String List of the data of the organization.
+   */
   public synchronized List<String> getOrganization(String id) {
     return this.myIsern.printOrganization(id);
   }
