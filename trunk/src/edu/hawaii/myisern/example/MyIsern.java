@@ -106,18 +106,19 @@ public class MyIsern {
    */
   public List<String> printResearcher(String id) {
     List<String> researcherData = new ArrayList<String>();
+    
     for (Researcher currentResearcher : this.mixl.getResearchers().getResearcher()) {
-      if (currentResearcher.getName().replace(' ', '_').equals(id)) {
+      if (currentResearcher.getName().replace('_', ' ').equals(id)) {
         
         researcherData.add(currentResearcher.getName());
         
         researcherData.add(currentResearcher.getOrganization());
         
-        researcherData.add(currentResearcher.getBioStatement());
+        researcherData.add(currentResearcher.getEmail());
         
         researcherData.add(currentResearcher.getPictureLink());
         
-        researcherData.add(currentResearcher.getEmail());
+        researcherData.add(currentResearcher.getBioStatement());
         
         break;
       }
@@ -135,7 +136,7 @@ public class MyIsern {
     List<String> organizationData = new ArrayList<String>();
     
     for (Organization current : this.mixl.getOrganizations().getOrganization()) {
-      if (current.getName().replace(' ', '_').equals(id)) {
+      if (current.getName().replace('_', ' ').equals(id)) {
         List<String> stringList;
         String concatenationString;
         String commaSpace = ", ";
@@ -149,13 +150,16 @@ public class MyIsern {
         AffiliatedResearchers affiliatedResearchers;
         affiliatedResearchers = current.getAffiliatedResearchers();
         stringList = affiliatedResearchers.getAffiliatedResearcher();
+        StringBuffer sb = new StringBuffer(500);
         concatenationString = "";
 
         for (String currentString : stringList) {
-          concatenationString.concat(currentString);
-          concatenationString.concat(commaSpace);
+          sb.append(currentString);
+          sb.append(commaSpace);
+          //concatenationString.concat(currentString);
+          //concatenationString.concat(commaSpace);
         }
-        organizationData.add(concatenationString);
+        organizationData.add(sb.toString());
 
         organizationData.add(current.getCountry());
 

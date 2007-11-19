@@ -28,35 +28,35 @@
   <table align="center">
 	<tr bgcolor="#99CCFF">
 		<td>Name : </td>
-		<td><stripes:text name="orgName"/></td>
+    <td><stripes:text name="organizationName" value="${actionBean.organizationName}"/></td>
 	</tr>
 	<tr>
 		<td>Type : </td>
-		<td><stripes:text name="orgType"/></td>
+		<td><stripes:text name="organizationType" value="${actionBean.organizationType}"/></td>
 	</tr>
 	<tr bgcolor="#99CCFF">
 		<td>Contact : </td>
-		<td><stripes:text name="orgContact"/></td>
+    <td><stripes:text name="organizationContact" value="${actionBean.organizationContact}"/></td>
 	</tr>
 	<tr>
 		<td>Affiliated-Researchers : </td>
-		<td><stripes:text name="orgAffiliated"/></td>
+    <td><stripes:text name="organizationResearchers" value="${actionBean.organizationResearchers}"/></td>
 	</tr>
 	<tr bgcolor="#99CCFF">
 		<td >Country : </td>
-		<td><stripes:text name="orgCountry"/></td>
+    <td><stripes:text name="organizationCountry" value="${actionBean.organizationCountry}"/></td>
 	</tr>
 	<tr>
 		<td>Research Keywords : </td>
-		<td><stripes:text name="orgKeyword"/></td>
+    <td><stripes:text name="organizationKeywords" value="${actionBean.organizationKeywords}"/></td>
 	</tr>
 	<tr bgcolor="#99CCFF">
 		<td>Research Description : </td>
-		<td><stripes:textarea name="orgDescription"/></td>
+    <td><stripes:textarea name="organizationDescription" value="${actionBean.organizationDescription}"/></td>
 	</tr>
 	<tr>
 		<td>Home-Page : </td>
-		<td><stripes:text value="http://" name="orgHomePage"/></td>
+    <td><stripes:text name="organizationHomepage" value="${actionBean.organizationHomepage}"/></td>
 	</tr>
   </table>
   <table align="center">

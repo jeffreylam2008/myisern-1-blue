@@ -16,13 +16,6 @@ public class ResearcherActionBean implements ActionBean {
   /** An error string, always displayed, but invisible if empty. */
   private String errorMessage = "";
   
-  private String researcherName;
-  private String researcherOrg;
-  private String researcherEmail;
-  private String researcherPicLink;
-  private String researcherBio;
-  
-  private List<String> researcherData = new ArrayList<String>();
   
   /**
    * Returns the context. Required by the interface.
@@ -50,51 +43,5 @@ public class ResearcherActionBean implements ActionBean {
    */
   public String getErrorMessage() {
     return this.errorMessage;
-  }
-  
-  /**
-   * Invoked by the page to indicate the researcher being searched for.
-   * 
-   * @param researcherName The name of the researcher being searched for.
-   */
-  public void setResSearchField(String researcherName) {
-    this.researcherName = researcherName;
-  }
-  
-  /**
-   * Gets a list of researcher names.
-   * 
-   * @return A list of researcher names.
-   */
-  public List<String> getResearchers() {
-    return myIsernModel.researchersList();
-  }
-  
-  /**
-   * A handler that performs an action when the 'login' button is pressed.
-   * 
-   * @return A Resolution to display the main page when the login information is correct.
-   */
-  public Resolution resLink() {
-      return new ForwardResolution("/view_researcher.jsp");
-  }
-
-  /**
-   * A handler that performs an action when the 'Search' button in view_researcher.jsp is pressed.
-   * 
-   * @return a resolution to display the edit_researcher.jsp page if the researcher exists.
-   */
-  public Resolution findResearcher() {
-    boolean idExists = myIsernModel.findId(this.researcherName);
-    
-    if (idExists) {
-      this.researcherData = myIsernModel.getResearcher(this.researcherName);
-      
-      
-      return new ForwardResolution("/edit_researcher.jsp");
-    }
-    else {
-      return new ForwardResolution("/view_researcher.jsp");
-    }   
   }
 }
